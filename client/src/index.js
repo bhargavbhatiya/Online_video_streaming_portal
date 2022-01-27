@@ -6,12 +6,12 @@ import * as serviceWorker from "./serviceWorker";
 import DataProvider from "./redux/store";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <DataProvider>
-      <App />
-    </DataProvider>
-  </React.StrictMode>,
-  document.getElementById("root")
+	<React.StrictMode>
+		<DataProvider>
+			<App />
+		</DataProvider>
+	</React.StrictMode>,
+	document.getElementById("root")
 );
 
 // If you want your app to work offline and load faster, you can change
