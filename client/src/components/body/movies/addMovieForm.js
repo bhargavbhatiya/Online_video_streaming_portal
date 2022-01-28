@@ -5,9 +5,8 @@ import {
 } from "../../utils/notification/Notification";
 import { useSelector } from "react-redux";
 import axios from "axios";
-
+import MultipleSelectChip from "./test";
 function AddMovieForm() {
-	const auth = useSelector((state) => state.auth);
 	const token = useSelector((state) => state.token);
 
 	const initialState = {
@@ -39,7 +38,6 @@ function AddMovieForm() {
 		language,
 		country,
 		imdb_id,
-		uploadedBy,
 		err,
 		success,
 	} = movie;
@@ -108,6 +106,7 @@ function AddMovieForm() {
 							onChange={handleChangeInput}
 						/>
 					</div>
+					<MultipleSelectChip />
 					<div>
 						<label htmlFor="year">Year</label>
 						<input

@@ -1,5 +1,5 @@
 import React from "react";
-import { Switch, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Login from "./auth/Login";
 import Register from "./auth/Register";
 import ActivationEmail from "./auth/ActivationEmail";
@@ -22,54 +22,54 @@ function Body() {
 	const { isLogged, isAdmin } = auth;
 	return (
 		<section>
-			<Switch>
-				<Route path="/" component={Home} exact />
+			<Routes>
+				<Route path="/" element={<Home />} exact />
 
-				<Route path="/login" component={isLogged ? NotFound : Login} exact />
+				<Route path="/login" element={isLogged ? NotFound : <Login />} exact />
 				<Route
 					path="/register"
-					component={isLogged ? NotFound : Register}
+					element={isLogged ? NotFound : <Register />}
 					exact
 				/>
 
 				<Route
 					path="/forgot_password"
-					component={isLogged ? NotFound : ForgotPass}
+					element={isLogged ? NotFound : <ForgotPass />}
 					exact
 				/>
 				<Route
 					path="/user/reset/:token"
-					component={isLogged ? NotFound : ResetPass}
+					element={isLogged ? NotFound : <ResetPass />}
 					exact
 				/>
 
 				<Route
 					path="/user/activate/:activation_token"
-					component={ActivationEmail}
+					element={<ActivationEmail />}
 					exact
 				/>
 
 				<Route
 					path="/profile"
-					component={isLogged ? Profile : NotFound}
+					element={isLogged ? <Profile /> : NotFound}
 					exact
 				/>
 				<Route
 					path="/edit_user/:id"
-					component={isAdmin ? EditUser : NotFound}
+					element={isAdmin ? <EditUser /> : NotFound}
 					exact
 				/>
 				<Route
 					path="/addMovieForm"
-					component={isLogged && isAdmin ? AddMovieForm : NotFound}
+					element={isLogged && isAdmin ? <AddMovieForm /> : NotFound}
 					exact
 				/>
 				<Route
 					path="/addMovieVideo"
-					component={isLogged && isAdmin ? NotFound : NotFound}
+					element={isLogged && isAdmin ? NotFound : NotFound}
 					exact
 				/>
-			</Switch>
+			</Routes>
 		</section>
 	);
 }
