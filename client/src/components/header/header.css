@@ -9,7 +9,6 @@ header {
 	padding: 0 30px;
 	position: fixed;
 	z-index: 100;
-
 }
 header a {
 	color: white;
@@ -17,7 +16,7 @@ header a {
 header a:hover {
 	color: #c1cfeb;
 }
-header ul {	
+header ul {
 	padding: 0;
 	margin: 0;
 }
