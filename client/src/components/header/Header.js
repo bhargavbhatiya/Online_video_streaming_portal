@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import AddMovie from "../body/movies/addMovie";
+import "./header.css";
 
 function Header() {
 	const auth = useSelector((state) => state.auth);

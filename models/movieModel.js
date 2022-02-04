@@ -1,59 +1,86 @@
 const mongoose = require("mongoose");
-
+const double = require("@mongoosejs/double");
 const movieSchema = new mongoose.Schema(
 	{
-		title: {
-			type: String,
-			required: [true, "Please enter movie Title!"],
+
+		movie_id: {
+			type: Number,
+			required: [true, "Please enter movie id!"],
 			unique: true,
 		},
-		description: {
+		title: {
 			type: String,
-			required: [true, "Please enter movie description!"],
+			//required: [true, "Please enter movie Title!"],
+			
 		},
-		year: {
+		overview: {
 			type: String,
-			required: [true, "Please enter movie year!"],
+			//required: [true, "Please enter movie description!"],
 		},
-		duration: {
+		genres: {
 			type: String,
-			required: [true, "Please enter movie duration!"],
+			//required: [true, "Please enter movie genres!"],
 		},
-		genre: {
+
+	    keywords: {
 			type: String,
-			required: [true, "Please enter movie genre!"],
+			//required: [true, "Please enter movie keywords!"],
 		},
-		rating: {
+
+	       cast: {
 			type: String,
-			required: [true, "Please enter movie rating!"],
+			//required: [true, "Please enter movie cast!"]
 		},
-		imgUrl: {
+
+		crew: {
 			type: String,
-			required: [true, "Please enter movie imgUrl!"],
+			//required: [true, "Please enter movie crew!"]
 		},
-		cast: {
+
+		popularity: {
+			type: double,
+			//required: [true, "Please enter movie duration!"],
+		},
+	
+		production_companies: {
 			type: String,
-			required: [true, "Please enter movie cast!"],
+			//required: [true, "Please enter movie production companies!"],
 		},
-		language: {
+		runtime: {
+			type: double,
+			//required: [true, "Please enter movie duration!"],
+		},
+
+		tagline: {
 			type: String,
-			required: [true, "Please enter movie language!"],
+			//required: [true, "Please enter movie tagline!"],
 		},
-		country: {
+
+		vote_average: {
+			type: double,
+			//required: [true, "Please enter movie vote average!"],
+		},
+
+		vote_count: {
+			type: Number,
+			//required: [true, "Please enter movie vote count!"],
+		},
+
+		release_date: {
 			type: String,
-			required: [true, "Please enter movie country!"],
+			//required: [true, "Please enter movie release date!"],
 		},
-		imdb_id: {
+
+		original_language: {
 			type: String,
-			required: [true, "Please enter movie imdb_id!"],
+			//required: [true, "Please enter movie original language!"],
 		},
-		uploadedBy: {
-			type: mongoose.Schema.Types.ObjectId,
-		},
+		
+		videoUrl: {
+			type: String,
+			default: "",
+		}
 	},
-	{
-		timestamps: true,
-	}
 );
 
-module.exports = mongoose.model("Movies", movieSchema);
+module.exports = mongoose.model("moviesDBC", movieSchema, "moviesDBC");
