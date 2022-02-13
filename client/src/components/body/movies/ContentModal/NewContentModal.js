@@ -19,11 +19,10 @@ const NewContentModal = () => {
 	};
 	useEffect(() => {
 		getVideo();
-	}, []);
+	},[]);
 
 	return (
 		<div className="main-class">
-        <h1>HELLO</h1>
 			<div className="jw-player">
 				<ReactJWPlayer
 					playerId="futureskill"
