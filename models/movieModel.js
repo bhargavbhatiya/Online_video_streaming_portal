@@ -78,7 +78,7 @@ const movieSchema = new mongoose.Schema(
 		
 		videoUrl: {
 			type: String,
-			default: "",
+			default:'',
 		}
 	},
 );
