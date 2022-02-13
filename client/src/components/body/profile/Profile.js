@@ -130,7 +130,7 @@ function Profile() {
 
     return (
         <>
-        <div>
+        <div className="message">
             {err && showErrMsg(err)}
             {success && showSuccessMsg(success)}
             {loading && <h3>Loading.....</h3>}
@@ -183,8 +183,9 @@ function Profile() {
             </div>
 
             <div className="col-right">
-                <h2>{isAdmin ? "Users" : "My Orders"}</h2>
-
+            {isAdmin && 
+                <>
+                <h2>All Users</h2>
                 <div style={{overflowX: "auto"}}>
                     <table className="customers">
                         <thead>
@@ -223,6 +224,11 @@ function Profile() {
                         </tbody>
                     </table>
                 </div>
+                </>
+            }
+            <div className="history">
+            <h2>History</h2>
+            </div>
             </div>
         </div>
         </>

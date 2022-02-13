@@ -29,7 +29,7 @@ function EditUser() {
 				}
 			});
 		} else {
-			navigate.push("/profile");
+			navigate("/profile");
 		}
 	}, [users, id, navigate]);
 

@@ -14,3 +14,23 @@ export const dispatchGetAllUsers = (res) => {
         payload: res.data
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

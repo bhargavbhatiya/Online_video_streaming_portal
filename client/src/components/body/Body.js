@@ -16,6 +16,7 @@ import AddMovieForm from "./movies/addMovieForm";
 import Home from "../body/home/Home";
 
 import { useSelector } from "react-redux";
+import NewContentModal from "./movies/ContentModal/NewContentModal";
 
 function Body() {
 	const auth = useSelector((state) => state.auth);
@@ -57,6 +58,11 @@ function Body() {
 				<Route
 					path="/edit_user/:id"
 					element={isAdmin ? <EditUser /> : NotFound}
+					exact
+				/>
+				<Route
+					path="/movie/:id"
+					element={isLogged ? <NewContentModal /> : NotFound}
 					exact
 				/>
 				<Route

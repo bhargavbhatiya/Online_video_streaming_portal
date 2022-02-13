@@ -1,5 +1,5 @@
 .login_page {
-	max-width: 500px;
+	width: 500px;
 	margin: auto;
 	color: #444;
 	padding: 0 15px;
@@ -94,3 +94,29 @@
 	letter-spacing: 1.3px;
 	box-shadow: 0 2px 4px #777;
 }
+.active_page {
+		width: 600px;
+		height: 100vh;
+		margin: auto;
+		margin-top: 20px;
+		color: #444;
+		padding: 0 15px;
+}
+.active_page .row{
+	display: flex;
+	justify-content:center;
+	flex-wrap: wrap-reverse;
+	align-items: center;
+}
+
+.active_page .row button{
+	width: 150px;
+	padding: 10px 0;
+	color: white;
+	background: black;
+	text-transform: uppercase;
+	letter-spacing: 1.5px;
+	margin: 50px 10px;
+	margin-bottom: 0px;
+}
+

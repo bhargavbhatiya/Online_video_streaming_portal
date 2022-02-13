@@ -60,7 +60,7 @@ const userCtrl = {
 			);
 
 			const { name, email, password } = user;
-
+ 
 			const check = await Users.findOne({ email });
 			if (check)
 				return res.status(400).json({ msg: "This email already exists." });
@@ -70,7 +70,7 @@ const userCtrl = {
 				email,
 				password,
 			});
-
+      console.log(newUser);
 			await newUser.save();
 
 			res.json({ msg: "Account has been activated!" });
@@ -90,7 +90,7 @@ const userCtrl = {
 				return res.status(400).json({ msg: "Password is incorrect." });
 
 			const refresh_token = createRefreshToken({ id: user._id });
-			res.cookie("refreshtoken", refresh_token, {
+			res.cookie("refreshtoken", refresh_token , {
 				httpOnly: true,
 				path: "/user/refresh_token",
 				maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days

@@ -5,41 +5,50 @@ import {
 } from "../../utils/notification/Notification";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import MultipleSelectChip from "./test";
 function AddMovieForm() {
 	const token = useSelector((state) => state.token);
 
 	const initialState = {
+		movie_id: "",
 		title: "",
-		description: "",
-		year: "",
-		duration: "",
-		genre: "",
-		rating: "",
-		imgUrl: "",
+		overview: "",
+		genres: "",
+		keywords: "",
 		cast: "",
-		language: "",
-		country: "",
-		imdb_id: "",
-		err: "",
+		crew: "",
+		popularity: "",
+		production_companies: "",
+		runtime: "",
+		tagline: "",
+		vote_average: "",
+		vote_count: "",
+		release_date: "",
+		original_language: "",
+		videoUrl: "",
 		success: "",
+		err: "",
 	};
 	const [movie, setMovie] = useState(initialState);
 
 	const {
+		movie_id,
 		title,
-		description,
-		year,
-		duration,
-		genre,
-		rating,
-		imgUrl,
+		overview,
+		genres,
+		keywords,
 		cast,
-		language,
-		country,
-		imdb_id,
-		err,
+		crew,
+		popularity,
+		production_companies,
+		runtime,
+		tagline,
+		vote_average,
+		vote_count,
+		release_date,
+		original_language,
+		videoUrl,
 		success,
+		err,
 	} = movie;
 
 	const handleChangeInput = (e) => {
@@ -47,22 +56,6 @@ function AddMovieForm() {
 		setMovie({ ...movie, [name]: value, err: "", success: "" });
 	};
 
-	// const array = [
-	// 	{ key: 0, label: "comedy" },
-	// 	{ key: 1, label: "Drama" },
-	// 	{ key: 2, label: "Polymer" },
-	// 	{ key: 3, label: "React" },
-	// 	{ key: 4, label: "Vue.js" },
-	// ];
-	// const handleDelete = (chipToDelete) => {
-	// 	// array.push(chipToDelete);
-	// 	// setMovie((chips) => chips.filter((chip) => chip.key !== chipToDelete.key));
-	// };
-
-	// const handleAddition = (chip) => {
-	// 	console.log(chip);
-	// 	// setMovie((chips) => [...chips, chip]);
-	// };
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
@@ -85,7 +78,18 @@ function AddMovieForm() {
 				{success && showSuccessMsg(success)}
 				<form onSubmit={handleSubmit}>
 					<div>
-						<label htmlFor="title">Movie Name</label>
+						<label htmlFor="movie_id">Movie ID</label>
+						<input
+							type="text"
+							placeholder="Enter movie movie id"
+							id="movie_id"
+							value={movie_id}
+							name="movie_id"
+							onChange={handleChangeInput}
+						/>
+					</div>
+					<div>
+						<label htmlFor="title">title</label>
 						<input
 							type="text"
 							placeholder="Enter movie title"
@@ -96,74 +100,40 @@ function AddMovieForm() {
 						/>
 					</div>
 					<div>
-						<label htmlFor="description">Description</label>
+						<label htmlFor="overview">overview</label>
 						<input
 							type="text"
-							placeholder="Enter movie description"
-							id="description"
-							value={description}
-							name="description"
-							onChange={handleChangeInput}
-						/>
-					</div>
-					<MultipleSelectChip />
-					<div>
-						<label htmlFor="year">Year</label>
-						<input
-							type="text"
-							placeholder="Enter movie year"
-							id="year"
-							value={year}
-							name="year"
+							placeholder="Enter movie overview"
+							id="overview"
+							value={overview}
+							name="overview"
 							onChange={handleChangeInput}
 						/>
 					</div>
 					<div>
-						<label htmlFor="duration">Duration</label>
+						<label htmlFor="genres">genres</label>
 						<input
 							type="text"
-							placeholder="Enter movie duration"
-							id="duration"
-							value={duration}
-							name="duration"
+							placeholder="Enter movie genres"
+							id="genres"
+							value={genres}
+							name="genres"
 							onChange={handleChangeInput}
 						/>
 					</div>
 					<div>
-						<label htmlFor="genre">Genre</label>
+						<label htmlFor="keywords">keywords</label>
 						<input
 							type="text"
-							placeholder="Enter movie genre"
-							id="genre"
-							value={genre}
-							name="genre"
+							placeholder="Enter movie keywords"
+							id="keywords"
+							value={keywords}
+							name="keywords"
 							onChange={handleChangeInput}
 						/>
 					</div>
 					<div>
-						<label htmlFor="rating">Rating</label>
-						<input
-							type="text"
-							placeholder="Enter movie rating"
-							id="rating"
-							value={rating}
-							name="rating"
-							onChange={handleChangeInput}
-						/>
-					</div>
-					<div>
-						<label htmlFor="imgUrl">Image URL</label>
-						<input
-							type="text"
-							placeholder="Enter movie image url"
-							id="imgUrl"
-							value={imgUrl}
-							name="imgUrl"
-							onChange={handleChangeInput}
-						/>
-					</div>
-					<div>
-						<label htmlFor="cast">Cast</label>
+						<label htmlFor="cast">cast</label>
 						<input
 							type="text"
 							placeholder="Enter movie cast"
@@ -174,55 +144,120 @@ function AddMovieForm() {
 						/>
 					</div>
 					<div>
-						<label htmlFor="language">Language</label>
+						<label htmlFor="crew">crew</label>
 						<input
 							type="text"
-							placeholder="Enter movie language"
-							id="language"
-							value={language}
-							name="language"
+							placeholder="Enter movie image url"
+							id="crew"
+							value={crew}
+							name="crew"
 							onChange={handleChangeInput}
 						/>
 					</div>
 					<div>
-						<label htmlFor="country">Country</label>
+						<label htmlFor="popularity">popularity</label>
 						<input
 							type="text"
-							placeholder="Enter movie country"
-							id="country"
-							value={country}
-							name="country"
+							placeholder="Enter movie popularity"
+							id="popularity"
+							value={popularity}
+							name="popularity"
 							onChange={handleChangeInput}
 						/>
 					</div>
 					<div>
-						<label htmlFor="imdb_id">IMDB ID</label>
+						<label htmlFor="production_companies">production companies</label>
 						<input
 							type="text"
-							placeholder="Enter movie imdb id"
-							id="imdb_id"
-							value={imdb_id}
-							name="imdb_id"
+							placeholder="Enter movie production companies"
+							id="production_companies"
+							value={production_companies}
+							name="production_companies"
 							onChange={handleChangeInput}
 						/>
 					</div>
+					<div>
+						<label htmlFor="runtime">runtime</label>
+						<input
+							type="text"
+							placeholder="Enter movie runtime"
+							id="runtime"
+							value={runtime}
+							name="runtime"
+							onChange={handleChangeInput}
+						/>
+					</div>
+					<div>
+						<label htmlFor="tagline">tagline</label>
+						<input
+							type="text"
+							placeholder="Enter movie tagline"
+							id="tagline"
+							value={tagline}
+							name="tagline"
+							onChange={handleChangeInput}
+						/>
+					</div>
+					<div>
+						<label htmlFor="vote_average">vote average</label>
+						<input
+							type="text"
+							placeholder="Enter movie vote average"
+							id="vote_average"
+							value={vote_average}
+							name="vote_average"
+							onChange={handleChangeInput}
+						/>
+					</div>
+					<div>
+						<label htmlFor="vote_count">vote count</label>
+						<input
+							type="text"
+							placeholder="Enter movie vote count"
+							id="vote_count"
+							value={vote_count}
+							name="vote_count"
+							onChange={handleChangeInput}
+						/>
+					</div>
+					<div>
+						<label htmlFor="release_date">release date</label>
+						<input
+							type="text"
+							placeholder="Enter movie release date"
+							id="release_date"
+							value={release_date}
+							name="release_date"
+							onChange={handleChangeInput}
+						/>
+					</div>
+					<div>
+						<label htmlFor="original_language">original language</label>
+						<input
+							type="text"
+							placeholder="Enter movie original language"
+							id="original_language"
+							value={original_language}
+							name="original_language"
+							onChange={handleChangeInput}
+						/>
+					</div>
+					<div>
+						<label htmlFor="videoUrl">videoUrl</label>
+						<input
+							type="text"
+							placeholder="Enter movie videoUrl"
+							id="videoUrl"
+							value={videoUrl}
+							name="videoUrl"
+							onChange={handleChangeInput}
+						/>
+					</div>
+
 					<div className="row">
 						<button type="submit">Upload Details</button>
 					</div>
 				</form>
-
-				{/* {array.map((data) => {
-					let icon;
-					return (
-						<ListItem key={data.key}>
-							<Chip
-								icon={icon}
-								label={data.label}
-								onDelete={(data) => handleAddition(data)}
-							/>
-						</ListItem>
-					);
-				})} */}
 			</div>
 		</>
 	);
