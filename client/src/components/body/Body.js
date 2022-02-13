@@ -21,12 +21,16 @@ import NewContentModal from "./movies/ContentModal/NewContentModal";
 function Body() {
 	const auth = useSelector((state) => state.auth);
 	const { isLogged, isAdmin } = auth;
-	return (
-		<section>
-			<Routes>
-				<Route path="/" element={<Home />} exact />
+	const style = {
+		marginTop: 62
+	  };
 
-				<Route path="/login" element={isLogged ? NotFound : <Login />} exact />
+	return (
+		<section style={style}>
+			<Routes>
+				<Route path="/" element={isLogged ?<Home/>:<Login/>}exact />
+
+				<Route path="/login" element={isLogged ? <NotFound/> : <Login />} exact />
 				<Route
 					path="/register"
 					element={isLogged ? NotFound : <Register />}
