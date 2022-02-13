@@ -38,7 +38,7 @@ const movieSchema = new mongoose.Schema(
 		},
 
 		popularity: {
-			type: double,
+			type: String,
 			//required: [true, "Please enter movie duration!"],
 		},
 	
@@ -47,7 +47,7 @@ const movieSchema = new mongoose.Schema(
 			//required: [true, "Please enter movie production companies!"],
 		},
 		runtime: {
-			type: double,
+			type: String,
 			//required: [true, "Please enter movie duration!"],
 		},
 
@@ -57,12 +57,12 @@ const movieSchema = new mongoose.Schema(
 		},
 
 		vote_average: {
-			type: double,
+			type: String,
 			//required: [true, "Please enter movie vote average!"],
 		},
 
 		vote_count: {
-			type: Number,
+			type: String,
 			//required: [true, "Please enter movie vote count!"],
 		},
 

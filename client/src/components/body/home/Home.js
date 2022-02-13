@@ -31,7 +31,7 @@ const fetchPoster = (movie_id) => {
 };
 
   const fetchMovies = async () => {
-    var cnt=0;
+ 
 console.log("fetchMovies");
     try{
     const res= await axios.get('/movie/get_allmovie');
@@ -99,7 +99,7 @@ console.log("fetchMovies");
               date={c.release_date}
               media_type="movie"
               vote_average={c.vote_average}
-              
+
             />
           ))}
       </div>
