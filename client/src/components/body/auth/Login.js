@@ -36,9 +36,9 @@ function Login() {
 			setUser({ ...user, err: "", success: res.data.msg });
 
 			localStorage.setItem("firstLogin", true);
-
-			dispatch(dispatchLogin());
-			navigate.push("/");
+            dispatch(dispatchLogin());
+			navigate("/");
+            
 		} catch (err) {
 			err.response.data.msg &&
 				setUser({ ...user, err: err.response.data.msg, success: "" });
@@ -57,7 +57,7 @@ function Login() {
 			localStorage.setItem("firstLogin", true);
 
 			dispatch(dispatchLogin());
-			navigate.push("/");
+			navigate("/");
 		} catch (err) {
 			err.response.data.msg &&
 				setUser({ ...user, err: err.response.data.msg, success: "" });
@@ -75,8 +75,8 @@ function Login() {
 			setUser({ ...user, error: "", success: res.data.msg });
 			localStorage.setItem("firstLogin", true);
 
+			navigate("/");
 			dispatch(dispatchLogin());
-			navigate.push("/");
 		} catch (err) {
 			err.response.data.msg &&
 				setUser({ ...user, err: err.response.data.msg, success: "" });
