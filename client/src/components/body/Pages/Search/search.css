@@ -1,0 +1,24 @@
+.search {
+    display:flex;
+    justify-content: center;
+    width: 50%;
+    margin-top: 70px;
+   
+  }
+  
+  @media screen and (max-width: 600px) {
+    .search {
+      width: 100%;
+      margin:auto;
+    }
+  }
+  @media screen and (max-width: 800px) {
+    .search {
+      width: 70%;
+      margin:auto;
+    }
+  }
+      
+  
+      
+  

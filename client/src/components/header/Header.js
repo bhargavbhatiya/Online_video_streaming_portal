@@ -73,7 +73,9 @@ function Header() {
 			</div>
 
 			<AddMovie />
-
+			<h4>
+			<Link to="searchmovie">search</Link>
+</h4>
 			<ul>
 				{isLogged ? (
 					userLink()

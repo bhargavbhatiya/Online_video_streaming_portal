@@ -15,26 +15,27 @@ const SingleContent = ({
 	function gotoMovies() {}
 
 	return (
+		<div className="media" onClick={gotoMovies}>
+		{/* <ContentModal media_type={media_type} id={id} videoUrl={videoUrl}> */}
+		<Badge
+		badgeContent={vote_average}
+		color={vote_average > 6 ? "primary" : "secondary"}
+		/>
+		
+		<img
+		className="poster"
+		src={poster ? `${poster}` : unavailable}
+		alt={title}
+		/>
 		<Link to={`/movie/${id}`}>
-			<div className="media" onClick={gotoMovies}>
-				{/* <ContentModal media_type={media_type} id={id} videoUrl={videoUrl}> */}
-				<Badge
-					badgeContent={vote_average}
-					color={vote_average > 6 ? "primary" : "secondary"}
-				/>
-				<img
-					className="poster"
-					src={poster ? `${poster}` : unavailable}
-					alt={title}
-				/>
-				<b className="title">{title}</b>
+		<b className="title">{title}</b>
+		</Link>
 				<span className="subTitle">
-					{media_type === "tv" ? "TV Series" : "Movie"}
+					<p>Movie</p>
 					<span className="subTitle">{date}</span>
 				</span>
 				{/* </ContentModal> */}
 			</div>
-		</Link>
 	);
 };
 
