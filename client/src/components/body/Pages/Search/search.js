@@ -1,27 +1,29 @@
 import {
   Button,
-  createMuiTheme,
-  Tab,
-  Tabs,
+  
   TextField,
-  ThemeProvider,
+ 
 } from "@material-ui/core";
 import "./search.css";
 import SearchIcon from "@material-ui/icons/Search";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import SingleContent from "../../movies/SingleContent/SingleContent";
+import { ToastContainer, toast } from "react-toastify";
+
+
 const unavailable = "https://www.movienewz.com/img/films/poster-holder.jpg";
+
 
 
 const Search = () => {
   
   const [searchText, setSearchText] = useState("");
-  const [dropdownlist, setDropdownlist] = useState([]);
+  //const [dropdownlist, setDropdownlist] = useState([]);
   
   const [content, setContent] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [flag, setFlag] = useState(false);
+  //const [flag, setFlag] = useState(false);
   // const compo =()=>{
   //   {
   //     return (  
@@ -34,14 +36,19 @@ const Search = () => {
   //   };
   
   
-  const darkTheme = createMuiTheme({
-    palette: {
-      type: "dark",
-      primary: {
-        main: "#fff",
-      },
-    },
-  });
+  // const darkTheme = createMuiTheme({
+  //   palette: {
+  //     type: "dark",
+  //     primary: {
+  //       main: "#fff",
+  //     },
+  //   },
+  // });
+
+  const notify = (msg) => {
+		toast(msg); 
+      
+	  }
 
   var poster = [];
 
@@ -151,8 +158,10 @@ const Search = () => {
         };
         console.log(newdata);
         setContent(content => [...content, newdata]);
+        
 
       });
+      
       setLoading(false);
       console.log("heloooooo");
 
@@ -204,7 +213,7 @@ const Search = () => {
         </div>
       </center>
      
-      
+      <ToastContainer/>
 
       {loading && <h3>Loading.....</h3>}
       <div className="trending">
@@ -218,6 +227,7 @@ const Search = () => {
               title={c.title}
               date={c.release_date}
               vote_average={c.vote_average}
+              notify={notify}
             />
           ))}
         {searchText &&

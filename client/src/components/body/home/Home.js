@@ -6,6 +6,9 @@ import SingleContent from "../movies/SingleContent/SingleContent";
 //import useGenre from "../../hooks/useGenre";
 //import CustomPagination from "../../components/Pagination/CustomPagination";
 import "./home.css";
+import 'react-toastify/dist/ReactToastify.css'; 
+import { ToastContainer, toast } from "react-toastify";
+import { useSelector} from "react-redux";
 
 function Home() {
 
@@ -30,11 +33,12 @@ const fetchPoster = (movie_id) => {
 
 };
 
+const auth = useSelector(state => state.auth); 
   const fetchMovies = async () => {
- 
 console.log("fetchMovies");
     try{
-    const res= await axios.get('/movie/get_allmovie');
+      const email = auth.user.email;
+    const res= await axios.post('/movie/get_allmovie',{email});
     console.log(res.data);
     const {movies}=res.data;
     
@@ -78,6 +82,12 @@ console.log("fetchMovies");
     //setNumOfPages(data.total_pages);
   };
 
+  const notify = (msg) => {
+		   
+    toast(msg);
+      
+	  }
+
   useEffect(() => {
    // window.scroll(0, 0);
    //console.log("useEffect");
@@ -85,9 +95,12 @@ console.log("fetchMovies");
     // eslint-disable-next-line
   }, []);
 
+
   return (
-    
+    <>
+    <ToastContainer/>
     <div className="trending">
+       
         {content &&
           content.map((c) => (
 
@@ -99,11 +112,11 @@ console.log("fetchMovies");
               date={c.release_date}
               media_type="movie"
               vote_average={c.vote_average}
-
+              notify={notify}
             />
           ))}
       </div>
-    
+    </>
   
   );
 }
