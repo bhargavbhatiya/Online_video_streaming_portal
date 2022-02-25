@@ -41,3 +41,18 @@
   padding: 0 2px;
   padding-bottom: 3px;
 }
+
+/* .watchlaterdes {
+  position: relative;
+  background: rgba(29, 106, 154, 0.72);
+  color: #fff;
+  visibility: hidden;
+  opacity: 0;
+
+  /* transition effect. not necessary */
+  /* transition: opacity .2s, visibility .2s; */
+/*
+.icon1:hover+ .watchlaterdes {
+  visibility: visible;
+  opacity: 1;
+} */
