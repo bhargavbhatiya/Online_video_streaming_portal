@@ -5,12 +5,23 @@
 	width: 100%;
 	display: flex;
 	flex-wrap: wrap;
+	flex-direction: row;
+}
+.profile_page_left {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: column;
+	align-items: flex-start;
+	height: 100%;
+	justify-content: center;
+	margin-top: 20px;
 }
 .profile_page .col-left {
 	max-width: 400px;
 	min-width: 300px;
 	padding: 0 10px;
 	margin: auto;
+	float: inline-start;
 }
 
 .profile_page .col-left .avatar {

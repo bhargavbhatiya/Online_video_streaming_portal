@@ -15,9 +15,10 @@ router.post("/checkWatchLater", movieCtrl.checkWatchLater);
 router.post("/addToLikeList", movieCtrl.addToLikeList);
 router.post("/checkLiked", movieCtrl.checkLiked);
 
-
-router.get("/getWatchLaterList", movieCtrl.getWatchLaterList);
-
-
+router.post("/getWatchLaterList", movieCtrl.getWatchLaterList);
+router.post("/removeWatchLater", movieCtrl.removeWatchLater);
+router.post("/getLikedList", movieCtrl.getLikedList);
+router.post("/getHistoryList", movieCtrl.getHistoryList);
+router.post("/updateHistoryList", movieCtrl.updateHistoryList);
 
 module.exports = router;

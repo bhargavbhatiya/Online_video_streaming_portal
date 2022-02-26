@@ -1,0 +1,41 @@
+.single-content {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	/* margin: 50px; */
+	padding: 15px;
+	align-items: center;
+}
+
+.single-content-img {
+	margin-right: 15px;
+	/* width: 100%; */
+}
+.single-content-img img {
+	width: 100%;
+	width: 250px;
+}
+.single-content-info {
+	padding-right: 8px;
+}
+.single-content-info-title {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+h1 {
+	font-size: 40px;
+	color: darkslategray;
+}
+.tagline {
+	color: black;
+}
+.overview {
+	color: black;
+	font-size: 20px;
+}
+h4 {
+	padding-top: 20px;
+}

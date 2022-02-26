@@ -11,6 +11,9 @@ import {
 	fetchAllUsers,
 	dispatchGetAllUsers,
 } from "../../../redux/actions/usersAction";
+import DisplayWatchLater from "./displayWatchLater";
+import DisplayHistory from "./displayHistory";
+import DisplayLiked from "./displayLiked";
 
 const initialState = {
 	name: "",
@@ -164,83 +167,84 @@ function Profile() {
 				{loading && <h3>Loading.....</h3>}
 			</div>
 			<div className="profile_page">
-				<div className="col-left border-end border-2 border-dark">
-					<h2>{isAdmin ? "Admin Profile" : "User Profile"}</h2>
+				<div className="profile_page_left">
+					<div className="col-left border-end border-2 border-dark">
+						<h2>{isAdmin ? "Admin Profile" : "User Profile"}</h2>
 
-					<div className="avatar">
-						<img src={avatar ? avatar : user.avatar} alt="" />
-						<span>
-							<i className="fas fa-camera"></i>
-							<p>Change</p>
+						<div className="avatar">
+							<img src={avatar ? avatar : user.avatar} alt="" />
+							<span>
+								<i className="fas fa-camera"></i>
+								<p>Change</p>
+								<input
+									type="file"
+									name="file"
+									id="file_up"
+									onChange={changeAvatar}
+								/>
+							</span>
+						</div>
+
+						<div className="form-group">
+							<label htmlFor="name">Name</label>
 							<input
-								type="file"
-								name="file"
-								id="file_up"
-								onChange={changeAvatar}
+								type="text"
+								name="name"
+								id="name"
+								defaultValue={user.name}
+								placeholder="Your name"
+								onChange={handleChange}
 							/>
-						</span>
-					</div>
+						</div>
 
-					<div className="form-group">
-						<label htmlFor="name">Name</label>
-						<input
-							type="text"
-							name="name"
-							id="name"
-							defaultValue={user.name}
-							placeholder="Your name"
-							onChange={handleChange}
-						/>
-					</div>
+						<div className="form-group">
+							<label htmlFor="email">Email</label>
+							<input
+								type="email"
+								name="email"
+								id="email"
+								defaultValue={user.email}
+								placeholder="Your email address"
+								disabled
+							/>
+						</div>
 
-					<div className="form-group">
-						<label htmlFor="email">Email</label>
-						<input
-							type="email"
-							name="email"
-							id="email"
-							defaultValue={user.email}
-							placeholder="Your email address"
-							disabled
-						/>
-					</div>
+						<div className="form-group">
+							<label htmlFor="password">New Password</label>
+							<input
+								type="password"
+								name="password"
+								id="password"
+								placeholder="Your password"
+								value={password}
+								onChange={handleChange}
+							/>
+						</div>
 
-					<div className="form-group">
-						<label htmlFor="password">New Password</label>
-						<input
-							type="password"
-							name="password"
-							id="password"
-							placeholder="Your password"
-							value={password}
-							onChange={handleChange}
-						/>
-					</div>
+						<div className="form-group">
+							<label htmlFor="cf_password">Confirm New Password</label>
+							<input
+								type="password"
+								name="cf_password"
+								id="cf_password"
+								placeholder="Confirm password"
+								value={cf_password}
+								onChange={handleChange}
+							/>
+						</div>
 
-					<div className="form-group">
-						<label htmlFor="cf_password">Confirm New Password</label>
-						<input
-							type="password"
-							name="cf_password"
-							id="cf_password"
-							placeholder="Confirm password"
-							value={cf_password}
-							onChange={handleChange}
-						/>
-					</div>
+						<div>
+							<em style={{ color: "crimson" }}>
+								* If you update your password here, you will not be able to
+								login quickly using google and facebook.
+							</em>
+						</div>
 
-					<div>
-						<em style={{ color: "crimson" }}>
-							* If you update your password here, you will not be able to login
-							quickly using google and facebook.
-						</em>
+						<button disabled={loading} onClick={handleUpdate}>
+							Update
+						</button>
 					</div>
-
-					<button disabled={loading} onClick={handleUpdate}>
-						Update
-					</button>
 				</div>
-
 				<div className="col-right">
 					<nav>
 						<div class="nav nav-tabs" id="nav-tab" role="tablist">
@@ -358,9 +362,7 @@ function Profile() {
 							role="tabpanel"
 							aria-labelledby="nav-history-tab"
 						>
-							<div className="history">
-								<h2>History</h2>
-							</div>
+							<DisplayHistory />
 						</div>
 						<div
 							class="tab-pane fade"
@@ -369,7 +371,7 @@ function Profile() {
 							aria-labelledby="nav-watchLater-tab"
 						>
 							<div className="watchLater">
-								<h2>Watch Later</h2>
+								<DisplayWatchLater />
 							</div>
 						</div>
 						<div
@@ -378,9 +380,7 @@ function Profile() {
 							role="tabpanel"
 							aria-labelledby="nav-liked-tab"
 						>
-							<div className="liked">
-								<h2>Liked List</h2>
-							</div>
+							<DisplayLiked />
 						</div>
 					</div>
 				</div>
