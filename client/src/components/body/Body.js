@@ -17,6 +17,7 @@ import Home from "../body/home/Home";
 
 import { useSelector } from "react-redux";
 import NewContentModal from "./movies/ContentModal/NewContentModal";
+import Search from "./Pages/Search/search";
 
 function Body() {
 	const auth = useSelector((state) => state.auth);
@@ -33,18 +34,18 @@ function Body() {
 				<Route path="/login" element={isLogged ? <NotFound/> : <Login />} exact />
 				<Route
 					path="/register"
-					element={isLogged ? NotFound : <Register />}
+					element={isLogged ? <NotFound/> : <Register />}
 					exact
 				/>
 
 				<Route
 					path="/forgot_password"
-					element={isLogged ? NotFound : <ForgotPass />}
+					element={isLogged ? <NotFound/> : <ForgotPass />}
 					exact
 				/>
 				<Route
 					path="/user/reset/:token"
-					element={isLogged ? NotFound : <ResetPass />}
+					element={isLogged ? <NotFound/> : <ResetPass />}
 					exact
 				/>
 
@@ -56,27 +57,32 @@ function Body() {
 
 				<Route
 					path="/profile"
-					element={isLogged ? <Profile /> : NotFound}
+					element={isLogged ? <Profile /> : <NotFound/>}
 					exact
 				/>
 				<Route
 					path="/edit_user/:id"
-					element={isAdmin ? <EditUser /> : NotFound}
+					element={isAdmin ? <EditUser /> : <NotFound/>}
 					exact
 				/>
 				<Route
 					path="/movie/:id"
-					element={isLogged ? <NewContentModal /> : NotFound}
+					element={isLogged ? <NewContentModal /> : <NotFound/>}
+					exact
+				/>
+				<Route
+					path="/searchmovie"
+					element={isLogged ? <Search/> : <NotFound/>}
 					exact
 				/>
 				<Route
 					path="/addMovieForm"
-					element={isLogged && isAdmin ? <AddMovieForm /> : NotFound}
+					element={isLogged && isAdmin ? <AddMovieForm /> : <NotFound/>}
 					exact
 				/>
 				<Route
 					path="/addMovieVideo"
-					element={isLogged && isAdmin ? NotFound : NotFound}
+					element={isLogged && isAdmin ? <NotFound/> : <NotFound/>}
 					exact
 				/>
 			</Routes>

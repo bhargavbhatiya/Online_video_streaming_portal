@@ -1,19 +1,144 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap");
 .main-class {
 	/* margin-top: 60px; */
+
 	width: 100%;
 	height: 100%;
 	display: flex;
-	flex-direction: row;
+	flex-direction: column;
 	justify-content: center;
 	text-align: center;
 	align-items: center;
 	background-color: #fafafa;
-	border-radius: 5px;
 	box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
-	padding: 20px;
+}
+
+.modal {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.paper {
+	width: 100%;
+	height: 100%;
+	background-color: #0d1321;
+	border: 1px solid #282c34;
+
+	color: white;
+	/* box-shadow: theme.shadows[5]; */
+	/* padding : theme.spacing(0, 1, 3); */
 }
 
 .jw-player {
-	width: 50%;
-	height: 50%;
+	width: 65%;
+}
+
+.Content_Row {
+	display: flex;
+	flex-direction: row;
+	padding-top: 40px;
+	justify-content: space-evenly;
+	align-items: center;
+	width: 100%;
+}
+.youtube-btn {
+	margin-top: 15px;
+
+	width: 95%;
+}
+
+.ContentModal__landscape {
+	/* object-fit: contain; */
+	border-radius: 10px;
+}
+.left-part {
+	display: flex;
+	flex-direction: column;
+	width: 25%;
+}
+
+.Content_Row img,
+.ContentModal__portrait {
+	object-fit: contain;
+	/* width: 100%; */
+	height: 480px;
+	border-radius: 10px;
+}
+
+.left-btn-row {
+	display: flex;
+	flex-direction: row;
+}
+
+.tagline {
+	padding-bottom: 10px;
+	align-self: center;
+}
+
+.carousel {
+	/* margin-top: 20px; */
+	/* padding-top: 20px;
+	  height: 30px; */
+}
+
+.ContentModal__about {
+	padding: 10px;
+	width: 95%;
+	height: 90%;
+	display: flex;
+	flex-direction: column;
+	font-family: "Roboto", sans-serif;
+	justify-content: space-evenly;
+	font-weight: 300;
+}
+
+.ContentModal__title {
+	height: 12%;
+	font-size: 5vw;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.ContentModal__description {
+	display: flex;
+	height: 40%;
+	overflow-y: scroll;
+	padding: 15px;
+	margin-top: 30px;
+	margin-bottom: 20px;
+	border-radius: 20px;
+	scrollbar-width: thin; /* Firefox */
+	box-shadow: inset 0 0 5px #000000;
+	text-align: justify;
+}
+
+.ContentModal__description::-webkit-scrollbar {
+	display: none;
+}
+
+@media (min-width: 835px) {
+	.ContentModal__landscape {
+		display: none;
+	}
+	.ContentModal__portrait {
+		display: flex;
+		width: 100%;
+	}
+	.ContentModal {
+		flex-direction: row;
+		justify-content: space-around;
+		padding: 10px 0;
+	}
+	.ContentModal__about {
+		width: 58%;
+		padding: 0;
+		height: 100%;
+	}
+	.ContentModal__title {
+		font-size: 3.5vw;
+	}
+	.ContentModal__description {
+		font-size: 22px;
+	}
 }
