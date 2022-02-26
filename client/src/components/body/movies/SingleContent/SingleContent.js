@@ -16,14 +16,19 @@ const SingleContent = ({
 	vote_average,
 	notify,
 }) => {
-	function gotoMovies() {}
 	const [isAdded, setIsAdded] = useState(false);
 	const auth = useSelector((state) => state.auth);
+	const email = auth.user.email;
 
+	const gotoMovies = async () => {
+		await axios.post("/movie/updateHistoryList", {
+			movie_id: id,
+			email: auth.user.email,
+		});
+	};
 	const checkWatchLater = async () => {
 		console.log("check watch later");
 		const movie_id = id;
-		const email = auth.user.email;
 		try {
 			const res = await axios.post("/movie/checkWatchLater", {
 				movie_id,
