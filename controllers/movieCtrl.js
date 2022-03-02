@@ -518,6 +518,48 @@ const movieCtrl = {
 			return res.status(500).json({ msg: err.message });
 		}
 	},
+	addComment: async (req, res) => {
+		console.log("inside addComment");
+		// console.log(req.user);
+		console.log(req.body);
+		const { username, email, movie_id, comment, date } = req.body;
+		try {
+
+			const commentObj = {
+				username: username,
+				email: email,
+				createdAt: date,
+				comment: comment
+			}
+
+			const movie = await MoviesDBC.findOneAndUpdate(
+				{ movie_id: movie_id },
+				{ $push: { commentList: commentObj } },
+				{ new: true }
+			);
+			//console.log(movie);
+			await movie.save();
+			res.json({ msg: "Comment is Added" , commentObj});
+		} catch (err) {
+			console.log(err);
+			return res.status(500).json({ msg: err.message });
+		}
+	},
+
+	getComments : async (req, res) => {
+		console.log("inside getComments");
+		const { movie_id } = req.body;
+		console.log(movie_id);
+		try {
+			const movie = await MoviesDBC.findOne({ movie_id: movie_id });
+			const commentList = movie.commentList;
+			console.log(commentList);
+			res.json({ commentList });
+		} catch (err) {
+			console.log(err);
+			return res.status(500).json({ msg: err.message });
+		}
+	},
 };
 
 module.exports = movieCtrl;

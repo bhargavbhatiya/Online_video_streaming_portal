@@ -19,6 +19,8 @@ const NewContentModal = () => {
 	const auth = useSelector((state) => state.auth);
 	const [isWatchList, setIsWatchList] = useState(false);
 	const [isLiked, setIsLiked] = useState(false);
+	const [comment, setComment] = useState("");
+	const email = auth.user.email;
 
 	const notify = (msg) => {
 		toast(msg);
@@ -27,7 +29,6 @@ const NewContentModal = () => {
 	const checkWatchLater = async () => {
 		console.log("check watch later");
 		const movie_id = id;
-		const email = auth.user.email;
 		try {
 			console.log(email);
 			const res = await axios.post("/movie/checkWatchLater", {
@@ -48,7 +49,7 @@ const NewContentModal = () => {
 	const addToWatchLater = async () => {
 		console.log("add to watch later");
 		const movie_id = id;
-		const email = auth.user.email;
+
 		try {
 			const res = await axios.post("/movie/addToWatchLater", {
 				movie_id,
@@ -67,7 +68,7 @@ const NewContentModal = () => {
 	const checkLiked = async () => {
 		console.log("check liked");
 		const movie_id = id;
-		const email = auth.user.email;
+
 		try {
 			const res = await axios.post("/movie/checkLiked", {
 				movie_id,
@@ -87,7 +88,7 @@ const NewContentModal = () => {
 	const addToLikedList = async () => {
 		console.log("add to liked list");
 		const movie_id = id;
-		const email = auth.user.email;
+
 		try {
 			const res = await axios.post("/movie/addToLikeList", {
 				movie_id,
@@ -105,17 +106,68 @@ const NewContentModal = () => {
 		}
 	};
 
+	const addComment = async () => {
+		setComment("");
+		console.log("add comment");
+		const movie_id = id;
+		const username = auth.user.name;
+		console.log(movie_id, username, comment);
+		const date = new Date();
+		//const date = new Date(new Date().getTime() + (330 + new Date().getTimezoneOffset()) * 60000);
+		// or
+		// const d = new Date();
+		// const utc = d.getTime() + (d.getTimezoneOffset() * 60000);
+		// const date = new Date(utc + (3600000 * +5.5));
+
+		// var ist = nd.toLocaleString();
+		// console.log("IST now is : " + ist);
+		//const date=date.toLocaleDateString();
+		console.log(date);
+
+		try {
+			const res = await axios.post("/movie/addComment", {
+				movie_id,
+				email,
+				comment,
+				username,
+				date,
+			});
+
+
+			notify(res.data.msg);
+			setCommentList((data) => [...data, res.data.commentObj]);
+			console.log(res);
+		} catch (err) {
+			console.log(err);
+		}
+	}
+
 	const [contentForPlayer, setContentForPlayer] = useState([]);
+	const [commentList, setCommentList] = useState([]);
 
 	const getVideo = async () => {
 		try {
 			const res = await axios.get(`/movie/get_movie/${id}`);
 			console.log(res.data.movie[0]);
 			setContentForPlayer(res.data.movie[0]);
+
+
 		} catch (err) {
 			console.log(err);
 		}
 	};
+
+	const getComments = async () => {
+		console.log("get comments");
+		try {
+			const res = await axios.post(`/movie/getComments`, { movie_id: id });
+			console.log(res.data.commentList);
+			setCommentList(res.data.commentList);
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
 
 	const [content, setContent] = useState();
 	const [video, setVideo] = useState();
@@ -136,10 +188,13 @@ const NewContentModal = () => {
 
 		setVideo(data.results[0]?.key);
 	};
+
+
 	useEffect(() => {
 		getVideo();
 		fetchVideo();
 		fetchData();
+		getComments();
 		checkWatchLater();
 		checkLiked();
 	}, [auth]);
@@ -203,7 +258,7 @@ const NewContentModal = () => {
 											<Button
 												className="youtube-btn"
 												variant="contained"
-												startIcon={<FavoriteIcon sx={{ color: pink[500] }}/>}
+												startIcon={<FavoriteIcon sx={{ color: pink[500] }} />}
 												color="primary"
 											>
 												Like
@@ -230,16 +285,16 @@ const NewContentModal = () => {
 									file={contentForPlayer.videoUrl}
 									onReady={() => console.log("onReady")}
 									onTime={(e) => console.log(e)}
-									// onSeventyFivePercent={() => console.log("75 Percent")}
-									// onNinetyFivePercent={() => console.log("95 Percent")}
-									// onOneHundredPercent={() => console.log("100 Percent")}
-									// isAutoPlay={true}
+								// onSeventyFivePercent={() => console.log("75 Percent")}
+								// onNinetyFivePercent={() => console.log("95 Percent")}
+								// onOneHundredPercent={() => console.log("100 Percent")}
+								// isAutoPlay={true}
 
-									// aspectRatio="16:9"
-									// customProps={{
-									// 	playbackRateControls: [1, 1.25, 1.5],
-									// 	cast: {},
-									// }}
+								// aspectRatio="16:9"
+								// customProps={{
+								// 	playbackRateControls: [1, 1.25, 1.5],
+								// 	cast: {},
+								// }}
 								/>
 							</div>
 						</div>
@@ -263,9 +318,35 @@ const NewContentModal = () => {
 						<div ClassName="carousel">
 							<Carousel id={id} />
 						</div>
+
+						<div className="col-lg-4 col-md-5 col-sm-4 offset-md-1 offset-sm-1 col-12 mt-4">
+							<form id="algin-form">
+								<div className="form-group">
+									<h4>Leave a comment</h4> <label htmlFor="message">Message</label> <textarea name="msg" id msg cols={30} rows={5} className="form-control" style={{ backgroundColor: 'white' }} value={comment}
+										onChange={(e) => { setComment(e.target.value) }} />
+								</div>
+
+								<div className="form-group m-4" style={{ backgroundColor: 'white' }} onClick={addComment}> <button type="button" id="post" className="btn">Post Comment</button> </div>
+
+
+							</form>
+							<h1>Comments</h1>
+							{commentList && commentList.slice(0).reverse().map((comm) => {
+
+								return (
+									<div className="comment mt-4 text-justify float-right">
+										<h4>{comm.username}&nbsp;-&nbsp;</h4> <span>{comm.createdAt}</span> <br />
+										<p>{comm.comment}</p>
+									</div>
+									
+								)
+							})}
+						</div>
 					</div>
+
 				</div>
 			)}
+
 		</>
 	);
 };

@@ -20,5 +20,12 @@ router.post("/removeWatchLater", movieCtrl.removeWatchLater);
 router.post("/getLikedList", movieCtrl.getLikedList);
 router.post("/getHistoryList", movieCtrl.getHistoryList);
 router.post("/updateHistoryList", movieCtrl.updateHistoryList);
+router.post("/addComment", movieCtrl.addComment);
+router.post("/getComments", movieCtrl.getComments);
+// router.post("/deleteComments",movieCtrl.deleteComments);
+
+
+
+
 
 module.exports = router;
