@@ -72,7 +72,7 @@ const SingleContent = ({
 	}, []);
 
 	return (
-		<div className="media" onClick={gotoMovies}>
+		<div className="media">
 			{/* <ContentModal media_type={media_type} id={id} videoUrl={videoUrl}> */}
 
 			<Badge
@@ -86,7 +86,7 @@ const SingleContent = ({
 				alt={title}
 			/>
 			<Link to={`/movie/${id}`}>
-				<b className="title">{title}</b>
+				<b className="title" onClick={gotoMovies}>{title}</b>
 			</Link>
 			<span className="subTitle">
 				<button className="icon1" onClick={addToWatchLater}>

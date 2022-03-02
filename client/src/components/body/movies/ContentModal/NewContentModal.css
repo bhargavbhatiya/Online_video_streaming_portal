@@ -70,9 +70,10 @@
 	flex-direction: row;
 }
 
-.tagline {
+.tagline1 {
 	padding-bottom: 10px;
 	align-self: center;
+	color: wheat; 
 }
 
 .carousel {

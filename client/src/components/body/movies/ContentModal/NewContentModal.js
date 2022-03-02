@@ -5,12 +5,14 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { Button } from "@material-ui/core";
 import YouTubeIcon from "@material-ui/icons/YouTube";
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import Carousel from "../Carousel/Carousel";
 import { useSelector } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 
 import { img_500, unavailable } from "../../../../config/config.js";
+import { pink } from '@mui/material/colors';
 
 const NewContentModal = () => {
 	const { id } = useParams();
@@ -158,7 +160,7 @@ const NewContentModal = () => {
 								).substring(0, 4)}
 								)
 							</span>
-							{content.tagline && <i className="tagline">{content.tagline}</i>}
+							{content.tagline && <i className="tagline1">{content.tagline}</i>}
 						</div>
 
 						<div className="Content_Row">
@@ -179,7 +181,7 @@ const NewContentModal = () => {
 											<Button
 												className="youtube-btn"
 												variant="contained"
-												startIcon={<YouTubeIcon />}
+												// startIcon={<YouTubeIcon />}
 												color="primary"
 											>
 												watch later
@@ -188,7 +190,7 @@ const NewContentModal = () => {
 											<Button
 												className="youtube-btn"
 												variant="contained"
-												startIcon={<YouTubeIcon />}
+												// startIcon={<YouTubeIcon />}
 												color="#FFEDDF"
 											>
 												watch later
@@ -201,7 +203,7 @@ const NewContentModal = () => {
 											<Button
 												className="youtube-btn"
 												variant="contained"
-												startIcon={<YouTubeIcon />}
+												startIcon={<FavoriteIcon sx={{ color: pink[500] }}/>}
 												color="primary"
 											>
 												Like
@@ -210,7 +212,7 @@ const NewContentModal = () => {
 											<Button
 												className="youtube-btn"
 												variant="contained"
-												startIcon={<YouTubeIcon />}
+												startIcon={<FavoriteIcon />}
 												color="#FFEDDF"
 											>
 												Like
