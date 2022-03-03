@@ -5,14 +5,14 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { Button } from "@material-ui/core";
 import YouTubeIcon from "@material-ui/icons/YouTube";
-import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import Carousel from "../Carousel/Carousel";
 import { useSelector } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 
 import { img_500, unavailable } from "../../../../config/config.js";
-import { pink } from '@mui/material/colors';
+import { pink } from "@mui/material/colors";
 
 const NewContentModal = () => {
 	const { id } = useParams();
@@ -21,6 +21,8 @@ const NewContentModal = () => {
 	const [isLiked, setIsLiked] = useState(false);
 	const [comment, setComment] = useState("");
 	const email = auth.user.email;
+	const [contentForPlayer, setContentForPlayer] = useState([]);
+	const [commentList, setCommentList] = useState([]);
 
 	const notify = (msg) => {
 		toast(msg);
@@ -133,25 +135,19 @@ const NewContentModal = () => {
 				date,
 			});
 
-
 			notify(res.data.msg);
 			setCommentList((data) => [...data, res.data.commentObj]);
 			console.log(res);
 		} catch (err) {
 			console.log(err);
 		}
-	}
-
-	const [contentForPlayer, setContentForPlayer] = useState([]);
-	const [commentList, setCommentList] = useState([]);
+	};
 
 	const getVideo = async () => {
 		try {
 			const res = await axios.get(`/movie/get_movie/${id}`);
 			console.log(res.data.movie[0]);
 			setContentForPlayer(res.data.movie[0]);
-
-
 		} catch (err) {
 			console.log(err);
 		}
@@ -167,7 +163,6 @@ const NewContentModal = () => {
 			console.log(err);
 		}
 	};
-
 
 	const [content, setContent] = useState();
 	const [video, setVideo] = useState();
@@ -189,6 +184,16 @@ const NewContentModal = () => {
 		setVideo(data.results[0]?.key);
 	};
 
+	const toIST = (date) => {
+		date = new Date(date);
+		const utc = date.getTime() + date.getTimezoneOffset() * 60000;
+		const newDate = new Date(utc + 3600000 * +5.5);
+		var dd = date.getDate();
+		var mm = date.getMonth() + 1;
+		var yyyy = date.getFullYear();
+		return `${dd}-${mm}-${yyyy} ${newDate.getHours()}:${newDate.getMinutes()}:${newDate.getSeconds()}`;
+		// return typeof date;
+	};
 
 	useEffect(() => {
 		getVideo();
@@ -199,6 +204,133 @@ const NewContentModal = () => {
 		checkLiked();
 	}, [auth]);
 
+	function commentButton() {
+		return (
+			<>
+				<button
+					// className="youtube-btn"
+					// variant="contained"
+					// startIcon={<YouTubeIcon />}
+					// color="#FFEDDF"
+					// type="button"
+					className="youtube-btn rounded-3"
+					data-bs-toggle="modal"
+					data-bs-target="#staticBackdrop"
+				>
+					REVIEW
+				</button>
+
+				<div
+					className="modal fade"
+					id="staticBackdrop"
+					data-bs-backdrop="static"
+					data-bs-keyboard="false"
+					tabindex="-1"
+					aria-labelledby="staticBackdropLabel"
+					aria-hidden="true"
+				>
+					<div className="modal-dialog modal-dialog-scrollable modal-lg">
+						<div className="modal-content">
+							<div className="modal-header">
+								<h5 className="modal-title" id="staticBackdropLabel">
+									Add A Comment
+								</h5>
+								<button
+									type="button"
+									className="btn-close"
+									data-bs-dismiss="modal"
+									aria-label="Close"
+								></button>
+							</div>
+							<div className="modal-body">
+								<div className="d-flex justify-content-center row flex-column m-1">
+									<div className="d-flex flex-row align-items-center text-left comment-top p-2 border border-2 px-2">
+										<div className="profile-image me-2">
+											<img
+												className="rounded-circle"
+												src={
+													content.poster_path
+														? `${img_500}/${content.poster_path}`
+														: unavailable
+												}
+												alt={content.name || content.title}
+												width={70}
+												height={70}
+											/>
+										</div>
+
+										<div className="d-flex flex-column mt-1 border-left">
+											<div className="d-flex flex-row post-title">
+												<h5>{content.title}</h5>
+											</div>
+										</div>
+									</div>
+									<div className="coment-bottom bg-white p-2 px-3 border mt-1">
+										<div className="d-flex flex-row add-comment-section mt-2 mb-4">
+											<img
+												className="img-fluid img-responsive rounded-circle m-1"
+												src={auth.user.avatar}
+												width={38}
+											/>
+											<input
+												type="text"
+												className="form-control m-1"
+												placeholder="Add comment"
+												value={comment}
+												onChange={(e) => {
+													setComment(e.target.value);
+												}}
+											/>
+											<button
+												className="btn btn-primary m-1"
+												type="button"
+												onClick={addComment}
+											>
+												Comment
+											</button>
+										</div>
+										<div className="commented-section mt-2">
+											{commentList &&
+												commentList
+													.slice(0)
+													.reverse()
+													.map((comm) => {
+														return (
+															<blockquote className="blockquote border my-2">
+																<div className="d-flex flex-row align-items-center commented-user">
+																	<h6 className="mr-2">
+																		{comm.username}&nbsp;-&nbsp;
+																	</h6>
+
+																	<small className="mb-1 ml-2 .text-blue display-font-sizes-2">
+																		{toIST(comm.createdAt)}
+																	</small>
+																</div>
+																<div className="small">
+																	<div>{comm.comment}</div>
+																</div>
+															</blockquote>
+														);
+													})}
+										</div>
+									</div>
+								</div>
+							</div>
+							<div className="modal-footer">
+								<button
+									type="button"
+									className="btn btn-secondary"
+									data-bs-dismiss="modal"
+								>
+									Close
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</>
+		);
+	}
 	return (
 		<>
 			<ToastContainer />
@@ -206,7 +338,7 @@ const NewContentModal = () => {
 				<div className="main-class">
 					<div className="paper">
 						<div ClassName="ContentModal__about">
-							<span className="ContentModal__title">
+							<span className="display-1 ContentModal__title">
 								{content.name || content.title} (
 								{(
 									content.first_air_date ||
@@ -220,15 +352,17 @@ const NewContentModal = () => {
 
 						<div className="Content_Row">
 							<div className="left-part">
-								<img
-									src={
-										content.poster_path
-											? `${img_500}/${content.poster_path}`
-											: unavailable
-									}
-									alt={content.name || content.title}
-									className="ContentModal__portrait"
-								/>
+								<div className="ContentModal__portrait">
+									<img
+										height={420}
+										src={
+											content.poster_path
+												? `${img_500}/${content.poster_path}`
+												: unavailable
+										}
+										alt={content.name || content.title}
+									/>
+								</div>
 
 								<div className="left-btn-row">
 									<div className="youtube-btn" onClick={addToWatchLater}>
@@ -274,6 +408,7 @@ const NewContentModal = () => {
 											</Button>
 										)}
 									</div>
+									{commentButton()}
 								</div>
 							</div>
 
@@ -285,20 +420,20 @@ const NewContentModal = () => {
 									file={contentForPlayer.videoUrl}
 									onReady={() => console.log("onReady")}
 									onTime={(e) => console.log(e)}
-								// onSeventyFivePercent={() => console.log("75 Percent")}
-								// onNinetyFivePercent={() => console.log("95 Percent")}
-								// onOneHundredPercent={() => console.log("100 Percent")}
-								// isAutoPlay={true}
+									// onSeventyFivePercent={() => console.log("75 Percent")}
+									// onNinetyFivePercent={() => console.log("95 Percent")}
+									// onOneHundredPercent={() => console.log("100 Percent")}
+									// isAutoPlay={true}
 
-								// aspectRatio="16:9"
-								// customProps={{
-								// 	playbackRateControls: [1, 1.25, 1.5],
-								// 	cast: {},
-								// }}
+									// aspectRatio="16:9"
+									// customProps={{
+									// 	playbackRateControls: [1, 1.25, 1.5],
+									// 	cast: {},
+									// }}
 								/>
 							</div>
 						</div>
-						<span className="ContentModal__description">
+						<span className="ContentModal__description text-light mx-3">
 							{content.overview}
 						</span>
 
@@ -319,34 +454,55 @@ const NewContentModal = () => {
 							<Carousel id={id} />
 						</div>
 
-						<div className="col-lg-4 col-md-5 col-sm-4 offset-md-1 offset-sm-1 col-12 mt-4">
+						{/* <div className="col-lg-4 col-md-5 col-sm-4 offset-md-1 offset-sm-1 col-12 mt-4">
 							<form id="algin-form">
 								<div className="form-group">
-									<h4>Leave a comment</h4> <label htmlFor="message">Message</label> <textarea name="msg" id msg cols={30} rows={5} className="form-control" style={{ backgroundColor: 'white' }} value={comment}
-										onChange={(e) => { setComment(e.target.value) }} />
+									<h4>Leave a comment</h4>{" "}
+									<label htmlFor="message">Message</label>{" "}
+									<textarea
+										name="msg"
+										id
+										msg
+										cols={30}
+										rows={5}
+										className="form-control"
+										style={{ backgroundColor: "white" }}
+										value={comment}
+										onChange={(e) => {
+											setComment(e.target.value);
+										}}
+									/>
 								</div>
 
-								<div className="form-group m-4" style={{ backgroundColor: 'white' }} onClick={addComment}> <button type="button" id="post" className="btn">Post Comment</button> </div>
-
-
+								<div
+									className="form-group m-4"
+									style={{ backgroundColor: "white" }}
+									onClick={addComment}
+								>
+									{" "}
+									<button type="button" id="post" className="btn">
+										Post Comment
+									</button>{" "}
+								</div>
 							</form>
 							<h1>Comments</h1>
-							{commentList && commentList.slice(0).reverse().map((comm) => {
-
-								return (
-									<div className="comment mt-4 text-justify float-right">
-										<h4>{comm.username}&nbsp;-&nbsp;</h4> <span>{comm.createdAt}</span> <br />
-										<p>{comm.comment}</p>
-									</div>
-									
-								)
-							})}
-						</div>
+							{commentList &&
+								commentList
+									.slice(0)
+									.reverse()
+									.map((comm) => {
+										return (
+											<div className="comment mt-4 text-justify float-right">
+												<h4>{comm.username}&nbsp;-&nbsp;</h4>{" "}
+												<span>{toIST(comm.createdAt)}</span> <br />
+												<p>{comm.comment}</p>
+											</div>
+										);
+									})}
+								</div> */}
 					</div>
-
 				</div>
 			)}
-
 		</>
 	);
 };
