@@ -21,6 +21,8 @@ const NewContentModal = () => {
 	const [isLiked, setIsLiked] = useState(false);
 	const [comment, setComment] = useState("");
 	const email = auth.user.email;
+	const username = auth.user.name;
+	const {isAdmin}=auth;
 	const [contentForPlayer, setContentForPlayer] = useState([]);
 	const [commentList, setCommentList] = useState([]);
 
@@ -112,7 +114,7 @@ const NewContentModal = () => {
 		setComment("");
 		console.log("add comment");
 		const movie_id = id;
-		const username = auth.user.name;
+		
 		console.log(movie_id, username, comment);
 		const date = new Date();
 		//const date = new Date(new Date().getTime() + (330 + new Date().getTimezoneOffset()) * 60000);
@@ -134,22 +136,12 @@ const NewContentModal = () => {
 				username,
 				date,
 			});
-
+            console.log("after add comment");
 			notify(res.data.msg);
 			setCommentList((data) => [...data, res.data.commentObj]);
 			console.log(res);
 		} catch (err) {
-			console.log(err);
-		}
-	};
-
-	const getVideo = async () => {
-		try {
-			const res = await axios.get(`/movie/get_movie/${id}`);
-			console.log(res.data.movie[0]);
-			setContentForPlayer(res.data.movie[0]);
-		} catch (err) {
-			console.log(err);
+			console.log("Errordsd"+err);
 		}
 	};
 
@@ -163,6 +155,31 @@ const NewContentModal = () => {
 			console.log(err);
 		}
 	};
+
+	const deleteComment = async (comment_id) => {
+		console.log("delete comment");
+		try {
+			const res = await axios.post("/movie/deleteComment", {
+				movie_id: id,
+				comment_id,
+			});
+			notify(res.data.msg);
+			console.log(res);
+			setCommentList((data) => data.filter((item) => item._id !== comment_id));
+		} catch (err) {
+			console.log(err);
+		}
+	};
+	const getVideo = async () => {
+		try {
+			const res = await axios.get(`/movie/get_movie/${id}`);
+			console.log(res.data.movie[0]);
+			setContentForPlayer(res.data.movie[0]);
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
 
 	const [content, setContent] = useState();
 	const [video, setVideo] = useState();
@@ -296,6 +313,7 @@ const NewContentModal = () => {
 													.reverse()
 													.map((comm) => {
 														return (
+															
 															<blockquote className="blockquote border my-2">
 																<div className="d-flex flex-row align-items-center commented-user">
 																	<h6 className="mr-2">
@@ -305,11 +323,19 @@ const NewContentModal = () => {
 																	<small className="mb-1 ml-2 .text-blue display-font-sizes-2">
 																		{toIST(comm.createdAt)}
 																	</small>
+																	{isAdmin &&<button className="deleteButton" onClick={() => deleteComment(comm._id)}><i
+																		className="fas fa-trash-alt"
+																		title="Remove"
+																		
+																	></i></button> }
+
 																</div>
 																<div className="small">
 																	<div>{comm.comment}</div>
 																</div>
 															</blockquote>
+														
+
 														);
 													})}
 										</div>

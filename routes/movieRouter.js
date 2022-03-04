@@ -22,7 +22,7 @@ router.post("/getHistoryList", movieCtrl.getHistoryList);
 router.post("/updateHistoryList", movieCtrl.updateHistoryList);
 router.post("/addComment", movieCtrl.addComment);
 router.post("/getComments", movieCtrl.getComments);
-// router.post("/deleteComments",movieCtrl.deleteComments);
+router.post("/deleteComment",movieCtrl.deleteComment);
 
 
 

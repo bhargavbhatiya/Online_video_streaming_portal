@@ -525,20 +525,26 @@ const movieCtrl = {
 		const { username, email, movie_id, comment, date } = req.body;
 		try {
 
-			const commentObj = {
+			let commentObj = {
 				username: username,
 				email: email,
 				createdAt: date,
 				comment: comment
 			}
 
+			
 			const movie = await MoviesDBC.findOneAndUpdate(
 				{ movie_id: movie_id },
 				{ $push: { commentList: commentObj } },
 				{ new: true }
-			);
-			//console.log(movie);
-			await movie.save();
+				);
+				// console.log(movie);
+				await movie.save();
+				commentObj =movie.commentList[movie.commentList.length-1];
+				// const movie1 = await MoviesDBC.findOne({ movie_id: movie_id });
+				// const commentList = movie1.commentList;
+			//	console.log(commentObj);
+				
 			res.json({ msg: "Comment is Added" , commentObj});
 		} catch (err) {
 			console.log(err);
@@ -560,6 +566,26 @@ const movieCtrl = {
 			return res.status(500).json({ msg: err.message });
 		}
 	},
+
+	deleteComment: async (req, res) => {
+		console.log("inside deleteComment");
+		// console.log(req.user);
+		console.log(req.body);
+		const { movie_id, comment_id } = req.body;
+		try {
+			const movie = await MoviesDBC.findOneAndUpdate(
+				{ movie_id: movie_id },
+				{ $pull: { commentList: { _id: comment_id } } },
+				{ new: true }
+			);
+			console.log(movie);
+			await movie.save();
+			res.json({ msg: "Comment is Deleted" });
+		} catch (err) {
+			console.log(err);
+			return res.status(500).json({ msg: err.message });
+		}
+	}
 };
 
 module.exports = movieCtrl;

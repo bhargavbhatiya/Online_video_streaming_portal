@@ -118,6 +118,11 @@
 .ContentModal__description::-webkit-scrollbar {
 	display: none;
 }
+
+.deleteButton {
+	margin-left:auto;
+	margin-right:0;
+}
 /* 
 #align-form {
 	margin-top: 20px;
