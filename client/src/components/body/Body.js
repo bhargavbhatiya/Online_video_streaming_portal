@@ -11,7 +11,8 @@ import ResetPass from "../body/auth/ResetPassword";
 import Profile from "../body/profile/Profile";
 import EditUser from "../body/profile/EditUser";
 
-import AddMovieForm from "./movies/addMovieForm";
+import AddMovieForm from "./movies/addMovieForm/addMovieForm";
+import AddVideo from "./movies/addMovieForm/addVideo";
 
 import Home from "../body/home/Home";
 
@@ -23,29 +24,33 @@ function Body() {
 	const auth = useSelector((state) => state.auth);
 	const { isLogged, isAdmin } = auth;
 	const style = {
-		marginTop: 62
-	  };
+		marginTop: 62,
+	};
 
 	return (
 		<section style={style}>
 			<Routes>
-				<Route path="/" element={isLogged ?<Home/>:<Login/>}exact />
+				<Route path="/" element={isLogged ? <Home /> : <Login />} exact />
 
-				<Route path="/login" element={isLogged ? <NotFound/> : <Login />} exact />
+				<Route
+					path="/login"
+					element={isLogged ? <NotFound /> : <Login />}
+					exact
+				/>
 				<Route
 					path="/register"
-					element={isLogged ? <NotFound/> : <Register />}
+					element={isLogged ? <NotFound /> : <Register />}
 					exact
 				/>
 
 				<Route
 					path="/forgot_password"
-					element={isLogged ? <NotFound/> : <ForgotPass />}
+					element={isLogged ? <NotFound /> : <ForgotPass />}
 					exact
 				/>
 				<Route
 					path="/user/reset/:token"
-					element={isLogged ? <NotFound/> : <ResetPass />}
+					element={isLogged ? <NotFound /> : <ResetPass />}
 					exact
 				/>
 
@@ -57,32 +62,32 @@ function Body() {
 
 				<Route
 					path="/profile"
-					element={isLogged ? <Profile /> : <NotFound/>}
+					element={isLogged ? <Profile /> : <NotFound />}
 					exact
 				/>
 				<Route
 					path="/edit_user/:id"
-					element={isAdmin ? <EditUser /> : <NotFound/>}
+					element={isAdmin ? <EditUser /> : <NotFound />}
 					exact
 				/>
 				<Route
 					path="/movie/:id"
-					element={isLogged ? <NewContentModal /> : <NotFound/>}
+					element={isLogged ? <NewContentModal /> : <NotFound />}
 					exact
 				/>
 				<Route
 					path="/searchmovie"
-					element={isLogged ? <Search/> : <NotFound/>}
+					element={isLogged ? <Search /> : <NotFound />}
 					exact
 				/>
 				<Route
 					path="/addMovieForm"
-					element={isLogged && isAdmin ? <AddMovieForm /> : <NotFound/>}
+					element={isLogged && isAdmin ? <AddMovieForm /> : <NotFound />}
 					exact
 				/>
 				<Route
 					path="/addMovieVideo"
-					element={isLogged && isAdmin ? <NotFound/> : <NotFound/>}
+					element={isLogged && isAdmin ? <AddVideo /> : <NotFound />}
 					exact
 				/>
 			</Routes>

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import {
 	showErrMsg,
 	showSuccessMsg,
-} from "../../utils/notification/Notification";
+} from "../../../utils/notification/Notification";
 import { useSelector } from "react-redux";
 import axios from "axios";
 function AddMovieForm() {
