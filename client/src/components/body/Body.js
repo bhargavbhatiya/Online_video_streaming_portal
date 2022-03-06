@@ -19,6 +19,7 @@ import Home from "../body/home/Home";
 import { useSelector } from "react-redux";
 import NewContentModal from "./movies/ContentModal/NewContentModal";
 import Search from "./Pages/Search/search";
+import Temp from "./movies/addMovieForm/temp";
 
 function Body() {
 	const auth = useSelector((state) => state.auth);
@@ -30,7 +31,8 @@ function Body() {
 	return (
 		<section style={style}>
 			<Routes>
-				<Route path="/" element={isLogged ? <Home /> : <Login />} exact />
+				<Route path="/" element={isLogged ? <Temp /> : <Login />} exact />
+				{/* <Route path="/" element={isLogged ? <Home /> : <Login />} exact /> */}
 
 				<Route
 					path="/login"

@@ -3,9 +3,9 @@ import React, { useState, useRef } from "react";
 // import { S3Client, S3 } from "@aws-sdk/client-s3";
 import S3 from "react-aws-s3";
 import "./addVideo.css";
-import { uploadFile } from "react-s3";
+// import { uploadFile } from "react-s3";
 
-const AddVideo = () => {
+const AddVideo1 = () => {
 	const fileInput = useRef();
 	const handleClick = (event) => {
 		event.preventDefault();
@@ -17,16 +17,10 @@ const AddVideo = () => {
 			accessKeyId: process.env.REACT_APP_aws_access_key_id,
 			secretAccessKey: process.env.REACT_APP_aws_secret_access_key,
 		};
-		// const config = {
-		// 	bucketName: process.env.REACT_APP_BUCKET_NAME,
-		// 	dirName: process.env.REACT_APP_DIR_NAME /* optional */,
-		// 	region: process.env.REACT_APP_REGION,
-		// 	accessKeyId: process.env.REACT_APP_ACCESS_ID,
-		// 	secretAccessKey: process.env.REACT_APP_ACCESS_KEY,
-		// };
 		const ReactS3Client = new S3(config);
+		console.log("21 " + toString(ReactS3Client[0]) + "x");
 		ReactS3Client.uploadFile(file, newFileName).then((data) => {
-			console.log(data);
+			console.log("23 " + data);
 			if (data.status === 204) {
 				console.log("success");
 			} else {
@@ -48,4 +42,4 @@ const AddVideo = () => {
 	);
 };
 
-export default AddVideo;
+export default AddVideo1;

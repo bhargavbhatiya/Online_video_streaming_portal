@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@aws-sdk/client-mediaconvert": "^3.15.0",
     "@aws-sdk/client-s3": "^3.53.1",
     "@aws-sdk/lib-storage": "^3.53.1",
     "@emotion/react": "^11.7.1",
@@ -14,10 +15,13 @@
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
+    "aws-sdk": "^2.1087.0",
     "axios": "^0.25.0",
     "buffer": "^6.0.3",
+    "process": "^0.11.10",
     "react": "^17.0.2",
     "react-alice-carousel": "^2.5.1",
+    "react-app-rewired": "^2.2.1",
     "react-aws-s3": "^1.5.0",
     "react-dom": "^17.0.2",
     "react-facebook-login": "^4.1.1",
@@ -29,9 +33,7 @@
     "react-scripts": "5.0.0",
     "react-toastify": "^8.2.0",
     "redux": "^4.1.2",
-    "process": "^0.11.10",
-    "stream-browserify": "^3.0.0",
-    "react-app-rewired": "^2.2.1" 
+    "stream-browserify": "^3.0.0"
   },
   "scripts": {
     "start": "react-app-rewired start",
