@@ -35,12 +35,12 @@ const SingleContent = ({
 				email,
 			});
 
-			console.log(res.data.msg);
+			// console.log(res.data.msg);
 			if (res.data.msg) {
 				setIsAdded(true);
 			}
 
-			console.log(res);
+			// console.log(res);
 		} catch (err) {
 			console.log(err);
 		}
@@ -67,7 +67,7 @@ const SingleContent = ({
 	useEffect(() => {
 		// window.scroll(0, 0);
 		//console.log("useEffect");
-		checkWatchLater();
+		// checkWatchLater();
 		// eslint-disable-next-line
 	}, []);
 
@@ -86,10 +86,12 @@ const SingleContent = ({
 				alt={title}
 			/>
 			<Link to={`/movie/${id}`}>
-				<b className="title" onClick={gotoMovies}>{title}</b>
+				<b className="title" onClick={gotoMovies}>
+					{title}
+				</b>
 			</Link>
 			<span className="subTitle">
-				<button className="icon1" onClick={addToWatchLater}>
+				{/* <button className="icon1" onClick={addToWatchLater}>
 					{isAdded ? (
 						<span class="material-icons" style={{ color: "green" }}>
 							playlist_add_check
@@ -97,7 +99,7 @@ const SingleContent = ({
 					) : (
 						<span class="material-icons">playlist_add</span>
 					)}
-				</button>
+				</button> */}
 				<span className="subTitle">{date}</span>
 			</span>
 

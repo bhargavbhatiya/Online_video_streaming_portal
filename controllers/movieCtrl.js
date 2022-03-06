@@ -90,7 +90,67 @@ const movieCtrl = {
 			return res.status(500).json({ msg: err.message });
 		}
 	},
-
+	allMovieList: async (req, res) => {
+		console.log("inside allMovieList");
+		try {
+			const movies = await MoviesDBC.find(
+				{},
+				{
+					_id: 0,
+					overview: 0,
+					genres: 0,
+					keywords: 0,
+					cast: 0,
+					crew: 0,
+					popularity: 0,
+					production_companies: 0,
+					runtime: 0,
+					tagline: 0,
+					vote_average: 0,
+					vote_count: 0,
+					release_date: 0,
+					original_language: 0,
+					videoUrl: 0,
+					uploadedBy: 0,
+					commentList: 0,
+				}
+			);
+			//console.log("first"+movies);
+			const allmovies = movies.map((movie) => {
+				const obj = {
+					movie_id: movie.movie_id,
+					label: movie.title,
+				};
+				// console.log(movie.movie_id);
+				return obj;
+			});
+			res.json({
+				msg: "movie find successfully",
+				movies: allmovies,
+			});
+		} catch (err) {
+			console.log(err);
+			return res.status(500).json({ msg: err.message });
+		}
+	},
+	setVideoUrl: async (req, res) => {
+		console.log("inside setVideoUrl");
+		try {
+			const { movie_id, videoUrl } = req.body;
+			const movie = await MoviesDBC.findOneAndUpdate(
+				{ movie_id },
+				{ videoUrl },
+				{ new: true }
+			);
+			res.json({
+				msg: "Url attached to movie successfully",
+				movie,
+			});
+		} catch (err) {
+			console.log(err);
+			return res.status(500).json({ msg: err.message });
+		}
+	},
 	get_movie: async (req, res) => {
 		console.log("inside get_movie using id");
 		// console.log(req.user);
@@ -524,35 +584,33 @@ const movieCtrl = {
 		console.log(req.body);
 		const { username, email, movie_id, comment, date } = req.body;
 		try {
-
 			let commentObj = {
 				username: username,
 				email: email,
 				createdAt: date,
-				comment: comment
-			}
+				comment: comment,
+			};
 
-			
 			const movie = await MoviesDBC.findOneAndUpdate(
 				{ movie_id: movie_id },
 				{ $push: { commentList: commentObj } },
 				{ new: true }
-				);
-				// console.log(movie);
-				await movie.save();
-				commentObj =movie.commentList[movie.commentList.length-1];
-				// const movie1 = await MoviesDBC.findOne({ movie_id: movie_id });
-				// const commentList = movie1.commentList;
+			);
+			// console.log(movie);
+			await movie.save();
+			commentObj = movie.commentList[movie.commentList.length - 1];
+			// const movie1 = await MoviesDBC.findOne({ movie_id: movie_id });
+			// const commentList = movie1.commentList;
 			//	console.log(commentObj);
-				
-			res.json({ msg: "Comment is Added" , commentObj});
+
+			res.json({ msg: "Comment is Added", commentObj });
 		} catch (err) {
 			console.log(err);
 			return res.status(500).json({ msg: err.message });
 		}
 	},
 
-	getComments : async (req, res) => {
+	getComments: async (req, res) => {
 		console.log("inside getComments");
 		const { movie_id } = req.body;
 		console.log(movie_id);
@@ -585,7 +643,7 @@ const movieCtrl = {
 			console.log(err);
 			return res.status(500).json({ msg: err.message });
 		}
-	}
+	},
 };
 
 module.exports = movieCtrl;

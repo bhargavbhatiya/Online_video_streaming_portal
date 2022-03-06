@@ -22,10 +22,9 @@ router.post("/getHistoryList", movieCtrl.getHistoryList);
 router.post("/updateHistoryList", movieCtrl.updateHistoryList);
 router.post("/addComment", movieCtrl.addComment);
 router.post("/getComments", movieCtrl.getComments);
-router.post("/deleteComment",movieCtrl.deleteComment);
+router.post("/deleteComment", movieCtrl.deleteComment);
 
-
-
-
+router.get("/allMovieList", movieCtrl.allMovieList);
+router.post("/setVideoUrl", movieCtrl.setVideoUrl);
 
 module.exports = router;

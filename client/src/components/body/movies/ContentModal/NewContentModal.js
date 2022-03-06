@@ -13,6 +13,7 @@ import { ToastContainer, toast } from "react-toastify";
 
 import { img_500, unavailable } from "../../../../config/config.js";
 import { pink } from "@mui/material/colors";
+import SingleContent from "../SingleContent/SingleContent";
 
 const NewContentModal = () => {
 	const { id } = useParams();
@@ -22,7 +23,7 @@ const NewContentModal = () => {
 	const [comment, setComment] = useState("");
 	const email = auth.user.email;
 	const username = auth.user.name;
-	const {isAdmin}=auth;
+	const { isAdmin } = auth;
 	const [contentForPlayer, setContentForPlayer] = useState([]);
 	const [commentList, setCommentList] = useState([]);
 
@@ -114,7 +115,7 @@ const NewContentModal = () => {
 		setComment("");
 		console.log("add comment");
 		const movie_id = id;
-		
+
 		console.log(movie_id, username, comment);
 		const date = new Date();
 		//const date = new Date(new Date().getTime() + (330 + new Date().getTimezoneOffset()) * 60000);
@@ -136,12 +137,12 @@ const NewContentModal = () => {
 				username,
 				date,
 			});
-            console.log("after add comment");
+			console.log("after add comment");
 			notify(res.data.msg);
 			setCommentList((data) => [...data, res.data.commentObj]);
 			console.log(res);
 		} catch (err) {
-			console.log("Errordsd"+err);
+			console.log("Errordsd" + err);
 		}
 	};
 
@@ -180,7 +181,6 @@ const NewContentModal = () => {
 		}
 	};
 
-
 	const [content, setContent] = useState();
 	const [video, setVideo] = useState();
 
@@ -211,7 +211,26 @@ const NewContentModal = () => {
 		return `${dd}-${mm}-${yyyy} ${newDate.getHours()}:${newDate.getMinutes()}:${newDate.getSeconds()}`;
 		// return typeof date;
 	};
+	const [recommendIDs, setRecommendIDs] = useState([]);
+	const [recommendList, setRecommendList] = useState([]);
+	const recommendMovies = async () => {
+		console.log("recommend movies");
+		try {
+			const res = await axios.get(
+				`http://127.0.0.1:8000/predictmovie/${content.title}`
+			);
+			setRecommendIDs(res.data);
+			// console.log(recommendIDs);
 
+			// recommendIDs.map(async (movie) => {
+			// 	const res1 = await axios.get(`/movie/get_movie/${movie.id}`);
+			// 	console.log(res1.data.movie);
+			// 	setRecommendList((data) => [...data, res1.data.movie]);
+			// });
+		} catch (err) {
+			console.log(err);
+		}
+	};
 	useEffect(() => {
 		getVideo();
 		fetchVideo();
@@ -220,6 +239,28 @@ const NewContentModal = () => {
 		checkWatchLater();
 		checkLiked();
 	}, [auth]);
+
+	useEffect(() => {
+		recommendMovies();
+	}, [content]);
+
+	useEffect(() => {
+		if (recommendIDs.length > 0) {
+			recommendIDs.map(async (movie) => {
+				const res1 = await axios.get(`/movie/get_movie/${movie.id}`);
+				// console.log(res1.data.movie[0]);
+
+				let obj = res1.data.movie[0];
+				// setRecommendList((data) => [...data, res1.data.movie[0]]);
+				var poster_path = await axios.get(
+					`https://api.themoviedb.org/3/movie/${res1.data.movie[0].movie_id}?api_key=${process.env.REACT_APP_API_KEY}`
+				);
+				poster_path = `https://image.tmdb.org/t/p/w300${poster_path.data.poster_path}`;
+				obj = { ...obj, poster_path };
+				setRecommendList((data) => [...data, obj]);
+			});
+		}
+	}, [recommendIDs]);
 
 	function commentButton() {
 		return (
@@ -313,7 +354,6 @@ const NewContentModal = () => {
 													.reverse()
 													.map((comm) => {
 														return (
-															
 															<blockquote className="blockquote border my-2">
 																<div className="d-flex flex-row align-items-center commented-user">
 																	<h6 className="mr-2">
@@ -323,19 +363,22 @@ const NewContentModal = () => {
 																	<small className="mb-1 ml-2 .text-blue display-font-sizes-2">
 																		{toIST(comm.createdAt)}
 																	</small>
-																	{isAdmin &&<button className="deleteButton" onClick={() => deleteComment(comm._id)}><i
-																		className="fas fa-trash-alt"
-																		title="Remove"
-																		
-																	></i></button> }
-
+																	{isAdmin && (
+																		<button
+																			className="deleteButton"
+																			onClick={() => deleteComment(comm._id)}
+																		>
+																			<i
+																				className="fas fa-trash-alt"
+																				title="Remove"
+																			></i>
+																		</button>
+																	)}
 																</div>
 																<div className="small">
 																	<div>{comm.comment}</div>
 																</div>
 															</blockquote>
-														
-
 														);
 													})}
 										</div>
@@ -477,8 +520,22 @@ const NewContentModal = () => {
 						</div>
 
 						<div ClassName="carousel">
-							<Carousel id={id} />
+							<Carousel id={id} recommendList={[]} notify={notify} flag={1} />
 						</div>
+
+						{recommendList && (
+							<>
+								<h3 className="text-light">Recommendations</h3>
+								<div ClassName="carousel">
+									<Carousel
+										id={id}
+										recommendList={recommendList}
+										notify={notify}
+										flag={0}
+									/>
+								</div>
+							</>
+						)}
 
 						{/* <div className="col-lg-4 col-md-5 col-sm-4 offset-md-1 offset-sm-1 col-12 mt-4">
 							<form id="algin-form">

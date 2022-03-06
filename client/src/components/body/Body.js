@@ -31,7 +31,7 @@ function Body() {
 	return (
 		<section style={style}>
 			<Routes>
-				<Route path="/" element={isLogged ? <Temp /> : <Login />} exact />
+				<Route path="/" element={isLogged ? <Home /> : <Login />} exact />
 				{/* <Route path="/" element={isLogged ? <Home /> : <Login />} exact /> */}
 
 				<Route
