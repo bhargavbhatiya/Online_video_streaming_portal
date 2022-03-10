@@ -124,15 +124,15 @@ const Search = () => {
       var cnt = 0;
       setLoading(true);
       const res = await axios.get(`/movie/get_search_movie/${searchText}`);
-      console.log(res.data);
+      // console.log(res.data);
       const { movies } = res.data;
       if (!movies) {
-        console.log("no movies");
+        // console.log("no movies");
         setContent('');
         setLoading(false);
         return;
       }
-      console.log(movies);
+      // console.log(movies);
 
       const posterdata = await Promise.all(movies.map(movie => fetchPoster(movie.movie_id)));
 
@@ -156,7 +156,7 @@ const Search = () => {
           poster_path,
           vote_average
         };
-        console.log(newdata);
+        // console.log(newdata);
         setContent(content => [...content, newdata]);
         
 
@@ -165,12 +165,12 @@ const Search = () => {
       setLoading(false);
       console.log("heloooooo");
 
-      console.log(content);
+      // console.log(content);
     }
     catch(error) {
 
 
-      console.error(error);
+      // console.error(error);
     }
   };
 

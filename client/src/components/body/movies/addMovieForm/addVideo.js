@@ -105,24 +105,24 @@ const AddVideo1 = () => {
 		try {
 			// const data = await emcClient.send(new ListJobsCommand(params3));
 			const data = await emcClient.send(new CreateJobCommand(params));
-			console.log("Success. Jobs: ", data);
+			// console.log("Success. Jobs: ", data);
 
 			const res = await axios.post("/movie/setVideoUrl", {
 				movie_id: selectedMovieID,
 				videoUrl: `https://video0test.s3.ap-south-1.amazonaws.com/outputs/${selectedMovieID}/${selectedMovieID}.m3u8`,
 			});
 			// videoUrl: `https://video0test.s3.ap-south-1.amazonaws.com/outputs/49529/49529.m3u8`,
-			console.log("Success. ", res);
+			// console.log("Success. ", res);
 			notify("Video added successfully");
 		} catch (err) {
-			console.log("Error", err);
+			// console.log("Error", err);
 		}
 	};
 	useEffect(() => {
 		const getMovieList = async () => {
 			const res = await axios.get("/movie/allMovieList");
 			setMovieList(res.data.movies);
-			console.log(res.data.movies);
+			// console.log(res.data.movies);
 		};
 		getMovieList();
 	}, []);
@@ -148,9 +148,9 @@ const AddVideo1 = () => {
 				secretAccessKey: process.env.REACT_APP_aws_secret_access_key,
 			};
 			const ReactS3Client = new S3(config);
-			console.log("21 " + toString(ReactS3Client[0]) + "x");
+			// console.log("21 " + toString(ReactS3Client[0]) + "x");
 			ReactS3Client.uploadFile(file, newFileName).then((data) => {
-				console.log("23 " + data);
+				// console.log("23 " + data);
 				if (data.status === 204) {
 					notify("video uploaded successfully");
 				} else {

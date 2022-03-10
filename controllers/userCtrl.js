@@ -70,7 +70,7 @@ const userCtrl = {
 				email,
 				password,
 			});
-      console.log(newUser);
+      // console.log (newUser);
 			await newUser.save();
 
 			res.json({ msg: "Account has been activated!" });
@@ -135,7 +135,7 @@ const userCtrl = {
 	resetPassword: async (req, res) => {
 		try {
 			const { password } = req.body;
-			console.log(password);
+			// console.log (password);
 			const passwordHash = await bcrypt.hash(password, 12);
 
 			await Users.findOneAndUpdate(

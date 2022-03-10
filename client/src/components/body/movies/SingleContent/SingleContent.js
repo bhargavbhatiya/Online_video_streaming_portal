@@ -27,7 +27,7 @@ const SingleContent = ({
 		});
 	};
 	const checkWatchLater = async () => {
-		console.log("check watch later");
+		// console.log("check watch later");
 		const movie_id = id;
 		try {
 			const res = await axios.post("/movie/checkWatchLater", {
@@ -42,12 +42,12 @@ const SingleContent = ({
 
 			// console.log(res);
 		} catch (err) {
-			console.log(err);
+			// console.log(err);
 		}
 	};
 
 	const addToWatchLater = async () => {
-		console.log("add to watch later");
+		// console.log("add to watch later");
 		const movie_id = id;
 		const email = auth.user.email;
 		try {
@@ -57,10 +57,10 @@ const SingleContent = ({
 			});
 
 			notify(res.data.msg);
-			console.log(res);
+			// console.log(res);
 			checkWatchLater();
 		} catch (err) {
-			console.log(err);
+			// console.log(err);
 		}
 	};
 

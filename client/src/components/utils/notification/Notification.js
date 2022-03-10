@@ -6,6 +6,6 @@ export const showErrMsg = (msg) => {
 }
 
 export const showSuccessMsg = (msg) => {
-    console.log(msg);
+    // console.log(msg);
     return <div className="successMsg">{msg}</div>
 }

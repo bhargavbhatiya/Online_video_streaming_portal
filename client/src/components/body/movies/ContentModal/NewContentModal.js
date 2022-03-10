@@ -32,10 +32,10 @@ const NewContentModal = () => {
 	};
 
 	const checkWatchLater = async () => {
-		console.log("check watch later");
+		// console.log("check watch later");
 		const movie_id = id;
 		try {
-			console.log(email);
+			// console.log(email);
 			const res = await axios.post("/movie/checkWatchLater", {
 				movie_id,
 				email,
@@ -45,14 +45,14 @@ const NewContentModal = () => {
 				setIsWatchList(true);
 			}
 
-			console.log(res);
+			// console.log(res);
 		} catch (err) {
-			console.log(err);
+			// console.log(err);
 		}
 	};
 
 	const addToWatchLater = async () => {
-		console.log("add to watch later");
+		// console.log("add to watch later");
 		const movie_id = id;
 
 		try {
@@ -62,16 +62,16 @@ const NewContentModal = () => {
 			});
 
 			notify(res.data.msg);
-			console.log(res);
+			// console.log(res);
 			// checkWatchLater();
 			setIsWatchList(true);
 		} catch (err) {
-			console.log(err);
+			// console.log(err);
 		}
 	};
 
 	const checkLiked = async () => {
-		console.log("check liked");
+		// console.log("check liked");
 		const movie_id = id;
 
 		try {
@@ -91,7 +91,7 @@ const NewContentModal = () => {
 	};
 
 	const addToLikedList = async () => {
-		console.log("add to liked list");
+		// console.log("add to liked list");
 		const movie_id = id;
 
 		try {
@@ -101,22 +101,22 @@ const NewContentModal = () => {
 			});
 
 			notify(res.data.msg);
-			console.log(res);
+			// console.log(res);
 			// checkLiked();
 			if (res.data.msg === "movie is disliked") {
 				setIsLiked(false);
 			} else setIsLiked(true);
 		} catch (err) {
-			console.log(err);
+			// console.log(err);
 		}
 	};
 
 	const addComment = async () => {
 		setComment("");
-		console.log("add comment");
+		// console.log("add comment");
 		const movie_id = id;
 
-		console.log(movie_id, username, comment);
+		// console.log(movie_id, username, comment);
 		const date = new Date();
 		//const date = new Date(new Date().getTime() + (330 + new Date().getTimezoneOffset()) * 60000);
 		// or
@@ -127,7 +127,7 @@ const NewContentModal = () => {
 		// var ist = nd.toLocaleString();
 		// console.log("IST now is : " + ist);
 		//const date=date.toLocaleDateString();
-		console.log(date);
+		// console.log(date);
 
 		try {
 			const res = await axios.post("/movie/addComment", {
@@ -137,47 +137,47 @@ const NewContentModal = () => {
 				username,
 				date,
 			});
-			console.log("after add comment");
+			// console.log("after add comment");
 			notify(res.data.msg);
 			setCommentList((data) => [...data, res.data.commentObj]);
-			console.log(res);
+			// console.log(res);
 		} catch (err) {
-			console.log("Errordsd" + err);
+			// console.log("Errordsd" + err);
 		}
 	};
 
 	const getComments = async () => {
-		console.log("get comments");
+		// console.log("get comments");
 		try {
 			const res = await axios.post(`/movie/getComments`, { movie_id: id });
-			console.log(res.data.commentList);
+			// console.log(res.data.commentList);
 			setCommentList(res.data.commentList);
 		} catch (err) {
-			console.log(err);
+			// console.log(err);
 		}
 	};
 
 	const deleteComment = async (comment_id) => {
-		console.log("delete comment");
+		// console.log("delete comment");
 		try {
 			const res = await axios.post("/movie/deleteComment", {
 				movie_id: id,
 				comment_id,
 			});
 			notify(res.data.msg);
-			console.log(res);
+			// console.log(res);
 			setCommentList((data) => data.filter((item) => item._id !== comment_id));
 		} catch (err) {
-			console.log(err);
+			// console.log(err);
 		}
 	};
 	const getVideo = async () => {
 		try {
 			const res = await axios.get(`/movie/get_movie/${id}`);
-			console.log(res.data.movie[0]);
+			// console.log(res.data.movie[0]);
 			setContentForPlayer(res.data.movie[0]);
 		} catch (err) {
-			console.log(err);
+			// console.log(err);
 		}
 	};
 
@@ -214,7 +214,7 @@ const NewContentModal = () => {
 	const [recommendIDs, setRecommendIDs] = useState([]);
 	const [recommendList, setRecommendList] = useState([]);
 	const recommendMovies = async () => {
-		console.log("recommend movies");
+		// console.log("recommend movies");
 		try {
 			const res = await axios.get(
 				`http://127.0.0.1:8000/predictmovie/${content.title}`
@@ -228,7 +228,7 @@ const NewContentModal = () => {
 			// 	setRecommendList((data) => [...data, res1.data.movie]);
 			// });
 		} catch (err) {
-			console.log(err);
+			// console.log(err);
 		}
 	};
 	useEffect(() => {

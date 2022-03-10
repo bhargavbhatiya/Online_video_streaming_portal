@@ -17,15 +17,15 @@ const DisplayLiked = () => {
 	};
 	const email = auth.user.email;
 	const fetchMovies = async () => {
-		console.log("fetchMovies");
-		console.log(email);
+		// console.log("fetchMovies");
+		// console.log(email);
 		try {
 			if (email === undefined) return;
 			setContent([]);
 			const res = await axios.post("/movie/getLikedList", { email });
 
 			const { movies } = res.data;
-			console.log(movies);
+			// console.log(movies);
 
 			const posterdata = await Promise.all(
 				movies.map((movie) => fetchPoster(movie.movie_id))
@@ -63,11 +63,11 @@ const DisplayLiked = () => {
 					vote_average,
 					tagline,
 				};
-				console.log(newdata);
+				// console.log(newdata);
 				setContent((content) => [...content, newdata]);
 			});
 		} catch (err) {
-			console.log("hellooo" + err);
+			// console.log("hellooo" + err);
 		}
 
 		//setContent(data.results);
