@@ -51,11 +51,24 @@ const movieCtrl = {
 		}
 	},
 
-	get_allmovies: async (req, res) => {
-		console.log("inside get_movies");
-
+	getTotalMovies: async (req, res) => {
+		console.log("getTotalMovies");
 		try {
-			const user = await Users.find({ email: req.body.email });
+			const totalMovies = await MoviesDBC.countDocuments();
+			console.log(totalMovies);
+			res.json(totalMovies);
+		} catch (err) {
+			return res.status(500).json({ msg: err.message });
+		}
+	},
+
+	get_allmovies: async (req, res) => {
+		console.log("inside get_allmovies");
+		const { page } = req.params;
+		console.log(page);
+        const skip1 = (page - 1) * 21;
+		try {
+
 
 			const movies = await MoviesDBC.find(
 				{},
@@ -68,28 +81,26 @@ const movieCtrl = {
 					crew: 0,
 					popularity: 0,
 					production_companies: 0,
-					runtime: 0,
 					tagline: 0,
 					vote_count: 0,
 					original_language: 0,
 					videoUrl: 0,
 					uploadedBy: 0,
+					commentList: 0,
 				}
-			).limit(20);
+			).skip(skip1).limit(21);
 			//console.log("first"+movies);
-			const allmovies = movies.map((movie) => {
-				console.log(movie.movie_id);
-				return movie;
-			});
+
 			res.json({
-				msg: "movie find successfully",
-				movies: allmovies,
+				msg: "movies find successfully",
+				movies: movies,
 			});
 		} catch (err) {
 			console.log(err);
 			return res.status(500).json({ msg: err.message });
 		}
 	},
+
 	allMovieList: async (req, res) => {
 		console.log("inside allMovieList");
 		try {
@@ -114,7 +125,7 @@ const movieCtrl = {
 					uploadedBy: 0,
 					commentList: 0,
 				}
-			);
+			)
 			//console.log("first"+movies);
 			const allmovies = movies.map((movie) => {
 				const obj = {

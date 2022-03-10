@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import SingleContent from "../../movies/SingleContent/SingleContent";
 import { ToastContainer, toast } from "react-toastify";
-
+import Loader from "../../Loader/Loader";
 
 const unavailable = "https://www.movienewz.com/img/films/poster-holder.jpg";
 
@@ -215,7 +215,7 @@ const Search = () => {
      
       <ToastContainer/>
 
-      {loading && <h3>Loading.....</h3>}
+      {loading && <Loader/>}
       <div className="trending">
         {content &&
           content.map((c) => (

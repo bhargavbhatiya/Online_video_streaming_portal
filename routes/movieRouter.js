@@ -6,7 +6,8 @@ const authAdmin = require("../middleware/authAdmin");
 const movieCtrl = require("../controllers/movieCtrl");
 
 router.post("/add_movie_details", auth, authAdmin, movieCtrl.add_movie_details);
-router.post("/get_allmovie", movieCtrl.get_allmovies);
+router.get("/get_allmovie/:page", movieCtrl.get_allmovies);
+router.get("/getTotalMovies", movieCtrl.getTotalMovies);
 router.get("/get_movie/:id", movieCtrl.get_movie);
 router.get("/get_search_movie/:name", movieCtrl.get_search_movie);
 router.get("/get_search_title/:name", movieCtrl.get_search_title);

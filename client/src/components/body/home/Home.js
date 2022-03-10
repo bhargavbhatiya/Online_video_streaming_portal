@@ -9,31 +9,37 @@ import "./home.css";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 import { useSelector } from "react-redux";
+import CustomPagination from "./CustomPagination/CustomPagination";
+import Loader from "../Loader/Loader.js";
 
 function Home() {
 	//const [genres, setGenres] = useState([]);
 	//const [selectedGenres, setSelectedGenres] = useState([]);
-	//const [page, setPage] = useState(1);
+	const [page, setPage] = useState(1);
 	const [content, setContent] = useState([]);
-	//const [numOfPages, setNumOfPages] = useState();
+	const [numOfPages, setNumOfPages] = useState();
+	const [isLoading, setIsLoading] = useState(false);
 	//const genreforURL = useGenre(selectedGenres);
 	// console.log(selectedGenres);
 	//const [poster, setPoster] = useState([]);
 	const unavailable = "https://www.movienewz.com/img/films/poster-holder.jpg";
 	var poster = [];
-
+	
 	const fetchPoster = (movie_id) => {
 		return axios.get(
 			`https://api.themoviedb.org/3/movie/${movie_id}?api_key=${process.env.REACT_APP_API_KEY}`
-		);
-	};
-
-	const auth = useSelector((state) => state.auth);
+			);
+		};
+		
+		const notify = (msg) => {
+			toast(msg);
+		};
 	const fetchMovies = async () => {
 		console.log("fetchMovies");
 		try {
-			const email = auth.user.email;
-			const res = await axios.post("/movie/get_allmovie", { email });
+			setContent([]);
+			setIsLoading(true);
+			const res = await axios.get(`/movie/get_allmovie/${page}`);
 			console.log(res.data);
 			const { movies } = res.data;
 
@@ -74,6 +80,8 @@ function Home() {
 				console.log(newdata);
 				setContent((content) => [...content, newdata]);
 			});
+			setIsLoading(false);
+			
 		} catch (err) {
 			console.log("hellooo" + err);
 		}
@@ -82,23 +90,50 @@ function Home() {
 		//setNumOfPages(data.total_pages);
 	};
 
-	const notify = (msg) => {
-		toast(msg);
-	};
+	const fetchtotalmovies= async () => {
+		console.log("fetchtotalmovies");
+		try {
+			const data= await axios.get("/movie/getTotalMovies");
+			console.log(data.data);
+			let  total_pages=data.data/21;
+			console.log(Math.ceil(total_pages));
+			setNumOfPages(Math.ceil(total_pages));
+			
+			
+		} catch (err) {
+			console.log("hellooo" + err);
+		}
+	}
+
+	
+
+
+	useEffect(() => {
+		// window.scroll(0, 0);
+		//console.log("useEffect");
+		fetchtotalmovies();
+		// eslint-disable-next-line
+	}, []);
+	
 
 	useEffect(() => {
 		// window.scroll(0, 0);
 		//console.log("useEffect");
 		fetchMovies();
 		// eslint-disable-next-line
-	}, []);
+	}, [page]);
+
 
 	return (
 		<>
 			<ToastContainer />
+			
 			<div className="trending">
-				{content &&
-					content.map((c) => (
+				{isLoading === true ?(
+	
+						<Loader/>
+						):
+					(content.map((c) => (
 						<SingleContent
 							key={c.movie_id}
 							id={c.movie_id}
@@ -109,8 +144,9 @@ function Home() {
 							vote_average={c.vote_average}
 							notify={notify}
 						/>
-					))}
-			</div>
+					))) }
+					</div>
+					<CustomPagination setPage={setPage} numOfPages={numOfPages} />
 		</>
 	);
 }
