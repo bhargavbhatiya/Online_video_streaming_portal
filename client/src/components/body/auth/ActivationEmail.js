@@ -16,9 +16,9 @@ function ActivationEmail() {
                 try {
                     const res = await axios.post('/user/activation', { activation_token })
                     setSuccess(res.data.msg)
-                    console.log(res.data.msg);
+
                 } catch (err) {
-                    console.log("error  " + err);
+
                     err.response.data.msg && setErr(err.response.data.msg)
                 }
             }

@@ -238,9 +238,9 @@ const run = async () => {
 	try {
 		// const data = await emcClient.send(new ListJobsCommand(params3));
 		const data = await emcClient.send(new CreateJobCommand(params2));
-		console.log("Success. Jobs: ", data);
+		// console.log("Success. Jobs: ", data);
 	} catch (err) {
-		console.log("Error", err);
+		// console.log("Error", err);
 	}
 };
 // run();

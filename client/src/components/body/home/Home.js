@@ -35,12 +35,12 @@ function Home() {
 			toast(msg);
 		};
 	const fetchMovies = async () => {
-		console.log("fetchMovies");
+		
 		try {
 			setContent([]);
 			setIsLoading(true);
 			const res = await axios.get(`/movie/get_allmovie/${page}`);
-			console.log(res.data);
+			// console.log(res.data);
 			const { movies } = res.data;
 
 			const posterdata = await Promise.all(
@@ -77,13 +77,13 @@ function Home() {
 					poster_path,
 					vote_average,
 				};
-				console.log(newdata);
+				// console.log(newdata);
 				setContent((content) => [...content, newdata]);
 			});
 			setIsLoading(false);
 			
 		} catch (err) {
-			console.log("hellooo" + err);
+			// console.log("hellooo" + err);
 		}
 
 		//setContent(data.results);
@@ -94,14 +94,14 @@ function Home() {
 		console.log("fetchtotalmovies");
 		try {
 			const data= await axios.get("/movie/getTotalMovies");
-			console.log(data.data);
+			// console.log(data.data);
 			let  total_pages=data.data/21;
-			console.log(Math.ceil(total_pages));
+			// console.log(Math.ceil(total_pages));
 			setNumOfPages(Math.ceil(total_pages));
 			
 			
 		} catch (err) {
-			console.log("hellooo" + err);
+			// console.log("hellooo" + err);
 		}
 	}
 
