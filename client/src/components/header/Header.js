@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import AddMovie from "../body/movies/addMovie";
+import AddMovie from "../body/movies/addMovieForm/addMovie";
 import "./header.css";
 
 function Header() {

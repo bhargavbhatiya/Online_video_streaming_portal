@@ -5,31 +5,37 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { Button } from "@material-ui/core";
 import YouTubeIcon from "@material-ui/icons/YouTube";
-import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import Carousel from "../Carousel/Carousel";
 import { useSelector } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 
 import { img_500, unavailable } from "../../../../config/config.js";
-import { pink } from '@mui/material/colors';
+import { pink } from "@mui/material/colors";
+import SingleContent from "../SingleContent/SingleContent";
 
 const NewContentModal = () => {
 	const { id } = useParams();
 	const auth = useSelector((state) => state.auth);
 	const [isWatchList, setIsWatchList] = useState(false);
 	const [isLiked, setIsLiked] = useState(false);
+	const [comment, setComment] = useState("");
+	const email = auth.user.email;
+	const username = auth.user.name;
+	const { isAdmin } = auth;
+	const [contentForPlayer, setContentForPlayer] = useState([]);
+	const [commentList, setCommentList] = useState([]);
 
 	const notify = (msg) => {
 		toast(msg);
 	};
 
 	const checkWatchLater = async () => {
-		console.log("check watch later");
+		// console.log("check watch later");
 		const movie_id = id;
-		const email = auth.user.email;
 		try {
-			console.log(email);
+			// console.log(email);
 			const res = await axios.post("/movie/checkWatchLater", {
 				movie_id,
 				email,
@@ -39,16 +45,16 @@ const NewContentModal = () => {
 				setIsWatchList(true);
 			}
 
-			console.log(res);
+			// console.log(res);
 		} catch (err) {
-			console.log(err);
+			// console.log(err);
 		}
 	};
 
 	const addToWatchLater = async () => {
-		console.log("add to watch later");
+		// console.log("add to watch later");
 		const movie_id = id;
-		const email = auth.user.email;
+
 		try {
 			const res = await axios.post("/movie/addToWatchLater", {
 				movie_id,
@@ -56,18 +62,18 @@ const NewContentModal = () => {
 			});
 
 			notify(res.data.msg);
-			console.log(res);
+			// console.log(res);
 			// checkWatchLater();
 			setIsWatchList(true);
 		} catch (err) {
-			console.log(err);
+			// console.log(err);
 		}
 	};
 
 	const checkLiked = async () => {
-		console.log("check liked");
+		// console.log("check liked");
 		const movie_id = id;
-		const email = auth.user.email;
+
 		try {
 			const res = await axios.post("/movie/checkLiked", {
 				movie_id,
@@ -85,9 +91,9 @@ const NewContentModal = () => {
 	};
 
 	const addToLikedList = async () => {
-		console.log("add to liked list");
+		// console.log("add to liked list");
 		const movie_id = id;
-		const email = auth.user.email;
+
 		try {
 			const res = await axios.post("/movie/addToLikeList", {
 				movie_id,
@@ -95,25 +101,83 @@ const NewContentModal = () => {
 			});
 
 			notify(res.data.msg);
-			console.log(res);
+			// console.log(res);
 			// checkLiked();
 			if (res.data.msg === "movie is disliked") {
 				setIsLiked(false);
 			} else setIsLiked(true);
 		} catch (err) {
-			console.log(err);
+			// console.log(err);
 		}
 	};
 
-	const [contentForPlayer, setContentForPlayer] = useState([]);
+	const addComment = async () => {
+		setComment("");
+		// console.log("add comment");
+		const movie_id = id;
 
+		// console.log(movie_id, username, comment);
+		const date = new Date();
+		//const date = new Date(new Date().getTime() + (330 + new Date().getTimezoneOffset()) * 60000);
+		// or
+		// const d = new Date();
+		// const utc = d.getTime() + (d.getTimezoneOffset() * 60000);
+		// const date = new Date(utc + (3600000 * +5.5));
+
+		// var ist = nd.toLocaleString();
+		// console.log("IST now is : " + ist);
+		//const date=date.toLocaleDateString();
+		// console.log(date);
+
+		try {
+			const res = await axios.post("/movie/addComment", {
+				movie_id,
+				email,
+				comment,
+				username,
+				date,
+			});
+			// console.log("after add comment");
+			notify(res.data.msg);
+			setCommentList((data) => [...data, res.data.commentObj]);
+			// console.log(res);
+		} catch (err) {
+			// console.log("Errordsd" + err);
+		}
+	};
+
+	const getComments = async () => {
+		// console.log("get comments");
+		try {
+			const res = await axios.post(`/movie/getComments`, { movie_id: id });
+			// console.log(res.data.commentList);
+			setCommentList(res.data.commentList);
+		} catch (err) {
+			// console.log(err);
+		}
+	};
+
+	const deleteComment = async (comment_id) => {
+		// console.log("delete comment");
+		try {
+			const res = await axios.post("/movie/deleteComment", {
+				movie_id: id,
+				comment_id,
+			});
+			notify(res.data.msg);
+			// console.log(res);
+			setCommentList((data) => data.filter((item) => item._id !== comment_id));
+		} catch (err) {
+			// console.log(err);
+		}
+	};
 	const getVideo = async () => {
 		try {
 			const res = await axios.get(`/movie/get_movie/${id}`);
-			console.log(res.data.movie[0]);
+			// console.log(res.data.movie[0]);
 			setContentForPlayer(res.data.movie[0]);
 		} catch (err) {
-			console.log(err);
+			// console.log(err);
 		}
 	};
 
@@ -136,14 +200,206 @@ const NewContentModal = () => {
 
 		setVideo(data.results[0]?.key);
 	};
+
+	const toIST = (date) => {
+		date = new Date(date);
+		const utc = date.getTime() + date.getTimezoneOffset() * 60000;
+		const newDate = new Date(utc + 3600000 * +5.5);
+		var dd = date.getDate();
+		var mm = date.getMonth() + 1;
+		var yyyy = date.getFullYear();
+		return `${dd}-${mm}-${yyyy} ${newDate.getHours()}:${newDate.getMinutes()}:${newDate.getSeconds()}`;
+		// return typeof date;
+	};
+	const [recommendIDs, setRecommendIDs] = useState([]);
+	const [recommendList, setRecommendList] = useState([]);
+	const recommendMovies = async () => {
+		// console.log("recommend movies");
+		try {
+			const res = await axios.get(
+				`http://127.0.0.1:8000/predictmovie/${content.title}`
+			);
+			setRecommendIDs(res.data);
+			// console.log(recommendIDs);
+
+			// recommendIDs.map(async (movie) => {
+			// 	const res1 = await axios.get(`/movie/get_movie/${movie.id}`);
+			// 	console.log(res1.data.movie);
+			// 	setRecommendList((data) => [...data, res1.data.movie]);
+			// });
+		} catch (err) {
+			// console.log(err);
+		}
+	};
 	useEffect(() => {
 		getVideo();
 		fetchVideo();
 		fetchData();
+		getComments();
 		checkWatchLater();
 		checkLiked();
 	}, [auth]);
 
+	useEffect(() => {
+		recommendMovies();
+	}, [content]);
+
+	useEffect(() => {
+		if (recommendIDs.length > 0) {
+			recommendIDs.map(async (movie) => {
+				const res1 = await axios.get(`/movie/get_movie/${movie.id}`);
+				// console.log(res1.data.movie[0]);
+
+				let obj = res1.data.movie[0];
+				// setRecommendList((data) => [...data, res1.data.movie[0]]);
+				var poster_path = await axios.get(
+					`https://api.themoviedb.org/3/movie/${res1.data.movie[0].movie_id}?api_key=${process.env.REACT_APP_API_KEY}`
+				);
+				poster_path = `https://image.tmdb.org/t/p/w300${poster_path.data.poster_path}`;
+				obj = { ...obj, poster_path };
+				setRecommendList((data) => [...data, obj]);
+			});
+		}
+	}, [recommendIDs]);
+
+	function commentButton() {
+		return (
+			<>
+				<button
+					// className="youtube-btn"
+					// variant="contained"
+					// startIcon={<YouTubeIcon />}
+					// color="#FFEDDF"
+					// type="button"
+					className="youtube-btn rounded-3"
+					data-bs-toggle="modal"
+					data-bs-target="#staticBackdrop"
+				>
+					REVIEW
+				</button>
+
+				<div
+					className="modal fade"
+					id="staticBackdrop"
+					data-bs-backdrop="static"
+					data-bs-keyboard="false"
+					tabindex="-1"
+					aria-labelledby="staticBackdropLabel"
+					aria-hidden="true"
+				>
+					<div className="modal-dialog modal-dialog-scrollable modal-lg">
+						<div className="modal-content">
+							<div className="modal-header">
+								<h5 className="modal-title" id="staticBackdropLabel">
+									Add A Comment
+								</h5>
+								<button
+									type="button"
+									className="btn-close"
+									data-bs-dismiss="modal"
+									aria-label="Close"
+								></button>
+							</div>
+							<div className="modal-body">
+								<div className="d-flex justify-content-center row flex-column m-1">
+									<div className="d-flex flex-row align-items-center text-left comment-top p-2 border border-2 px-2">
+										<div className="profile-image me-2">
+											<img
+												className="rounded-circle"
+												src={
+													content.poster_path
+														? `${img_500}/${content.poster_path}`
+														: unavailable
+												}
+												alt={content.name || content.title}
+												width={70}
+												height={70}
+											/>
+										</div>
+
+										<div className="d-flex flex-column mt-1 border-left">
+											<div className="d-flex flex-row post-title">
+												<h5>{content.title}</h5>
+											</div>
+										</div>
+									</div>
+									<div className="coment-bottom bg-white p-2 px-3 border mt-1">
+										<div className="d-flex flex-row add-comment-section mt-2 mb-4">
+											<img
+												className="img-fluid img-responsive rounded-circle m-1"
+												src={auth.user.avatar}
+												width={38}
+											/>
+											<input
+												type="text"
+												className="form-control m-1"
+												placeholder="Add comment"
+												value={comment}
+												onChange={(e) => {
+													setComment(e.target.value);
+												}}
+											/>
+											<button
+												className="btn btn-primary m-1"
+												type="button"
+												onClick={addComment}
+											>
+												Comment
+											</button>
+										</div>
+										<div className="commented-section mt-2">
+											{commentList &&
+												commentList
+													.slice(0)
+													.reverse()
+													.map((comm) => {
+														return (
+															<blockquote className="blockquote border my-2">
+																<div className="d-flex flex-row align-items-center commented-user">
+																	<h6 className="mr-2">
+																		{comm.username}&nbsp;-&nbsp;
+																	</h6>
+
+																	<small className="mb-1 ml-2 .text-blue display-font-sizes-2">
+																		{toIST(comm.createdAt)}
+																	</small>
+																	{isAdmin && (
+																		<button
+																			className="deleteButton"
+																			onClick={() => deleteComment(comm._id)}
+																		>
+																			<i
+																				className="fas fa-trash-alt"
+																				title="Remove"
+																			></i>
+																		</button>
+																	)}
+																</div>
+																<div className="small">
+																	<div>{comm.comment}</div>
+																</div>
+															</blockquote>
+														);
+													})}
+										</div>
+									</div>
+								</div>
+							</div>
+							<div className="modal-footer">
+								<button
+									type="button"
+									className="btn btn-secondary"
+									data-bs-dismiss="modal"
+								>
+									Close
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</>
+		);
+	}
 	return (
 		<>
 			<ToastContainer />
@@ -151,7 +407,7 @@ const NewContentModal = () => {
 				<div className="main-class">
 					<div className="paper">
 						<div ClassName="ContentModal__about">
-							<span className="ContentModal__title">
+							<span className="display-1 ContentModal__title">
 								{content.name || content.title} (
 								{(
 									content.first_air_date ||
@@ -165,15 +421,17 @@ const NewContentModal = () => {
 
 						<div className="Content_Row">
 							<div className="left-part">
-								<img
-									src={
-										content.poster_path
-											? `${img_500}/${content.poster_path}`
-											: unavailable
-									}
-									alt={content.name || content.title}
-									className="ContentModal__portrait"
-								/>
+								<div className="ContentModal__portrait">
+									<img
+										height={420}
+										src={
+											content.poster_path
+												? `${img_500}/${content.poster_path}`
+												: unavailable
+										}
+										alt={content.name || content.title}
+									/>
+								</div>
 
 								<div className="left-btn-row">
 									<div className="youtube-btn" onClick={addToWatchLater}>
@@ -203,7 +461,7 @@ const NewContentModal = () => {
 											<Button
 												className="youtube-btn"
 												variant="contained"
-												startIcon={<FavoriteIcon sx={{ color: pink[500] }}/>}
+												startIcon={<FavoriteIcon sx={{ color: pink[500] }} />}
 												color="primary"
 											>
 												Like
@@ -219,6 +477,7 @@ const NewContentModal = () => {
 											</Button>
 										)}
 									</div>
+									{commentButton()}
 								</div>
 							</div>
 
@@ -243,7 +502,7 @@ const NewContentModal = () => {
 								/>
 							</div>
 						</div>
-						<span className="ContentModal__description">
+						<span className="ContentModal__description text-light mx-3">
 							{content.overview}
 						</span>
 
@@ -261,8 +520,69 @@ const NewContentModal = () => {
 						</div>
 
 						<div ClassName="carousel">
-							<Carousel id={id} />
+							<Carousel id={id} recommendList={[]} notify={notify} flag={1} />
 						</div>
+
+						{recommendList && (
+							<>
+								<h3 className="text-light">Recommendations</h3>
+								<div ClassName="carousel">
+									<Carousel
+										id={id}
+										recommendList={recommendList}
+										notify={notify}
+										flag={0}
+									/>
+								</div>
+							</>
+						)}
+
+						{/* <div className="col-lg-4 col-md-5 col-sm-4 offset-md-1 offset-sm-1 col-12 mt-4">
+							<form id="algin-form">
+								<div className="form-group">
+									<h4>Leave a comment</h4>{" "}
+									<label htmlFor="message">Message</label>{" "}
+									<textarea
+										name="msg"
+										id
+										msg
+										cols={30}
+										rows={5}
+										className="form-control"
+										style={{ backgroundColor: "white" }}
+										value={comment}
+										onChange={(e) => {
+											setComment(e.target.value);
+										}}
+									/>
+								</div>
+
+								<div
+									className="form-group m-4"
+									style={{ backgroundColor: "white" }}
+									onClick={addComment}
+								>
+									{" "}
+									<button type="button" id="post" className="btn">
+										Post Comment
+									</button>{" "}
+								</div>
+							</form>
+							<h1>Comments</h1>
+							{commentList &&
+								commentList
+									.slice(0)
+									.reverse()
+									.map((comm) => {
+										return (
+											<div className="comment mt-4 text-justify float-right">
+												<h4>{comm.username}&nbsp;-&nbsp;</h4>{" "}
+												<span>{toIST(comm.createdAt)}</span> <br />
+												<p>{comm.comment}</p>
+											</div>
+										);
+									})}
+								</div> */}
 					</div>
 				</div>
 			)}

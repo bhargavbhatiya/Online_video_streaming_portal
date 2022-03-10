@@ -27,7 +27,7 @@ const SingleContent = ({
 		});
 	};
 	const checkWatchLater = async () => {
-		console.log("check watch later");
+		// console.log("check watch later");
 		const movie_id = id;
 		try {
 			const res = await axios.post("/movie/checkWatchLater", {
@@ -35,19 +35,19 @@ const SingleContent = ({
 				email,
 			});
 
-			console.log(res.data.msg);
+			// console.log(res.data.msg);
 			if (res.data.msg) {
 				setIsAdded(true);
 			}
 
-			console.log(res);
+			// console.log(res);
 		} catch (err) {
-			console.log(err);
+			// console.log(err);
 		}
 	};
 
 	const addToWatchLater = async () => {
-		console.log("add to watch later");
+		// console.log("add to watch later");
 		const movie_id = id;
 		const email = auth.user.email;
 		try {
@@ -57,17 +57,17 @@ const SingleContent = ({
 			});
 
 			notify(res.data.msg);
-			console.log(res);
+			// console.log(res);
 			checkWatchLater();
 		} catch (err) {
-			console.log(err);
+			// console.log(err);
 		}
 	};
 
 	useEffect(() => {
 		// window.scroll(0, 0);
 		//console.log("useEffect");
-		checkWatchLater();
+		// checkWatchLater();
 		// eslint-disable-next-line
 	}, []);
 
@@ -86,10 +86,12 @@ const SingleContent = ({
 				alt={title}
 			/>
 			<Link to={`/movie/${id}`}>
-				<b className="title" onClick={gotoMovies}>{title}</b>
+				<b className="title" onClick={gotoMovies}>
+					{title}
+				</b>
 			</Link>
 			<span className="subTitle">
-				<button className="icon1" onClick={addToWatchLater}>
+				{/* <button className="icon1" onClick={addToWatchLater}>
 					{isAdded ? (
 						<span class="material-icons" style={{ color: "green" }}>
 							playlist_add_check
@@ -97,7 +99,7 @@ const SingleContent = ({
 					) : (
 						<span class="material-icons">playlist_add</span>
 					)}
-				</button>
+				</button> */}
 				<span className="subTitle">{date}</span>
 			</span>
 

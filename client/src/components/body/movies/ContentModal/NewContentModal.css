@@ -13,18 +13,18 @@
 	box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
 }
 
-.modal {
+/* .modal {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-}
+} */
 .paper {
 	width: 100%;
 	height: 100%;
 	background-color: #0d1321;
 	border: 1px solid #282c34;
 
-	color: white;
+	/* color: white; */
 	/* box-shadow: theme.shadows[5]; */
 	/* padding : theme.spacing(0, 1, 3); */
 }
@@ -43,7 +43,7 @@
 }
 .youtube-btn {
 	margin-top: 15px;
-
+	height: 45px;
 	width: 95%;
 }
 
@@ -57,11 +57,11 @@
 	width: 25%;
 }
 
-.Content_Row img,
 .ContentModal__portrait {
 	object-fit: contain;
+	justify-content: center;
 	/* width: 100%; */
-	height: 480px;
+	/* height: 320px; */
 	border-radius: 10px;
 }
 
@@ -73,7 +73,7 @@
 .tagline1 {
 	padding-bottom: 10px;
 	align-self: center;
-	color: wheat; 
+	color: wheat;
 }
 
 .carousel {
@@ -99,6 +99,7 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	color: rgb(255, 255, 255);
 }
 
 .ContentModal__description {
@@ -117,6 +118,63 @@
 .ContentModal__description::-webkit-scrollbar {
 	display: none;
 }
+
+.deleteButton {
+	margin-left:auto;
+	margin-right:0;
+}
+/* 
+#align-form {
+	margin-top: 20px;
+}
+
+.form-group p a {
+	color: white;
+}
+
+.form-group input,
+.form-group textarea {
+	background-color: black;
+	border: 1px solid rgba(16, 46, 46, 1);
+	border-radius: 12px;
+}
+
+form {
+	border: 1px solid rgba(16, 46, 46, 1);
+	background-color: rgba(16, 46, 46, 0.973);
+	border-radius: 5px;
+	padding: 20px;
+}
+
+.comment {
+	border: 1px solid rgba(16, 46, 46, 1);
+	background-color: rgba(16, 46, 46, 0.973);
+	float: left;
+	border-radius: 5px;
+	padding-left: 40px;
+	padding-right: 30px;
+	padding-top: 10px;
+}
+
+.comment h4,
+.comment span,
+.darker h4,
+.darker span {
+	display: inline;
+	color: white;
+	font-weight: bold;
+} */
+
+/* .comment p,
+.comment span,
+.darker p,
+.darker span {
+	color: rgb(184, 183, 183);
+}
+
+label {
+	color: rgb(212, 208, 208);
+} */
 
 @media (min-width: 835px) {
 	.ContentModal__landscape {

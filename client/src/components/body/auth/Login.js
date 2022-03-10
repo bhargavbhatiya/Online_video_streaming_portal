@@ -46,9 +46,9 @@ function Login() {
 	};
 
 	const responseGoogle = async (response) => {
-		console.log("responseGoogle");
+
 		try {
-			console.log("responseGoogle", response);
+
 			const res = await axios.post("/user/google_login", {
 				tokenId: response.tokenId,
 			});

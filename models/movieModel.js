@@ -79,7 +79,19 @@ const movieSchema = new mongoose.Schema(
 		videoUrl: {
 			type: String,
 			default:'',
-		}
+		},
+
+		
+		commentList: {
+			type:[{
+			username: String,
+			email : String,
+			createdAt: Date,
+			comment : String
+			 }],
+			default:[]
+			}
+
 	},
 );
 
