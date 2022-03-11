@@ -214,13 +214,14 @@ const NewContentModal = () => {
 	const [recommendIDs, setRecommendIDs] = useState([]);
 	const [recommendList, setRecommendList] = useState([]);
 	const recommendMovies = async () => {
-		// console.log("recommend movies");
+		console.log("recommend movies");
 		try {
 			const res = await axios.get(
-				`http://127.0.0.1:8000/predictmovie/${content.title}`
+				`${process.env.REACT_APP_AZURE_RECOMMENDATIONS_API_URL}/${content.title}`
 			);
+			console.log(res.data);
 			setRecommendIDs(res.data);
-			// console.log(recommendIDs);
+			console.log(recommendIDs);
 
 			// recommendIDs.map(async (movie) => {
 			// 	const res1 = await axios.get(`/movie/get_movie/${movie.id}`);
