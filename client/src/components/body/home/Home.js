@@ -11,12 +11,15 @@ import { ToastContainer, toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import CustomPagination from "./CustomPagination/CustomPagination";
 import Loader from "../Loader/Loader.js";
+import PopularMovies from "./PopularMovies/PopularMovies";
 
 function Home() {
 	//const [genres, setGenres] = useState([]);
 	//const [selectedGenres, setSelectedGenres] = useState([]);
 	const [page, setPage] = useState(1);
 	const [content, setContent] = useState([]);
+
+
 	const [numOfPages, setNumOfPages] = useState();
 	const [isLoading, setIsLoading] = useState(false);
 	//const genreforURL = useGenre(selectedGenres);
@@ -24,18 +27,18 @@ function Home() {
 	//const [poster, setPoster] = useState([]);
 	const unavailable = "https://www.movienewz.com/img/films/poster-holder.jpg";
 	var poster = [];
-	
+
 	const fetchPoster = (movie_id) => {
 		return axios.get(
 			`https://api.themoviedb.org/3/movie/${movie_id}?api_key=${process.env.REACT_APP_API_KEY}`
-			);
-		};
-		
-		const notify = (msg) => {
-			toast(msg);
-		};
+		);
+	};
+
+	const notify = (msg) => {
+		toast(msg);
+	};
 	const fetchMovies = async () => {
-		
+
 		try {
 			setContent([]);
 			setIsLoading(true);
@@ -81,7 +84,7 @@ function Home() {
 				setContent((content) => [...content, newdata]);
 			});
 			setIsLoading(false);
-			
+
 		} catch (err) {
 			// console.log("hellooo" + err);
 		}
@@ -90,22 +93,25 @@ function Home() {
 		//setNumOfPages(data.total_pages);
 	};
 
-	const fetchtotalmovies= async () => {
+
+
+
+	const fetchtotalmovies = async () => {
 		console.log("fetchtotalmovies");
 		try {
-			const data= await axios.get("/movie/getTotalMovies");
+			const data = await axios.get("/movie/getTotalMovies");
 			// console.log(data.data);
-			let  total_pages=data.data/21;
+			let total_pages = data.data / 21;
 			// console.log(Math.ceil(total_pages));
 			setNumOfPages(Math.ceil(total_pages));
-			
-			
+
+
 		} catch (err) {
 			// console.log("hellooo" + err);
 		}
 	}
 
-	
+
 
 
 	useEffect(() => {
@@ -114,12 +120,13 @@ function Home() {
 		fetchtotalmovies();
 		// eslint-disable-next-line
 	}, []);
-	
+
 
 	useEffect(() => {
 		// window.scroll(0, 0);
 		//console.log("useEffect");
 		fetchMovies();
+
 		// eslint-disable-next-line
 	}, [page]);
 
@@ -127,26 +134,38 @@ function Home() {
 	return (
 		<>
 			<ToastContainer />
-			
+
+			<PopularMovies />
+			<div className="home-container">
+
+			<div className="display-4">All Movies</div>
+			</div>
 			<div className="trending">
-				{isLoading === true ?(
-	
-						<Loader/>
-						):
-					(content.map((c) => (
-						<SingleContent
-							key={c.movie_id}
-							id={c.movie_id}
-							poster={c.poster_path}
-							title={c.title}
-							date={c.release_date}
-							media_type="movie"
-							vote_average={c.vote_average}
-							notify={notify}
-						/>
-					))) }
-					</div>
-					<CustomPagination setPage={setPage} numOfPages={numOfPages} />
+
+				{isLoading === true ? (
+
+					<Loader />
+				) :
+
+					(
+						
+							
+						content.map((c) => (
+							<SingleContent
+								key={c.movie_id}
+								id={c.movie_id}
+								poster={c.poster_path}
+								title={c.title}
+								date={c.release_date}
+								media_type="movie"
+								vote_average={c.vote_average}
+								notify={notify}
+							/>
+							))
+						
+					)}
+			</div>
+			<CustomPagination setPage={setPage} numOfPages={numOfPages} />
 		</>
 	);
 }

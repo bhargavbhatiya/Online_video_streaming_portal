@@ -24,7 +24,7 @@ const Gallery = ({ id, recommendList, notify, flag }) => {
 	));
 
 	const singleItem = recommendList.map((c) => (
-		<div className="carouselItem ">
+		<div className="carouselItem">
 			<SingleContent
 				key={c.movie_id}
 				id={c.movie_id}
@@ -68,6 +68,7 @@ const Gallery = ({ id, recommendList, notify, flag }) => {
 			infinite
 			disableDotsControlscd
 			disableButtonsControls
+			disableDotsControls
 			responsive={responsive}
 			items={flag == 1 ? items : singleItem}
 			autoPlay
