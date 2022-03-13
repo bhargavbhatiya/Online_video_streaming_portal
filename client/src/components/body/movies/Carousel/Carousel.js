@@ -62,6 +62,7 @@ const Gallery = ({ id, recommendList, notify, flag }) => {
 	}, []);
 
 	return (
+		// console.log("Inside Carousel"),
 		<AliceCarousel
 			autoPlayInterval={1200}
 			mouseTracking

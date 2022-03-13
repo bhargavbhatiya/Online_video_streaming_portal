@@ -25,7 +25,7 @@ function Body() {
 	const auth = useSelector((state) => state.auth);
 	const { isLogged, isAdmin } = auth;
 	const style = {
-		marginTop: 62,
+		marginTop: 20,
 	};
 
 	return (

@@ -2,11 +2,11 @@ import { Badge } from "@material-ui/core";
 import { unavailable } from "../../../../config/config";
 import "./SingleContent.css";
 //import ContentModal from "../ContentModal/ContentModal";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { useState, useEffect } from "react";
-
+const url = window.location.href;
 const SingleContent = ({
 	id,
 	poster,
@@ -19,12 +19,15 @@ const SingleContent = ({
 	const [isAdded, setIsAdded] = useState(false);
 	const auth = useSelector((state) => state.auth);
 	const email = auth.user.email;
+	// const navigate = useNavigate();
 
 	const gotoMovies = async () => {
+		console.log("clicked " + id);
 		await axios.post("/movie/updateHistoryList", {
 			movie_id: id,
 			email: auth.user.email,
 		});
+		// navigate(`/movie/${id}`);
 	};
 	const checkWatchLater = async () => {
 		// console.log("check watch later");
@@ -69,6 +72,9 @@ const SingleContent = ({
 		//console.log("useEffect");
 		// checkWatchLater();
 		// eslint-disable-next-line
+		// return () => {
+		// 	console.log("unmount");
+		// };
 	}, []);
 
 	return (
@@ -85,13 +91,13 @@ const SingleContent = ({
 				src={poster ? `${poster}` : unavailable}
 				alt={title}
 			/>
-			<Link to={`/movie/${id}`}>
-				<b className="title" onClick={gotoMovies}>
+			<Link onClick={window.location.reload} to={`/movie/${id}`}>
+				<b className="title text-white" onClick={gotoMovies}>
 					{title}
 				</b>
 			</Link>
-			<span className="subTitle">
-				{/* <button className="icon1" onClick={addToWatchLater}>
+			{/* <span className="subTitle"> */}
+			{/* <button className="icon1" onClick={addToWatchLater}>
 					{isAdded ? (
 						<span class="material-icons" style={{ color: "green" }}>
 							playlist_add_check
@@ -100,8 +106,8 @@ const SingleContent = ({
 						<span class="material-icons">playlist_add</span>
 					)}
 				</button> */}
-				<span className="subTitle">{date}</span>
-			</span>
+			{/* <span className="subTitle">{date}</span> */}
+			{/* </span> */}
 
 			{/* </ContentModal> */}
 		</div>

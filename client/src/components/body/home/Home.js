@@ -19,7 +19,6 @@ function Home() {
 	const [page, setPage] = useState(1);
 	const [content, setContent] = useState([]);
 
-
 	const [numOfPages, setNumOfPages] = useState();
 	const [isLoading, setIsLoading] = useState(false);
 	//const genreforURL = useGenre(selectedGenres);
@@ -38,7 +37,6 @@ function Home() {
 		toast(msg);
 	};
 	const fetchMovies = async () => {
-
 		try {
 			setContent([]);
 			setIsLoading(true);
@@ -84,7 +82,6 @@ function Home() {
 				setContent((content) => [...content, newdata]);
 			});
 			setIsLoading(false);
-
 		} catch (err) {
 			// console.log("hellooo" + err);
 		}
@@ -92,9 +89,6 @@ function Home() {
 		//setContent(data.results);
 		//setNumOfPages(data.total_pages);
 	};
-
-
-
 
 	const fetchtotalmovies = async () => {
 		console.log("fetchtotalmovies");
@@ -104,15 +98,10 @@ function Home() {
 			let total_pages = data.data / 21;
 			// console.log(Math.ceil(total_pages));
 			setNumOfPages(Math.ceil(total_pages));
-
-
 		} catch (err) {
 			// console.log("hellooo" + err);
 		}
-	}
-
-
-
+	};
 
 	useEffect(() => {
 		// window.scroll(0, 0);
@@ -120,7 +109,6 @@ function Home() {
 		fetchtotalmovies();
 		// eslint-disable-next-line
 	}, []);
-
 
 	useEffect(() => {
 		// window.scroll(0, 0);
@@ -130,26 +118,18 @@ function Home() {
 		// eslint-disable-next-line
 	}, [page]);
 
-
 	return (
 		<>
 			<ToastContainer />
-
-			<PopularMovies />
-			<div className="home-container">
-
-			<div className="display-4">All Movies</div>
-			</div>
-			<div className="trending">
-
-				{isLoading === true ? (
-
-					<Loader />
-				) :
-
-					(
-						
-							
+			<div className="home-page">
+				<PopularMovies />
+				<div className="home-container">
+					<div className="display-6 text-white">All Movies</div>
+				</div>
+				<div className="all-movies">
+					{isLoading === true ? (
+						<Loader />
+					) : (
 						content.map((c) => (
 							<SingleContent
 								key={c.movie_id}
@@ -161,11 +141,11 @@ function Home() {
 								vote_average={c.vote_average}
 								notify={notify}
 							/>
-							))
-						
+						))
 					)}
+					<CustomPagination setPage={setPage} numOfPages={numOfPages} />
+				</div>
 			</div>
-			<CustomPagination setPage={setPage} numOfPages={numOfPages} />
 		</>
 	);
 }
