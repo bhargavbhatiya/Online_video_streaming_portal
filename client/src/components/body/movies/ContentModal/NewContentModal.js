@@ -13,7 +13,8 @@ import { ToastContainer, toast } from "react-toastify";
 
 import { img_500, unavailable } from "../../../../config/config.js";
 import { pink } from "@mui/material/colors";
-import SingleContent from "../SingleContent/SingleContent";
+
+import ShareMovie from "./ShareMovie";
 
 const NewContentModal = () => {
 	const { id } = useParams();
@@ -26,6 +27,7 @@ const NewContentModal = () => {
 	const { isAdmin } = auth;
 	const [contentForPlayer, setContentForPlayer] = useState([]);
 	const [commentList, setCommentList] = useState([]);
+	const url = window.location.href;
 
 	const notify = (msg) => {
 		toast(msg);
@@ -263,6 +265,8 @@ const NewContentModal = () => {
 		}
 	}, [recommendIDs]);
 
+	
+
 	function commentButton() {
 		return (
 			<>
@@ -407,6 +411,25 @@ const NewContentModal = () => {
 			{content && (
 				<div className="main-class">
 					<div className="paper">
+						{
+							// <RWebShare
+							// 	data={{
+							// 		text: "Watch this movie",
+							// 		url: `http://localhost:3000/movie/${id}`,
+							// 		title: "Share Movie",
+							// 	}}
+							// 	onClick={() => console.log("shared successfully!")}
+							// >
+							// 	<button>Share 🔗</button>
+							// </RWebShare>
+
+
+
+
+						}
+
+
+
 						<div ClassName="ContentModal__about">
 							<span className="display-1 ContentModal__title">
 								{content.name || content.title} (
@@ -479,6 +502,7 @@ const NewContentModal = () => {
 										)}
 									</div>
 									{commentButton()}
+									<ShareMovie url={url} notify={notify}/>
 								</div>
 							</div>
 
@@ -490,16 +514,16 @@ const NewContentModal = () => {
 									file={contentForPlayer.videoUrl}
 									onReady={() => console.log("onReady")}
 									onTime={(e) => console.log(e)}
-									// onSeventyFivePercent={() => console.log("75 Percent")}
-									// onNinetyFivePercent={() => console.log("95 Percent")}
-									// onOneHundredPercent={() => console.log("100 Percent")}
-									// isAutoPlay={true}
+								// onSeventyFivePercent={() => console.log("75 Percent")}
+								// onNinetyFivePercent={() => console.log("95 Percent")}
+								// onOneHundredPercent={() => console.log("100 Percent")}
+								// isAutoPlay={true}
 
-									// aspectRatio="16:9"
-									// customProps={{
-									// 	playbackRateControls: [1, 1.25, 1.5],
-									// 	cast: {},
-									// }}
+								// aspectRatio="16:9"
+								// customProps={{
+								// 	playbackRateControls: [1, 1.25, 1.5],
+								// 	cast: {},
+								// }}
 								/>
 							</div>
 						</div>
