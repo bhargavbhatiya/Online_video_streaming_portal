@@ -7,11 +7,13 @@ import { ToastContainer, toast } from "react-toastify";
 import { CreateJobCommand } from "@aws-sdk/client-mediaconvert";
 import { emcClient } from "./libs/emcClient.js";
 import { ListJobsCommand } from "@aws-sdk/client-mediaconvert";
+import AddMovieForm from "./addMovieForm";
 
 const AddVideo1 = () => {
 	const [movieList, setMovieList] = useState([]);
 	const [selectedMovie, setSelectedMovie] = useState();
 	const [selectedMovieID, setSelectedMovieID] = useState();
+	const [selectedFileName, setSelectedFileName] = useState("");
 	// const [selectedMovie, setSelectedMovie] = useState();
 
 	const notify = (msg) => {
@@ -128,11 +130,21 @@ const AddVideo1 = () => {
 	}, []);
 
 	const fileInput = useRef();
+
+	// useEffect(() => {
+	// 	setSelectedFileName(fileInput.current.files[0].name);
+	// }, [fileInput]);
 	const handleClick = (event) => {
 		event.preventDefault();
-		if (selectedMovie && selectedMovie.movie_id && selectedMovie.label) {
+		if (
+			selectedFileName &&
+			selectedMovie &&
+			selectedMovie.movie_id &&
+			selectedMovie.label
+		) {
 			// electedMovieID (""+ selectedMovie.movie_id);
-			let file = fileInput.current.files[0];
+			// let file = fileInput.current.files[0];
+			let file = selectedFileName;
 			// let newFileName = fileInput.current.files[0].name.replace(/\..+$/, "");
 			// file.name = toString(selectedMovie.movie_id);
 			let newFileName = "" + selectedMovie.movie_id;
@@ -162,32 +174,57 @@ const AddVideo1 = () => {
 		}
 	};
 
-	const handleSelect = () => {};
+	const changeFile = (event) => {
+		event.preventDefault();
+		console.log(event.target.files[0]);
+		console.log("Inside changeFile");
+		setSelectedFileName(event.target.files[0]);
+	};
+
 	return (
 		<>
 			<ToastContainer />
-			<div>{/* {selectedMovie.label} */}</div>
-			<form className="upload-steps" onSubmit={handleClick}>
-				<Autocomplete
-					disablePortal
-					id="combo-box-demo"
-					options={movieList}
-					sx={{ width: 500 }}
-					renderInput={(params) => <TextField {...params} label="Movie" />}
-					value={selectedMovie}
-					onChange={(event, newValue) => {
-						setSelectedMovie(newValue);
-					}}
-				/>
-				<label>
-					Upload file:
-					<input type="file" ref={fileInput} />
-				</label>
+			<div className="upload-video-section">
+				<div className="display-6	 text-white">Upload Video Button</div>
+				<div>
+					<div className="enter-movie-name-TF">
+						<Autocomplete
+							disablePortal
+							id="combo-box-demo"
+							options={movieList}
+							sx={{ width: 500 }}
+							renderInput={(params) => <TextField {...params} label="Movie" />}
+							value={selectedMovie}
+							onChange={(event, newValue) => {
+								setSelectedMovie(newValue);
+							}}
+						/>
+					</div>
+					<label>
+						<div className="upload-file text-black">
+							<input
+								type="file"
+								onChange={changeFile}
+								style={{ display: "none" }}
+							/>
+							{!selectedFileName.name && "Click here to Select video file:"}
+							{selectedFileName.name && <span>{selectedFileName.name}</span>}
+						</div>
+					</label>
+					<br />
+					<div className="buttons-2">
+						<button className="button-64" type="submit" onClick={handleClick}>
+							<span className="text">Upload</span>
+						</button>
+
+						<button onClick={() => run()} className="button-64">
+							<span className="text">Run</span>
+						</button>
+					</div>
+				</div>
 				<br />
-				<button type="submit">Upload</button>
-			</form>
-			<div>
-				<button onClick={() => run()}>Run</button>
+				<br />
+				<AddMovieForm />
 			</div>
 		</>
 	);

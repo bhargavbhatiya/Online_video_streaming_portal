@@ -91,7 +91,12 @@ const SingleContent = ({
 				src={poster ? `${poster}` : unavailable}
 				alt={title}
 			/>
-			<Link onClick={window.location.reload} to={`/movie/${id}`}>
+			<Link
+				className="middle"
+				onClick={window.location.reload}
+				to={`/movie/${id}`}
+			>
+				<div className="middle-bg"></div>
 				<b className="title text-white" onClick={gotoMovies}>
 					{title}
 				</b>

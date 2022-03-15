@@ -63,17 +63,19 @@ const Gallery = ({ id, recommendList, notify, flag }) => {
 
 	return (
 		// console.log("Inside Carousel"),
-		<AliceCarousel
-			autoPlayInterval={1200}
-			mouseTracking
-			infinite
-			disableDotsControlscd
-			disableButtonsControls
-			disableDotsControls
-			responsive={responsive}
-			items={flag == 1 ? items : singleItem}
-			autoPlay
-		/>
+		<div className="carousel">
+			<AliceCarousel
+				autoPlayInterval={1200}
+				mouseTracking
+				autoPlay
+				infinite
+				disableDotsControlscd
+				disableButtonsControls
+				disableDotsControls
+				responsive={responsive}
+				items={flag == 1 ? items : singleItem}
+			/>
+		</div>
 	);
 };
 

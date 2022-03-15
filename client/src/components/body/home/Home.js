@@ -131,16 +131,18 @@ function Home() {
 						<Loader />
 					) : (
 						content.map((c) => (
-							<SingleContent
-								key={c.movie_id}
-								id={c.movie_id}
-								poster={c.poster_path}
-								title={c.title}
-								date={c.release_date}
-								media_type="movie"
-								vote_average={c.vote_average}
-								notify={notify}
-							/>
+							<div className="carouselItem-home">
+								<SingleContent
+									key={c.movie_id}
+									id={c.movie_id}
+									poster={c.poster_path}
+									title={c.title}
+									date={c.release_date}
+									media_type="movie"
+									vote_average={c.vote_average}
+									notify={notify}
+								/>
+							</div>
 						))
 					)}
 					<CustomPagination setPage={setPage} numOfPages={numOfPages} />

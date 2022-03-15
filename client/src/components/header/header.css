@@ -11,6 +11,25 @@ header {
 	z-index: 100;
 	box-shadow: 0 0px 20px -2px rgb(68, 63, 63);
 }
+.nav-btns {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	flex-direction: row;
+	flex-wrap: wrap;
+	width: 380px;
+}
+.addMovie h5,
+.search1 h5 {
+	/* text-color: #c1cfebe1; */
+	padding: 0px;
+	margin: 0px;
+	align-items: center;
+	justify-content: center;
+}
+#dropdownMenuButton1 {
+	margin: 0px;
+}
 /* header:after {
 	margin-bottom: 100px;
 	content: "a";
@@ -22,7 +41,8 @@ header {
 	box-shadow: -25px 0px 20px 1px gray;
 } */
 header a {
-	color: white;
+	color: rgba(255, 255, 255, 0.911);
+	/* color: white; */
 }
 header a:hover {
 	color: #c1cfeb;
@@ -67,11 +87,11 @@ header img {
 	border-radius: 50%;
 }
 
-.right-header-btns {
+/* .right-header-btns {
 	display: flex;
 	align-items: center;
-	/* padding: auto 0px; */
-}
+	
+} */
 /* --------- Dropdown ---------- */
 /* .drop-nav {
 	position: relative;

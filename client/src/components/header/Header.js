@@ -8,7 +8,7 @@ import "./header.css";
 function Header() {
 	const auth = useSelector((state) => state.auth);
 
-	const { user, isLogged } = auth;
+	const { user, isLogged, isAdmin } = auth;
 
 	const handleLogout = async () => {
 		try {
@@ -72,23 +72,30 @@ function Header() {
 				</h4>
 			</div>
 
-			<AddMovie />
-			<div className="search1">
-				<h4>
-					<Link to="searchmovie">search</Link>
-				</h4>
-			</div>
-			<ul>
+			<div className="nav-btns">
+				<div className="addMovie">
+					{isLogged && isAdmin ? (
+						<h5>
+							<Link to="/addMovieVideo">Add Movie</Link>
+						</h5>
+					) : (
+						<></>
+					)}
+				</div>
+				<div className="search1">
+					<h5>
+						<Link to="searchmovie">search</Link>
+					</h5>
+				</div>
+
 				{isLogged ? (
 					userLink()
 				) : (
-					<li>
-						<Link to="/login">
-							<i className="fas fa-user"></i> Sign in
-						</Link>
-					</li>
+					<Link to="/login">
+						<i className="fas fa-user"></i> Sign in
+					</Link>
 				)}
-			</ul>
+			</div>
 		</header>
 	);
 }

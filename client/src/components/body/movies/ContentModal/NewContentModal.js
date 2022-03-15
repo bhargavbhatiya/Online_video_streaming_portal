@@ -27,7 +27,7 @@ const NewContentModal = () => {
 	const { isAdmin } = auth;
 	const [contentForPlayer, setContentForPlayer] = useState([]);
 	const [commentList, setCommentList] = useState([]);
-	// const url = window.location.href;
+	const url = window.location.href;
 
 	const notify = (msg) => {
 		toast(msg);
@@ -494,7 +494,7 @@ const NewContentModal = () => {
 										)}
 									</div>
 									{commentButton()}
-									{/* <ShareMovie url={url} notify={notify} /> */}
+									<ShareMovie url={url} notify={notify} />
 								</div>
 							</div>
 
@@ -535,14 +535,14 @@ const NewContentModal = () => {
 								Watch the Trailer
 							</Button>
 						</div>
-
+						<h3 className="text-light mt-5">Cast & Crew</h3>
 						<div ClassName="carousel">
 							<Carousel id={id} recommendList={[]} notify={notify} flag={1} />
 						</div>
 
 						{recommendList && (
 							<>
-								<h3 className="text-light">Recommendations</h3>
+								<h3 className="text-light mt-5">Recommendations</h3>
 								<div ClassName="carousel">
 									<Carousel id={2} recommendList={recommendList} flag={0} />
 								</div>

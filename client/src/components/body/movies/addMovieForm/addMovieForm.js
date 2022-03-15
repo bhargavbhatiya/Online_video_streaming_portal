@@ -4,6 +4,7 @@ import {
 	showSuccessMsg,
 } from "../../../utils/notification/Notification";
 import { useSelector } from "react-redux";
+import "./addVideo.css";
 import axios from "axios";
 function AddMovieForm() {
 	const token = useSelector((state) => state.token);
@@ -73,10 +74,10 @@ function AddMovieForm() {
 	return (
 		<>
 			<div className="moviesPage">
-				<h2>Add Movie Details</h2>
+				<div className="display-6 text-white">Add Movie Details</div>
 				{err && showErrMsg(err)}
 				{success && showSuccessMsg(success)}
-				<form onSubmit={handleSubmit}>
+				<div className="form-for-movie-details">
 					<div>
 						<label htmlFor="movie_id">Movie ID</label>
 						<input
@@ -254,10 +255,10 @@ function AddMovieForm() {
 						/>
 					</div>
 
-					<div className="row">
-						<button type="submit">Upload Details</button>
-					</div>
-				</form>
+					<button className="button-64" onClick={handleSubmit}>
+						<span className="text">Upload Details</span>
+					</button>
+				</div>
 			</div>
 		</>
 	);
