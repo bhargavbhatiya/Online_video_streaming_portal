@@ -20,16 +20,17 @@ import { useSelector } from "react-redux";
 import NewContentModal from "./movies/ContentModal/NewContentModal";
 import Search from "./Pages/Search/search";
 import Temp from "./movies/addMovieForm/temp";
+import "./body.css";
 
 function Body() {
 	const auth = useSelector((state) => state.auth);
 	const { isLogged, isAdmin } = auth;
-	const style = {
-		marginTop: 62,
-	};
 
 	return (
-		<section style={style}>
+		<section className="body-section">
+			<div id="stars"></div>
+			<div id="stars2"></div>
+			<div id="stars3"></div>
 			<Routes>
 				<Route path="/" element={isLogged ? <Home /> : <Login />} exact />
 				{/* <Route path="/" element={isLogged ? <Home /> : <Login />} exact /> */}

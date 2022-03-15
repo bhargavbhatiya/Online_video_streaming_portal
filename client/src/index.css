@@ -2,9 +2,9 @@
 	padding: 0;
 	box-sizing: border-box;
 	margin: 0;
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-		"Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-		sans-serif;
+	font-family: "Poppins", "Source Sans Pro", sans-serif, -apple-system,
+		BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
+		"Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
@@ -17,6 +17,7 @@ code {
 	/* max-width: 1200px; */
 	width: 100%;
 	/* min-height: 100vh; */
+	background-color: black;
 	box-shadow: 0 0 20px #eee;
 	margin: 0 auto;
 	overflow: hidden;

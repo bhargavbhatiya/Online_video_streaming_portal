@@ -1,10 +1,38 @@
-.trending { 
-	margin-top: 70px;
-	margin-right: 20px;
-	margin-left: 20px;
+.home-page {
+	background-color: black;
+}
+.all-movies {
+	margin-top: 20px;
+	/* margin-right: 20px; */
+	/* margin-left: 20px; */
+	margin-bottom: 0px;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: flex-start;
-	
+}
+/* -----------------------------------*/
+.all-movies {
+	display: flex;
+	margin-top: 50px;
+	margin-bottom: 50px;
+	margin: 10px;
+}
+.alice-carousel__stage-item__active {
+	background-color: green;
+}
+.carouselItem-home {
+	position: relative;
+	display: block;
+	flex: 1 1 0px;
+	transition: transform 500ms;
+}
+.all-movies .carouselItem-home:focus,
+.all-movies .carouselItem-home:hover {
+	transform: scale(1.3);
+	z-index: 1;
+}
 
-  }
+.carouselItem-home img {
+	display: block;
+	/* max-width: 100%; */
+}

@@ -1,14 +1,18 @@
-/* .copy-link {
-    display: inline;
-    margin-top: 100px;
-   padding-top:100px; ;
-    
+.modal * {
+	color: black;
+}
 
-    
-} */
+.copy-link {
+	background-color: #e3def7;
+	margin-top: 25px;
+	margin-left: 40px;
+	margin-right: 40px;
+	padding: 0px;
+	width: auto;
+	border: 1px solid gray;
+}
 .share-btn-container {
-    display: flex;
-    justify-content: space-evenly;
-    margin-left: 10px;
-
+	display: flex;
+	justify-content: space-evenly;
+	margin-left: 10px;
 }

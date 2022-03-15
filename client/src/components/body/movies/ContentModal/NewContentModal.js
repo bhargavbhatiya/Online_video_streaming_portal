@@ -109,7 +109,7 @@ const NewContentModal = () => {
 				setIsLiked(false);
 			} else setIsLiked(true);
 		} catch (err) {
-			// console.log(err);
+			console.log(err);
 		}
 	};
 
@@ -144,7 +144,7 @@ const NewContentModal = () => {
 			setCommentList((data) => [...data, res.data.commentObj]);
 			// console.log(res);
 		} catch (err) {
-			// console.log("Errordsd" + err);
+			console.log("Errordsd" + err);
 		}
 	};
 
@@ -155,7 +155,7 @@ const NewContentModal = () => {
 			// console.log(res.data.commentList);
 			setCommentList(res.data.commentList);
 		} catch (err) {
-			// console.log(err);
+			console.log(err);
 		}
 	};
 
@@ -170,7 +170,7 @@ const NewContentModal = () => {
 			// console.log(res);
 			setCommentList((data) => data.filter((item) => item._id !== comment_id));
 		} catch (err) {
-			// console.log(err);
+			console.log(err);
 		}
 	};
 	const getVideo = async () => {
@@ -179,7 +179,7 @@ const NewContentModal = () => {
 			// console.log(res.data.movie[0]);
 			setContentForPlayer(res.data.movie[0]);
 		} catch (err) {
-			// console.log(err);
+			console.log(err);
 		}
 	};
 
@@ -231,7 +231,7 @@ const NewContentModal = () => {
 			// 	setRecommendList((data) => [...data, res1.data.movie]);
 			// });
 		} catch (err) {
-			// console.log(err);
+			console.log(err);
 		}
 	};
 	useEffect(() => {
@@ -264,8 +264,6 @@ const NewContentModal = () => {
 			});
 		}
 	}, [recommendIDs]);
-
-	
 
 	function commentButton() {
 		return (
@@ -422,13 +420,7 @@ const NewContentModal = () => {
 							// >
 							// 	<button>Share 🔗</button>
 							// </RWebShare>
-
-
-
-
 						}
-
-
 
 						<div ClassName="ContentModal__about">
 							<span className="display-1 ContentModal__title">
@@ -502,7 +494,7 @@ const NewContentModal = () => {
 										)}
 									</div>
 									{commentButton()}
-									<ShareMovie url={url} notify={notify}/>
+									<ShareMovie url={url} notify={notify} />
 								</div>
 							</div>
 
@@ -514,16 +506,16 @@ const NewContentModal = () => {
 									file={contentForPlayer.videoUrl}
 									onReady={() => console.log("onReady")}
 									onTime={(e) => console.log(e)}
-								// onSeventyFivePercent={() => console.log("75 Percent")}
-								// onNinetyFivePercent={() => console.log("95 Percent")}
-								// onOneHundredPercent={() => console.log("100 Percent")}
-								// isAutoPlay={true}
+									// onSeventyFivePercent={() => console.log("75 Percent")}
+									// onNinetyFivePercent={() => console.log("95 Percent")}
+									// onOneHundredPercent={() => console.log("100 Percent")}
+									// isAutoPlay={true}
 
-								// aspectRatio="16:9"
-								// customProps={{
-								// 	playbackRateControls: [1, 1.25, 1.5],
-								// 	cast: {},
-								// }}
+									// aspectRatio="16:9"
+									// customProps={{
+									// 	playbackRateControls: [1, 1.25, 1.5],
+									// 	cast: {},
+									// }}
 								/>
 							</div>
 						</div>
@@ -543,21 +535,16 @@ const NewContentModal = () => {
 								Watch the Trailer
 							</Button>
 						</div>
-
+						<h3 className="text-light mt-5">Cast & Crew</h3>
 						<div ClassName="carousel">
 							<Carousel id={id} recommendList={[]} notify={notify} flag={1} />
 						</div>
 
 						{recommendList && (
 							<>
-								<h3 className="text-light">Recommendations</h3>
+								<h3 className="text-light mt-5">Recommendations</h3>
 								<div ClassName="carousel">
-									<Carousel
-										id={id}
-										recommendList={recommendList}
-										notify={notify}
-										flag={0}
-									/>
+									<Carousel id={2} recommendList={recommendList} flag={0} />
 								</div>
 							</>
 						)}

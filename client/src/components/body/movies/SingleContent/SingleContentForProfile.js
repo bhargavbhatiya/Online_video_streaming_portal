@@ -86,10 +86,7 @@ const SingleContentForProfile = ({
 	return (
 		<>
 			<Link to={`/movie/${id}`}>
-				<div
-					className="single-content ContentModal__description"
-					onClick={goTomovie}
-				>
+				<div className="single-content" onClick={goTomovie}>
 					<div className="single-content-img">
 						<img src={poster_path} alt={title} />
 					</div>
