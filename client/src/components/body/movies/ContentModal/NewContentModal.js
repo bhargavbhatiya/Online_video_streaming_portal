@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./NewContentModal.css";
 import ReactJWPlayer from "react-jw-player";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Button } from "@material-ui/core";
 import YouTubeIcon from "@material-ui/icons/YouTube";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -173,25 +173,30 @@ const NewContentModal = () => {
 			console.log(err);
 		}
 	};
-	const getVideo = async () => {
-		try {
-			const res = await axios.get(`/movie/get_movie/${id}`);
-			// console.log(res.data.movie[0]);
-			setContentForPlayer(res.data.movie[0]);
-		} catch (err) {
-			console.log(err);
-		}
-	};
 
 	const [content, setContent] = useState();
 	const [video, setVideo] = useState();
-
+	const [genresList, setGenresList] = useState();
 	const fetchData = async () => {
 		const { data } = await axios.get(
 			`https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
 		);
-
-		setContent(data);
+		try {
+			const res = await axios.get(`/movie/get_movie/${id}`);
+			let obj = res.data.movie[0];
+			// setRecommendList((data) => [...data, res1.data.movie[0]]);
+			var poster_path = await axios.get(
+				`https://api.themoviedb.org/3/movie/${res.data.movie[0].movie_id}?api_key=${process.env.REACT_APP_API_KEY}`
+			);
+			poster_path = `https://image.tmdb.org/t/p/w500${poster_path.data.poster_path}`;
+			obj = { ...obj, poster_path };
+			setContent(obj);
+			setGenresList(eval(res.data.movie[0].genres));
+			// console.log(eval(res.data.movie[0].genres)[0].name);
+			// setContent(res.data.movie[0]);
+		} catch (err) {
+			console.log(err);
+		}
 		// console.log(data);
 	};
 
@@ -235,7 +240,7 @@ const NewContentModal = () => {
 		}
 	};
 	useEffect(() => {
-		getVideo();
+		// getVideo();
 		fetchVideo();
 		fetchData();
 		getComments();
@@ -268,18 +273,13 @@ const NewContentModal = () => {
 	function commentButton() {
 		return (
 			<>
-				<button
-					// className="youtube-btn"
-					// variant="contained"
-					// startIcon={<YouTubeIcon />}
-					// color="#FFEDDF"
-					// type="button"
-					className="youtube-btn rounded-3"
+				<span
+					className="comment-btn"
 					data-bs-toggle="modal"
 					data-bs-target="#staticBackdrop"
 				>
-					REVIEW
-				</button>
+					<i className="fa fa-comment" /> Comment
+				</span>
 
 				<div
 					className="modal fade"
@@ -408,195 +408,171 @@ const NewContentModal = () => {
 			<ToastContainer />
 			{content && (
 				<div className="main-class">
-					<div className="paper">
-						{
-							// <RWebShare
-							// 	data={{
-							// 		text: "Watch this movie",
-							// 		url: `http://localhost:3000/movie/${id}`,
-							// 		title: "Share Movie",
-							// 	}}
-							// 	onClick={() => console.log("shared successfully!")}
-							// >
-							// 	<button>Share 🔗</button>
-							// </RWebShare>
-						}
+					{
+						// <RWebShare
+						// 	data={{
+						// 		text: "Watch this movie",
+						// 		url: `http://localhost:3000/movie/${id}`,
+						// 		title: "Share Movie",
+						// 	}}
+						// 	onClick={() => console.log("shared successfully!")}
+						// >
+						// 	<button>Share 🔗</button>
+						// </RWebShare>
+					}
 
-						<div ClassName="ContentModal__about">
-							<span className="display-1 ContentModal__title">
-								{content.name || content.title} (
-								{(
-									content.first_air_date ||
-									content.release_date ||
-									"-----"
-								).substring(0, 4)}
-								)
-							</span>
-							{content.tagline && <i className="tagline1">{content.tagline}</i>}
-						</div>
+					<div ClassName="ContentModal__about">
+						<span className="display-1 ContentModal__title">
+							{content.name || content.title} (
+							{(
+								content.first_air_date ||
+								content.release_date ||
+								"-----"
+							).substring(0, 4)}
+							)
+						</span>
+						{content.tagline && <i className="tagline1">{content.tagline}</i>}
+					</div>
+					<div className="jw-player">
+						<ReactJWPlayer
+							playerId="futureskill"
+							playerScript="https://content.jwplatform.com/libraries/tqjyvT9W.js"
+							// file="https://content.jwplatform.com/manifests/vM7nH0Kl.m3u8"
+							file={content.videoUrl}
+							onReady={() => console.log("onReady")}
+							onTime={(e) => console.log(e)}
+							// onSeventyFivePercent={() => console.log("75 Percent")}
+							// onNinetyFivePercent={() => console.log("95 Percent")}
+							// onOneHundredPercent={() => console.log("100 Percent")}
+							// isAutoPlay={true}
 
-						<div className="Content_Row">
+							// aspectRatio="16:9"
+							// customProps={{
+							// 	playbackRateControls: [1, 1.25, 1.5],
+							// 	cast: {},
+							// }}
+						/>
+					</div>
+
+					<span className=" text-light ">
+						<div className="Content_Row mx-3">
 							<div className="left-part">
-								<div className="ContentModal__portrait">
-									<img
-										height={420}
-										src={
-											content.poster_path
-												? `${img_500}/${content.poster_path}`
-												: unavailable
-										}
-										alt={content.name || content.title}
-									/>
-								</div>
-
-								<div className="left-btn-row">
-									<div className="youtube-btn" onClick={addToWatchLater}>
-										{isWatchList ? (
-											<Button
-												className="youtube-btn"
-												variant="contained"
-												// startIcon={<YouTubeIcon />}
-												color="primary"
-											>
-												watch later
-											</Button>
-										) : (
-											<Button
-												className="youtube-btn"
-												variant="contained"
-												// startIcon={<YouTubeIcon />}
-												color="#FFEDDF"
-											>
-												watch later
-											</Button>
-										)}
-									</div>
-
-									<div className="youtube-btn" onClick={addToLikedList}>
-										{isLiked ? (
-											<Button
-												className="youtube-btn"
-												variant="contained"
-												startIcon={<FavoriteIcon sx={{ color: pink[500] }} />}
-												color="primary"
-											>
-												Like
-											</Button>
-										) : (
-											<Button
-												className="youtube-btn"
-												variant="contained"
-												startIcon={<FavoriteIcon />}
-												color="#FFEDDF"
-											>
-												Like
-											</Button>
-										)}
-									</div>
-									{commentButton()}
-									<ShareMovie url={url} notify={notify} />
-								</div>
-							</div>
-
-							<div className="jw-player">
-								<ReactJWPlayer
-									playerId="futureskill"
-									playerScript="https://content.jwplatform.com/libraries/tqjyvT9W.js"
-									// file="https://content.jwplatform.com/manifests/vM7nH0Kl.m3u8"
-									file={contentForPlayer.videoUrl}
-									onReady={() => console.log("onReady")}
-									onTime={(e) => console.log(e)}
-									// onSeventyFivePercent={() => console.log("75 Percent")}
-									// onNinetyFivePercent={() => console.log("95 Percent")}
-									// onOneHundredPercent={() => console.log("100 Percent")}
-									// isAutoPlay={true}
-
-									// aspectRatio="16:9"
-									// customProps={{
-									// 	playbackRateControls: [1, 1.25, 1.5],
-									// 	cast: {},
-									// }}
+								<img
+									className="ContentModal__portrait"
+									src={
+										content.poster_path
+											? `${img_500}/${content.poster_path}`
+											: unavailable
+									}
+									alt={content.name || content.title}
 								/>
 							</div>
-						</div>
-						<span className="ContentModal__description text-light mx-3">
-							{content.overview}
-						</span>
-
-						<div className="youtube-btn1">
-							<Button
-								className="youtube-btn"
-								variant="contained"
-								startIcon={<YouTubeIcon />}
-								color="secondary"
-								target="__blank"
-								href={`https://www.youtube.com/watch?v=${video}`}
-							>
-								Watch the Trailer
-							</Button>
-						</div>
-						<h3 className="text-light mt-5">Cast & Crew</h3>
-						<div ClassName="carousel">
-							<Carousel id={id} recommendList={[]} notify={notify} flag={1} />
-						</div>
-
-						{recommendList && (
-							<>
-								<h3 className="text-light mt-5">Recommendations</h3>
-								<div ClassName="carousel">
-									<Carousel id={2} recommendList={recommendList} flag={0} />
+							<div className="right-part ps-5">
+								<span className="display-5 	">
+									{content.name || content.title} (
+									{(
+										content.first_air_date ||
+										content.release_date ||
+										"-----"
+									).substring(0, 4)}
+									)
+								</span>
+								{content.tagline && (
+									<i className="tagline">{"~ " + content.tagline}</i>
+								)}
+								<div className="runtime-rating mb-2">
+									{content.runtime && (
+										<>
+											<span className="text-light">
+												<i className="fa fa-clock-o" />{" "}
+												{" " + Math.trunc(content.runtime / 60)} hr{" "}
+												{content.runtime % 60} min{"      "}
+											</span>
+										</>
+									)}
+									<span>
+										<i className="fa fa-star ms-3" /> {content.vote_average}/10
+									</span>
 								</div>
-							</>
-						)}
+								{content.overview}
+								{genresList && (
+									<span className="genres mt-4">
+										<span className="genres-title fw-bold">Genres:</span>
+										<span className="genres-list">
+											{genresList.map((genre) => (
+												<span className="genre" key={genre.id}>
+													{genre.name}
+												</span>
+											))}
+										</span>
+									</span>
+								)}
+								{content.release_date && (
+									<span className="release-date">
+										<span className="release-title fw-bold">
+											Realease-date:{" "}
+										</span>
+										<span className="release-content">
+											{content.release_date}
+										</span>
+									</span>
+								)}
+								{content.original_language && (
+									<span className="language">
+										<span className="language-title fw-bold">Language: </span>
+										<span className="language-content">
+											{content.original_language}
+										</span>
+									</span>
+								)}
+								<div className="buttons-row ">
+									<a
+										href={`https://www.youtube.com/watch?v=${video}`}
+										target="_blank"
+									>
+										<span className="yt-trailer-btn">
+											<i className="fa fa-play" /> Play Youtube Trailer
+										</span>
+									</a>
+									<div className="right-buttons-row">
+										<span className="like-btn" onClick={addToLikedList}>
+											{!isLiked ? (
+												<i className="fa fa-heart" />
+											) : (
+												<i className="fa fa-heart already-liked" />
+											)}
+											Like
+										</span>
+										{commentButton()}
+										<span className="add-to-list-btn" onClick={addToWatchLater}>
+											{!isWatchList ? (
+												<i className="fa fa-plus" />
+											) : (
+												<i className="fa fa-check already-inWatchList" />
+											)}{" "}
+											Add to list
+										</span>
 
-						{/* <div className="col-lg-4 col-md-5 col-sm-4 offset-md-1 offset-sm-1 col-12 mt-4">
-							<form id="algin-form">
-								<div className="form-group">
-									<h4>Leave a comment</h4>{" "}
-									<label htmlFor="message">Message</label>{" "}
-									<textarea
-										name="msg"
-										id
-										msg
-										cols={30}
-										rows={5}
-										className="form-control"
-										style={{ backgroundColor: "white" }}
-										value={comment}
-										onChange={(e) => {
-											setComment(e.target.value);
-										}}
-									/>
+										<ShareMovie url={url} notify={notify} />
+									</div>
 								</div>
-
-								<div
-									className="form-group m-4"
-									style={{ backgroundColor: "white" }}
-									onClick={addComment}
-								>
-									{" "}
-									<button type="button" id="post" className="btn">
-										Post Comment
-									</button>{" "}
-								</div>
-							</form>
-							<h1>Comments</h1>
-							{commentList &&
-								commentList
-									.slice(0)
-									.reverse()
-									.map((comm) => {
-										return (
-											<div className="comment mt-4 text-justify float-right">
-												<h4>{comm.username}&nbsp;-&nbsp;</h4>{" "}
-												<span>{toIST(comm.createdAt)}</span> <br />
-												<p>{comm.comment}</p>
-											</div>
-										);
-									})}
-								</div> */}
-					</div>
+							</div>
+						</div>
+					</span>
 				</div>
+			)}
+			<h3 className="text-light mt-5 ms-5">Cast & Crew</h3>
+			<div ClassName="carousel">
+				<Carousel id={id} recommendList={[]} notify={notify} flag={1} />
+			</div>
+
+			{recommendList && (
+				<>
+					<h3 className="text-light mt-5 ms-5">Recommendations</h3>
+					<div ClassName="carousel">
+						<Carousel id={2} recommendList={recommendList} flag={0} />
+					</div>
+				</>
 			)}
 		</>
 	);

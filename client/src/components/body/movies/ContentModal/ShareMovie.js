@@ -24,14 +24,14 @@ const ShareMovie = ({ notify, url }) => {
 		<>
 			<div className="share-component">
 				{/* Button trigger modal */}
-				<button
-					type="button"
-					className="youtube-btn rounded-3"
+				<span
+					className="share-btn"
 					data-bs-toggle="modal"
 					data-bs-target="#exampleModal"
 				>
-					Share
-				</button>
+					<i className="fa fa-share-alt" /> Share
+				</span>
+
 				{/* Modal */}
 				<div
 					className="modal fade"

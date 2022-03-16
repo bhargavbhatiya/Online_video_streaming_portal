@@ -2,15 +2,18 @@
 
 .main-class {
 	/* margin-top: 60px; */
-
+	display: flex;
+	flex-direction: column;
 	width: 100%;
 	height: 100%;
 	color: white;
+	background-color: transparent;
 	text-align: center;
 	align-items: center;
-	background-color: black;
+	justify-content: center;
 	box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
 	margin-right: 30px;
+	z-index: -1;
 }
 
 /* .modal {
@@ -18,32 +21,113 @@
 	align-items: center;
 	justify-content: center;
 } */
-.paper {
-	width: 100%;
-	height: 100%;
-
-	/* color: white; */
-	/* box-shadow: theme.shadows[5]; */
-	/* padding : theme.spacing(0, 1, 3); */
-}
 
 .jw-player {
+	margin-top: 30px;
 	width: 65%;
 	border: 1px solid white;
+	align-items: center;
+	justify-self: center;
 }
 
 .Content_Row {
 	display: flex;
 	flex-direction: row;
-	padding-top: 40px;
-	justify-content: space-evenly;
+	/* padding-top: 40px; */
+	justify-content: center;
+	/* align-items: ; */
+	font-size: 18px;
+	background-color: #0d1313;
+
+	border-radius: 20px;
+	/* scrollbar-width: thin;  */
+	box-shadow: inset 0 0 5px white;
+	padding: 15px;
+	margin-top: 30px;
+	margin-bottom: 20px;
+}
+.fa-star,
+.fa-clock-o {
+	color: #ffd700;
+}
+.language-content,
+.release-content,
+.genres-list {
+	color: rgb(188, 190, 190);
+}
+.buttons-row {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
 	align-items: center;
-	width: 100%;
+	margin-top: 65px;
+}
+.yt-trailer-btn {
+	background-color: #011316;
+	border-radius: 20px;
+	border: 1px solid white;
+	padding: 10px;
+	color: white;
+	font-size: 18px;
+	margin-right: 10px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	border-color: #ffd900c0;
+}
+.right-buttons-row {
+	display: flex;
+	flex-direction: row;
+	justify-content: end;
+	align-items: center;
+	padding: 10px;
+}
+.share-btn,
+.add-to-list-btn,
+.comment-btn,
+.like-btn {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-self: center;
+
+	border-radius: 20px;
+	color: white;
+	font-size: 18px;
+	padding: 10px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: 10px;
+	margin-right: 10px;
+
+	cursor: pointer;
+}
+.already-liked {
+	color: red;
+}
+.already-inWatchList {
+	color: green;
+}
+.share-btn:hover,
+.add-to-list-btn:hover,
+.comment-btn:hover,
+.like-btn:hover,
+.yt-trailer-btn:hover {
+	color: #037185;
+}
+.right-part {
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	/* align-items: center; */
+	width: 97%;
+	text-align: left;
+	justify-content: flex-start;
+	/* align-items: stretch; */
 }
 .youtube-btn {
 	margin-top: 15px;
 	height: 45px;
-	width: 95%;
+	/* width: 95%; */
 }
 
 .ContentModal__landscape {
@@ -53,10 +137,12 @@
 .left-part {
 	display: flex;
 	flex-direction: column;
-	width: 25%;
+	/* width: 25%; */
 }
 
 .ContentModal__portrait {
+	/* height: 4000px; */
+	/* width: 2000px; */
 	object-fit: contain;
 	z-index: 11;
 	justify-content: center;
@@ -81,10 +167,20 @@
 	/* padding-top: 20px;
 	  height: 30px; */
 }
+.genres {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+	margin-top: 10px;
+}
+.genre {
+	margin: 5px;
+}
 
 .ContentModal__about {
 	padding: 10px;
-	width: 95%;
+	/* width: 95%; */
 	height: 90%;
 	display: flex;
 	flex-direction: column;
@@ -94,6 +190,7 @@
 }
 
 .ContentModal__title {
+	margin-top: 20px;
 	height: 12%;
 	font-size: 5vw;
 	display: flex;
@@ -101,23 +198,29 @@
 	justify-content: center;
 	color: rgb(255, 255, 255);
 }
-
-.ContentModal__description {
+.tagline {
+	padding-bottom: 10px;
+	align-self: left;
+	color: wheat;
+}
+.runtime-rating {
+	margin-top: 20px;
+}
+/* .ContentModal__description {
 	display: flex;
-	height: 40%;
 	overflow-y: scroll;
 	padding: 15px;
 	margin-top: 30px;
 	margin-bottom: 20px;
 	border-radius: 20px;
-	scrollbar-width: thin; /* Firefox */
+	scrollbar-width: thin; 
 	box-shadow: inset 0 0 5px white;
 	text-align: justify;
-}
+} */
 
-.ContentModal__description::-webkit-scrollbar {
+/* .ContentModal__description::-webkit-scrollbar {
 	display: none;
-}
+} */
 
 .deleteButton {
 	margin-left: auto;
