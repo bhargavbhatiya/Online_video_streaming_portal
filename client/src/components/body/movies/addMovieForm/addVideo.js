@@ -19,10 +19,8 @@ const AddVideo1 = () => {
 	const notify = (msg) => {
 		toast(msg);
 	};
-
-	const params = {
-		JobTemplate:
-			"arn:aws:mediaconvert:ap-south-1:312452403033:jobTemplates/asdfghjkl",
+	const newParam = {
+		Name: "FinalStreaming",
 		Queue: "arn:aws:mediaconvert:ap-south-1:312452403033:queues/Default",
 		UserMetadata: {},
 		Role: "arn:aws:iam::312452403033:role/service-role/MediaConvert_Default_Role",
@@ -32,7 +30,6 @@ const AddVideo1 = () => {
 			},
 			OutputGroups: [
 				{
-					CustomName: "apple0test",
 					Name: "Apple HLS",
 					Outputs: [
 						{
@@ -41,13 +38,15 @@ const AddVideo1 = () => {
 								M3u8Settings: {},
 							},
 							VideoDescription: {
+								Width: 1920,
+								Height: 1080,
 								CodecSettings: {
 									Codec: "H_264",
 									H264Settings: {
-										MaxBitrate: 500000,
+										MaxBitrate: 8500000,
 										RateControlMode: "QVBR",
 										QvbrSettings: {
-											QvbrQualityLevel: 8,
+											QvbrQualityLevel: 10,
 										},
 										SceneChangeDetect: "TRANSITION_DETECTION",
 										QualityTuningLevel: "SINGLE_PASS_HQ",
@@ -56,7 +55,6 @@ const AddVideo1 = () => {
 							},
 							AudioDescriptions: [
 								{
-									AudioSourceName: "Audio Selector 1",
 									CodecSettings: {
 										Codec: "AAC",
 										AacSettings: {
@@ -70,13 +68,240 @@ const AddVideo1 = () => {
 							OutputSettings: {
 								HlsSettings: {},
 							},
-							NameModifier: "xyz",
+							NameModifier: "1920x1080",
+						},
+						{
+							ContainerSettings: {
+								Container: "M3U8",
+								M3u8Settings: {},
+							},
+							VideoDescription: {
+								Width: 1280,
+								Height: 720,
+								CodecSettings: {
+									Codec: "H_264",
+									H264Settings: {
+										MaxBitrate: 5000000,
+										RateControlMode: "QVBR",
+										QvbrSettings: {
+											QvbrQualityLevel: 10,
+										},
+										SceneChangeDetect: "TRANSITION_DETECTION",
+										QualityTuningLevel: "SINGLE_PASS_HQ",
+									},
+								},
+							},
+							AudioDescriptions: [
+								{
+									CodecSettings: {
+										Codec: "AAC",
+										AacSettings: {
+											Bitrate: 96000,
+											CodingMode: "CODING_MODE_2_0",
+											SampleRate: 48000,
+										},
+									},
+								},
+							],
+							OutputSettings: {
+								HlsSettings: {},
+							},
+							NameModifier: "1280x720",
+						},
+						{
+							ContainerSettings: {
+								Container: "M3U8",
+								M3u8Settings: {},
+							},
+							VideoDescription: {
+								Width: 960,
+								Height: 540,
+								CodecSettings: {
+									Codec: "H_264",
+									H264Settings: {
+										MaxBitrate: 4000000,
+										RateControlMode: "QVBR",
+										QvbrSettings: {
+											QvbrQualityLevel: 10,
+										},
+										SceneChangeDetect: "TRANSITION_DETECTION",
+										QualityTuningLevel: "SINGLE_PASS_HQ",
+									},
+								},
+							},
+							AudioDescriptions: [
+								{
+									CodecSettings: {
+										Codec: "AAC",
+										AacSettings: {
+											Bitrate: 96000,
+											CodingMode: "CODING_MODE_2_0",
+											SampleRate: 48000,
+										},
+									},
+								},
+							],
+							OutputSettings: {
+								HlsSettings: {},
+							},
+							NameModifier: "960x540",
+						},
+						{
+							ContainerSettings: {
+								Container: "M3U8",
+								M3u8Settings: {},
+							},
+							VideoDescription: {
+								Width: 1600,
+								Height: 540,
+								CodecSettings: {
+									Codec: "H_264",
+									H264Settings: {
+										MaxBitrate: 9000000,
+										RateControlMode: "QVBR",
+										QvbrSettings: {
+											QvbrQualityLevel: 10,
+										},
+										SceneChangeDetect: "TRANSITION_DETECTION",
+										QualityTuningLevel: "SINGLE_PASS_HQ",
+									},
+								},
+							},
+							AudioDescriptions: [
+								{
+									CodecSettings: {
+										Codec: "AAC",
+										AacSettings: {
+											Bitrate: 96000,
+											CodingMode: "CODING_MODE_2_0",
+											SampleRate: 48000,
+										},
+									},
+								},
+							],
+							OutputSettings: {
+								HlsSettings: {},
+							},
+							NameModifier: "1600x540",
+						},
+						{
+							ContainerSettings: {
+								Container: "M3U8",
+								M3u8Settings: {},
+							},
+							VideoDescription: {
+								Width: 640,
+								Height: 360,
+								CodecSettings: {
+									Codec: "H_264",
+									H264Settings: {
+										MaxBitrate: 6000000,
+										RateControlMode: "QVBR",
+										QvbrSettings: {
+											QvbrQualityLevel: 10,
+										},
+										SceneChangeDetect: "TRANSITION_DETECTION",
+										QualityTuningLevel: "SINGLE_PASS_HQ",
+									},
+								},
+							},
+							AudioDescriptions: [
+								{
+									CodecSettings: {
+										Codec: "AAC",
+										AacSettings: {
+											Bitrate: 96000,
+											CodingMode: "CODING_MODE_2_0",
+											SampleRate: 48000,
+										},
+									},
+								},
+							],
+							OutputSettings: {
+								HlsSettings: {},
+							},
+							NameModifier: "640x360",
+						},
+						{
+							ContainerSettings: {
+								Container: "M3U8",
+								M3u8Settings: {},
+							},
+							VideoDescription: {
+								Width: 480,
+								Height: 270,
+								CodecSettings: {
+									Codec: "H_264",
+									H264Settings: {
+										MaxBitrate: 5000000,
+										RateControlMode: "QVBR",
+										QvbrSettings: {
+											QvbrQualityLevel: 10,
+										},
+										SceneChangeDetect: "TRANSITION_DETECTION",
+										QualityTuningLevel: "SINGLE_PASS_HQ",
+									},
+								},
+							},
+							AudioDescriptions: [
+								{
+									CodecSettings: {
+										Codec: "AAC",
+										AacSettings: {
+											Bitrate: 96000,
+											CodingMode: "CODING_MODE_2_0",
+											SampleRate: 48000,
+										},
+									},
+								},
+							],
+							OutputSettings: {
+								HlsSettings: {},
+							},
+							NameModifier: "480x270",
+						},
+						{
+							ContainerSettings: {
+								Container: "M3U8",
+								M3u8Settings: {},
+							},
+							VideoDescription: {
+								Width: 640,
+								Height: 480,
+								CodecSettings: {
+									Codec: "H_264",
+									H264Settings: {
+										MaxBitrate: 1000000,
+										RateControlMode: "QVBR",
+										QvbrSettings: {
+											QvbrQualityLevel: 10,
+										},
+										SceneChangeDetect: "TRANSITION_DETECTION",
+									},
+								},
+							},
+							AudioDescriptions: [
+								{
+									CodecSettings: {
+										Codec: "AAC",
+										AacSettings: {
+											Bitrate: 96000,
+											CodingMode: "CODING_MODE_2_0",
+											SampleRate: 48000,
+										},
+									},
+								},
+							],
+							OutputSettings: {
+								HlsSettings: {},
+							},
+							NameModifier: "640x480",
 						},
 					],
 					OutputGroupSettings: {
 						Type: "HLS_GROUP_SETTINGS",
 						HlsGroupSettings: {
-							SegmentLength: 10,
+							SegmentLength: 4,
 							Destination: `s3://video0test/outputs/${selectedMovieID}/`,
 							MinSegmentLength: 0,
 						},
@@ -103,10 +328,11 @@ const AddVideo1 = () => {
 		Priority: 0,
 		HopDestinations: [],
 	};
+
 	const run = async () => {
 		try {
 			// const data = await emcClient.send(new ListJobsCommand(params3));
-			const data = await emcClient.send(new CreateJobCommand(params));
+			const data = await emcClient.send(new CreateJobCommand(newParam));
 			// console.log("Success. Jobs: ", data);
 
 			const res = await axios.post("/movie/setVideoUrl", {
@@ -117,7 +343,7 @@ const AddVideo1 = () => {
 			// console.log("Success. ", res);
 			notify("Video added successfully");
 		} catch (err) {
-			// console.log("Error", err);
+			console.log("Error", err);
 		}
 	};
 	useEffect(() => {

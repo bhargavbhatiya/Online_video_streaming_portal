@@ -67,9 +67,9 @@ function Header() {
 	return (
 		<header>
 			<div className="logo">
-				<h4>
-					<Link to="/">Video Streaming Portal</Link>
-				</h4>
+				<h3>
+					<Link to="/">V-Streams </Link>
+				</h3>
 			</div>
 
 			<div className="nav-btns">
@@ -84,7 +84,10 @@ function Header() {
 				</div>
 				<div className="search1">
 					<h5>
-						<Link to="searchmovie">search</Link>
+						<Link to="searchmovie">
+							<i class="fas fa-search me-1"></i>
+							search
+						</Link>
 					</h5>
 				</div>
 

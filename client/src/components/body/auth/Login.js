@@ -36,9 +36,8 @@ function Login() {
 			setUser({ ...user, err: "", success: res.data.msg });
 
 			localStorage.setItem("firstLogin", true);
-            dispatch(dispatchLogin());
+			dispatch(dispatchLogin());
 			navigate("/");
-            
 		} catch (err) {
 			err.response.data.msg &&
 				setUser({ ...user, err: err.response.data.msg, success: "" });
@@ -46,9 +45,7 @@ function Login() {
 	};
 
 	const responseGoogle = async (response) => {
-
 		try {
-
 			const res = await axios.post("/user/google_login", {
 				tokenId: response.tokenId,
 			});
@@ -84,7 +81,7 @@ function Login() {
 	};
 
 	return (
-		<div className="login_page">
+		<div className="login_page text-white">
 			<h2>Login</h2>
 			{err && showErrMsg(err)}
 			{success && showSuccessMsg(success)}
@@ -114,10 +111,15 @@ function Login() {
 					/>
 				</div>
 
-				<div className="row">
-					<button type="submit">Login</button>
-					<Link to="/forgot_password">Forgot your password?</Link>
-				</div>
+				{/* <div className="row"> */}
+				{/* <button type="submit">Login</button>	 */}
+				<Link className="text-white" to="/forgot_password">
+					Forgot your password?
+				</Link>
+				<button className="button-64" type="submit">
+					<span className="text">Login</span>
+				</button>
+				{/* </div> */}
 			</form>
 
 			<div className="hr">Or Login With</div>
@@ -129,17 +131,13 @@ function Login() {
 					onSuccess={responseGoogle}
 					cookiePolicy={"single_host_origin"}
 				/>
-
-				<FacebookLogin
-					appId="Your facebook app id"
-					autoLoad={false}
-					fields="name,email,picture"
-					callback={responseFacebook}
-				/>
 			</div>
 
 			<p>
-				New Customer? <Link to="/register">Register</Link>
+				New Customer?{" "}
+				<Link className="text-white" to="/register">
+					Register
+				</Link>
 			</p>
 		</div>
 	);
