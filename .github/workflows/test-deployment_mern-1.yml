@@ -32,6 +32,6 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: "mern-1"
-          slot-name: "production"
-          publish-profile: ${{ secrets.AzureAppService_PublishProfile_aa339a15f3ad4d7ca16fcd6847b07a1d }}
+          slot-name: "Production"
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_D0E9D09E88964187BDA942C4B52C0CAB }}
           package: .
