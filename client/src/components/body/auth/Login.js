@@ -134,7 +134,7 @@ function Login() {
 			</div>
 
 			<p>
-				New Customer?{" "}
+				New User?{" "}
 				<Link className="text-white" to="/register">
 					Register
 				</Link>
