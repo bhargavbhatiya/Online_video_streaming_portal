@@ -57,7 +57,6 @@ const PopularMovies = () => {
 					poster_path,
 					vote_average,
 				};
-				console.log(newdata);
 				setPopularMovies((popularMovies) => [...popularMovies, newdata]);
 			});
 		} catch (err) {
