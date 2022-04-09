@@ -11,31 +11,10 @@ const unavailable = "https://www.movienewz.com/img/films/poster-holder.jpg";
 
 const Search = () => {
 	const [searchText, setSearchText] = useState("");
-	//const [dropdownlist, setDropdownlist] = useState([]);
 
 	const [content, setContent] = useState([]);
 	const [loading, setLoading] = useState(false);
-	//const [flag, setFlag] = useState(false);
-	// const compo =()=>{
-	//   {
-	//     return (
-	//       <div>
-	//       {dropdownlist}
-	//       </div>
-
-	//     );
-	//   }
-	//   };
-
-	// const darkTheme = createMuiTheme({
-	//   palette: {
-	//     type: "dark",
-	//     primary: {
-	//       main: "#fff",
-	//     },
-	//   },
-	// });
-
+	
 	const notify = (msg) => {
 		toast(msg);
 	};
@@ -48,72 +27,20 @@ const Search = () => {
 		);
 	};
 
-	const searchdropdown = async (searchText1) => {
-		// try {
-		//   setDropdownlist([]);
-		//   console.log("1" + searchText1);
-		//   if (searchText1.length > 0) {
-		//     console.log("inside dbc "+dropdownlist);
-		//     const res = await axios.get(`/movie/get_search_title/${searchText1}`);
-		//     const { movies } = res.data;
-		//     console.log("222" + movies.length);
-		//     if (!movies) {
-		//       console.log("no movies");
-		//       setDropdownlist([]);
-		//       return;
-		//     }
-		//     let array = [];
-		//     movies.forEach(movie => {
-		//       const { movie_id, title } = movie;
-		//       const newdata = {
-		//         movie_id,
-		//         title
-		//       };
-		//       array.push(newdata);
-		//     //  setDropdownlist([...dropdownlist,newdata]);
-		//       // console.log("inside foreach "+newdata.movie_id+" "+newdata.title);
-		//     }
-		//     )
-		//    setDropdownlist(array);
-		//    setFlag(false);
-		//     // fetchSearch();
-		//     // var delayInMilliseconds = 1000; //1 second
-		//     // setTimeout(function () {
-		//     //   //your code to be executed after 1 second
-		//     //   console.log(dropdownlist);
-		//     // }, delayInMilliseconds);
-		//   }
-		//   else {
-		//     setDropdownlist('');
-		//   }
-		// }
-		// catch (err) {
-		//   console.log(err);
-		// }
-	};
 
 	const fetchSearch = async () => {
-		// try {
-		//   console.log("inside fetchSearch"+searchText);
-		//   console.log("inside fetchSearchdrop"+dropdownlist);
-		// }
-		// catch (err) {
-		//   console.log(err);
-		// }
+	
 		try {
 			setContent([]);
 			var cnt = 0;
 			setLoading(true);
 			const res = await axios.get(`/movie/get_search_movie/${searchText}`);
-			// console.log(res.data);
 			const { movies } = res.data;
 			if (!movies) {
-				// console.log("no movies");
 				setContent("");
 				setLoading(false);
 				return;
 			}
-			// console.log(movies);
 
 			const posterdata = await Promise.all(
 				movies.map((movie) => fetchPoster(movie.movie_id))
@@ -147,25 +74,18 @@ const Search = () => {
 					poster_path,
 					vote_average,
 				};
-				// console.log(newdata);
 				setContent((content) => [...content, newdata]);
 			});
 
 			setLoading(false);
-			console.log("heloooooo");
 
-			// console.log(content);
 		} catch (error) {
-			// console.error(error);
+			console.error(error);
 		}
 	};
 
 	useEffect(() => {
 		window.scroll(0, 0);
-		//setContent([]);
-		//searchdropdown(searchText);
-		//  fetchSearch();
-		// eslint-disable-next-line
 	}, []);
 
 	return (
@@ -179,8 +99,6 @@ const Search = () => {
 						variant="filled"
 						onChange={(e) => {
 							setSearchText(e.target.value);
-							// setFlag(true);
-							//searchdropdown(e.target.value);
 						}}
 					/>
 					<Button

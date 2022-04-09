@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema(
 			required: [true, "Please enter your name!"],
 			trim: true,
 		},
+		
 		email: {
 			type: String,
 			required: [true, "Please enter your email!"],
@@ -45,5 +46,6 @@ const userSchema = new mongoose.Schema(
 		timestamps: true,
 	}
 );
+
 
 module.exports = mongoose.model("Users", userSchema);

@@ -2,17 +2,14 @@ import React, { useEffect, useState } from "react";
 import "./NewContentModal.css";
 import ReactJWPlayer from "react-jw-player";
 import axios from "axios";
-import { Link, useParams } from "react-router-dom";
-import { Button } from "@material-ui/core";
-import YouTubeIcon from "@material-ui/icons/YouTube";
-import FavoriteIcon from "@mui/icons-material/Favorite";
+import { useParams } from "react-router-dom";
+
 import Carousel from "../Carousel/Carousel";
 import { useSelector } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 
 import { img_500, unavailable } from "../../../../config/config.js";
-import { pink } from "@mui/material/colors";
 
 import ShareMovie from "./ShareMovie";
 
@@ -25,7 +22,6 @@ const NewContentModal = () => {
 	const email = auth.user.email;
 	const username = auth.user.name;
 	const { isAdmin } = auth;
-	const [contentForPlayer, setContentForPlayer] = useState([]);
 	const [commentList, setCommentList] = useState([]);
 	const url = window.location.href;
 
@@ -34,10 +30,8 @@ const NewContentModal = () => {
 	};
 
 	const checkWatchLater = async () => {
-		// console.log("check watch later");
 		const movie_id = id;
 		try {
-			// console.log(email);
 			const res = await axios.post("/movie/checkWatchLater", {
 				movie_id,
 				email,
@@ -47,14 +41,12 @@ const NewContentModal = () => {
 				setIsWatchList(true);
 			}
 
-			// console.log(res);
 		} catch (err) {
-			// console.log(err);
+			console.log(err);
 		}
 	};
 
 	const addToWatchLater = async () => {
-		// console.log("add to watch later");
 		const movie_id = id;
 
 		try {
@@ -64,16 +56,13 @@ const NewContentModal = () => {
 			});
 
 			notify(res.data.msg);
-			// console.log(res);
-			// checkWatchLater();
 			setIsWatchList(true);
 		} catch (err) {
-			// console.log(err);
+			console.log(err);
 		}
 	};
 
 	const checkLiked = async () => {
-		// console.log("check liked");
 		const movie_id = id;
 
 		try {
@@ -93,7 +82,6 @@ const NewContentModal = () => {
 	};
 
 	const addToLikedList = async () => {
-		// console.log("add to liked list");
 		const movie_id = id;
 
 		try {
@@ -103,8 +91,6 @@ const NewContentModal = () => {
 			});
 
 			notify(res.data.msg);
-			// console.log(res);
-			// checkLiked();
 			if (res.data.msg === "movie is disliked") {
 				setIsLiked(false);
 			} else setIsLiked(true);
@@ -115,21 +101,9 @@ const NewContentModal = () => {
 
 	const addComment = async () => {
 		setComment("");
-		// console.log("add comment");
 		const movie_id = id;
 
-		// console.log(movie_id, username, comment);
 		const date = new Date();
-		//const date = new Date(new Date().getTime() + (330 + new Date().getTimezoneOffset()) * 60000);
-		// or
-		// const d = new Date();
-		// const utc = d.getTime() + (d.getTimezoneOffset() * 60000);
-		// const date = new Date(utc + (3600000 * +5.5));
-
-		// var ist = nd.toLocaleString();
-		// console.log("IST now is : " + ist);
-		//const date=date.toLocaleDateString();
-		// console.log(date);
 
 		try {
 			const res = await axios.post("/movie/addComment", {
@@ -139,20 +113,16 @@ const NewContentModal = () => {
 				username,
 				date,
 			});
-			// console.log("after add comment");
 			notify(res.data.msg);
 			setCommentList((data) => [...data, res.data.commentObj]);
-			// console.log(res);
 		} catch (err) {
-			console.log("Errordsd" + err);
+			console.log("Error" + err);
 		}
 	};
 
 	const getComments = async () => {
-		// console.log("get comments");
 		try {
 			const res = await axios.post(`/movie/getComments`, { movie_id: id });
-			// console.log(res.data.commentList);
 			setCommentList(res.data.commentList);
 		} catch (err) {
 			console.log(err);
@@ -160,14 +130,12 @@ const NewContentModal = () => {
 	};
 
 	const deleteComment = async (comment_id) => {
-		// console.log("delete comment");
 		try {
 			const res = await axios.post("/movie/deleteComment", {
 				movie_id: id,
 				comment_id,
 			});
 			notify(res.data.msg);
-			// console.log(res);
 			setCommentList((data) => data.filter((item) => item._id !== comment_id));
 		} catch (err) {
 			console.log(err);
@@ -184,7 +152,6 @@ const NewContentModal = () => {
 		try {
 			const res = await axios.get(`/movie/get_movie/${id}`);
 			let obj = res.data.movie[0];
-			// setRecommendList((data) => [...data, res1.data.movie[0]]);
 			var poster_path = await axios.get(
 				`https://api.themoviedb.org/3/movie/${res.data.movie[0].movie_id}?api_key=${process.env.REACT_APP_API_KEY}`
 			);
@@ -192,12 +159,9 @@ const NewContentModal = () => {
 			obj = { ...obj, poster_path };
 			setContent(obj);
 			setGenresList(eval(res.data.movie[0].genres));
-			// console.log(eval(res.data.movie[0].genres)[0].name);
-			// setContent(res.data.movie[0]);
 		} catch (err) {
 			console.log(err);
 		}
-		// console.log(data);
 	};
 
 	const fetchVideo = async () => {
@@ -215,13 +179,12 @@ const NewContentModal = () => {
 		var dd = date.getDate();
 		var mm = date.getMonth() + 1;
 		var yyyy = date.getFullYear();
-		return `${dd}-${mm}-${yyyy} ${newDate.getHours()}:${newDate.getMinutes()}:${newDate.getSeconds()}`;
 		// return typeof date;
+		return `${dd}-${mm}-${yyyy} ${newDate.getHours()}:${newDate.getMinutes()}:${newDate.getSeconds()}`;
 	};
 	const [recommendIDs, setRecommendIDs] = useState([]);
 	const [recommendList, setRecommendList] = useState([]);
 	const recommendMovies = async () => {
-		console.log("recommend movies");
 		try {
 			const res = await axios.get(
 				`${process.env.REACT_APP_AZURE_RECOMMENDATIONS_API_URL}/${content.title}`
@@ -229,18 +192,12 @@ const NewContentModal = () => {
 			console.log(res.data);
 			setRecommendIDs(res.data);
 			console.log(recommendIDs);
-			// abc
-			// recommendIDs.map(async (movie) => {
-			// 	const res1 = await axios.get(`/movie/get_movie/${movie.id}`);
-			// 	console.log(res1.data.movie);
-			// 	setRecommendList((data) => [...data, res1.data.movie]);
-			// });
+
 		} catch (err) {
 			console.log(err);
 		}
 	};
 	useEffect(() => {
-		// getVideo();
 		fetchVideo();
 		fetchData();
 		getComments();
@@ -256,10 +213,8 @@ const NewContentModal = () => {
 		if (recommendIDs.length > 0) {
 			recommendIDs.map(async (movie) => {
 				const res1 = await axios.get(`/movie/get_movie/${movie.id}`);
-				// console.log(res1.data.movie[0]);
 
 				let obj = res1.data.movie[0];
-				// setRecommendList((data) => [...data, res1.data.movie[0]]);
 				var poster_path = await axios.get(
 					`https://api.themoviedb.org/3/movie/${res1.data.movie[0].movie_id}?api_key=${process.env.REACT_APP_API_KEY}`
 				);
@@ -408,18 +363,7 @@ const NewContentModal = () => {
 			<ToastContainer />
 			{content && (
 				<div className="main-class">
-					{
-						// <RWebShare
-						// 	data={{
-						// 		text: "Watch this movie",
-						// 		url: `http://localhost:3000/movie/${id}`,
-						// 		title: "Share Movie",
-						// 	}}
-						// 	onClick={() => console.log("shared successfully!")}
-						// >
-						// 	<button>Share 🔗</button>
-						// </RWebShare>
-					}
+
 
 					<div ClassName="ContentModal__about">
 						<span className="display-1 ContentModal__title">
@@ -437,20 +381,10 @@ const NewContentModal = () => {
 						<ReactJWPlayer
 							playerId="futureskill"
 							playerScript="https://content.jwplatform.com/libraries/tqjyvT9W.js"
-							// file="https://content.jwplatform.com/manifests/vM7nH0Kl.m3u8"
 							file={content.videoUrl}
 							onReady={() => console.log("onReady")}
 							onTime={(e) => console.log(e)}
-							// onSeventyFivePercent={() => console.log("75 Percent")}
-							// onNinetyFivePercent={() => console.log("95 Percent")}
-							// onOneHundredPercent={() => console.log("100 Percent")}
-							// isAutoPlay={true}
 
-							// aspectRatio="16:9"
-							// customProps={{
-							// 	playbackRateControls: [1, 1.25, 1.5],
-							// 	cast: {},
-							// }}
 						/>
 					</div>
 

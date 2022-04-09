@@ -1,8 +1,6 @@
 .carousel {
 	display: flex;
-	/* margin-top: 50px;
-	margin-bottom: 50px; */
-	/* margin: 50px; */
+
 }
 .alice-carousel__stage-item__active {
 	background-color: green;
@@ -14,15 +12,7 @@
 	transition: transform 500ms;
 }
 
-/* .carousel:focus-within .carouselItem,
-.carousel:hover .carouselItem {
-	transform: translateX(50%);
-}
 
-.carouselItem img:focus ~ .carouselItem,
-.carouselItem img:hover ~ .carouselItem {
-	transform: translateX(20%);
-} */
 
 .carousel .carouselItem:focus,
 .carousel .carouselItem:hover {
@@ -35,13 +25,11 @@
 	max-width: 100%;
 }
 
-/* ------------------------------------- */
 .carouselItem {
 	display: flex;
 	flex-direction: column;
 	object-fit: contain;
 	padding: 10px;
-	/* margin-top: 20px; */
 }
 .carouselItem__img {
 	border-radius: 10px;

@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import AddMovie from "../body/movies/addMovieForm/addMovie";
 import "./header.css";
 
 function Header() {
@@ -16,26 +15,12 @@ function Header() {
 			localStorage.removeItem("firstLogin");
 			window.location.href = "/";
 		} catch (err) {
+			console.log(err);
 			window.location.href = "/";
 		}
 	};
 
-	// <li className="drop-nav">
-	// 	<Link to="#" className="avatar">
-	// 		<img src={user.avatar} alt="" /> {user.name}{" "}
-	// 		<i className="fas fa-angle-down"></i>
-	// 	</Link>
-	// 	<ul className="dropdown">
-	// 		<li>
-	// 			<Link to="/profile">Profile</Link>
-	// 		</li>
-	// 		<li>
-	// 			<Link to="/" onClick={handleLogout}>
-	// 				Logout
-	// 			</Link>
-	// 		</li>
-	// 	</ul>
-	// </li>;
+
 
 	const userLink = () => {
 		return (

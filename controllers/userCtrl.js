@@ -48,6 +48,8 @@ const userCtrl = {
 				msg: "Register Success! Please activate your email to start.",
 			});
 		} catch (err) {
+			console.log(err);
+
 			return res.status(500).json({ msg: err.message });
 		}
 	},
@@ -60,7 +62,7 @@ const userCtrl = {
 			);
 
 			const { name, email, password } = user;
- 
+
 			const check = await Users.findOne({ email });
 			if (check)
 				return res.status(400).json({ msg: "This email already exists." });
@@ -70,11 +72,12 @@ const userCtrl = {
 				email,
 				password,
 			});
-      // console.log (newUser);
 			await newUser.save();
 
 			res.json({ msg: "Account has been activated!" });
 		} catch (err) {
+			console.log(err);
+
 			return res.status(500).json({ msg: err.message });
 		}
 	},
@@ -90,7 +93,7 @@ const userCtrl = {
 				return res.status(400).json({ msg: "Password is incorrect." });
 
 			const refresh_token = createRefreshToken({ id: user._id });
-			res.cookie("refreshtoken", refresh_token , {
+			res.cookie("refreshtoken", refresh_token, {
 				httpOnly: true,
 				path: "/user/refresh_token",
 				maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
@@ -98,6 +101,8 @@ const userCtrl = {
 
 			res.json({ msg: "Login success!" });
 		} catch (err) {
+			console.log(err);
+
 			return res.status(500).json({ msg: err.message });
 		}
 	},
@@ -113,6 +118,8 @@ const userCtrl = {
 				res.json({ access_token });
 			});
 		} catch (err) {
+			console.log(err);
+
 			return res.status(500).json({ msg: err.message });
 		}
 	},
@@ -129,13 +136,14 @@ const userCtrl = {
 			sendMail(email, url, "Reset your password");
 			res.json({ msg: "Re-send the password, please check your email." });
 		} catch (err) {
+			console.log(err);
+
 			return res.status(500).json({ msg: err.message });
 		}
 	},
 	resetPassword: async (req, res) => {
 		try {
 			const { password } = req.body;
-			// console.log (password);
 			const passwordHash = await bcrypt.hash(password, 12);
 
 			await Users.findOneAndUpdate(
@@ -147,6 +155,8 @@ const userCtrl = {
 
 			res.json({ msg: "Password successfully changed!" });
 		} catch (err) {
+			console.log(err);
+
 			return res.status(500).json({ msg: err.message });
 		}
 	},
@@ -156,6 +166,8 @@ const userCtrl = {
 
 			res.json(user);
 		} catch (err) {
+			console.log(err);
+
 			return res.status(500).json({ msg: err.message });
 		}
 	},
@@ -165,6 +177,8 @@ const userCtrl = {
 
 			res.json(users);
 		} catch (err) {
+			console.log(err);
+
 			return res.status(500).json({ msg: err.message });
 		}
 	},
@@ -173,6 +187,8 @@ const userCtrl = {
 			res.clearCookie("refreshtoken", { path: "/user/refresh_token" });
 			return res.json({ msg: "Logged out." });
 		} catch (err) {
+			console.log(err);
+
 			return res.status(500).json({ msg: err.message });
 		}
 	},
@@ -189,6 +205,8 @@ const userCtrl = {
 
 			res.json({ msg: "Update Success!" });
 		} catch (err) {
+			console.log(err);
+
 			return res.status(500).json({ msg: err.message });
 		}
 	},
@@ -205,6 +223,8 @@ const userCtrl = {
 
 			res.json({ msg: "Update Success!" });
 		} catch (err) {
+			console.log(err);
+
 			return res.status(500).json({ msg: err.message });
 		}
 	},
@@ -214,6 +234,8 @@ const userCtrl = {
 
 			res.json({ msg: "Deleted Success!" });
 		} catch (err) {
+			console.log(err);
+
 			return res.status(500).json({ msg: err.message });
 		}
 	},
@@ -270,66 +292,15 @@ const userCtrl = {
 				res.json({ msg: "Login success!" });
 			}
 		} catch (err) {
+			console.log(err);
+
 			return res.status(500).json({ msg: err.message });
 		}
 	},
-	facebookLogin: async (req, res) => {
-		try {
-			const { accessToken, userID } = req.body;
 
-			const URL = `https://graph.facebook.com/v2.9/${userID}/?fields=id,name,email,picture&access_token=${accessToken}`;
-
-			const data = await fetch(URL)
-				.then((res) => res.json())
-				.then((res) => {
-					return res;
-				});
-
-			const { email, name, picture } = data;
-
-			const password = email + process.env.FACEBOOK_SECRET;
-
-			const passwordHash = await bcrypt.hash(password, 12);
-
-			const user = await Users.findOne({ email });
-
-			if (user) {
-				const isMatch = await bcrypt.compare(password, user.password);
-				if (!isMatch)
-					return res.status(400).json({ msg: "Password is incorrect." });
-
-				const refresh_token = createRefreshToken({ id: user._id });
-				res.cookie("refreshtoken", refresh_token, {
-					httpOnly: true,
-					path: "/user/refresh_token",
-					maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-				});
-
-				res.json({ msg: "Login success!" });
-			} else {
-				const newUser = new Users({
-					name,
-					email,
-					password: passwordHash,
-					avatar: picture.data.url,
-				});
-
-				await newUser.save();
-
-				const refresh_token = createRefreshToken({ id: newUser._id });
-				res.cookie("refreshtoken", refresh_token, {
-					httpOnly: true,
-					path: "/user/refresh_token",
-					maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-				});
-
-				res.json({ msg: "Login success!" });
-			}
-		} catch (err) {
-			return res.status(500).json({ msg: err.message });
-		}
-	},
 };
+
+
 
 function validateEmail(email) {
 	const re =
@@ -354,5 +325,6 @@ const createRefreshToken = (payload) => {
 		expiresIn: "7d",
 	});
 };
+
 
 module.exports = userCtrl;

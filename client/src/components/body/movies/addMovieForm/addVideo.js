@@ -6,7 +6,6 @@ import "./addVideo.css";
 import { ToastContainer, toast } from "react-toastify";
 import { CreateJobCommand } from "@aws-sdk/client-mediaconvert";
 import { emcClient } from "./libs/emcClient.js";
-import { ListJobsCommand } from "@aws-sdk/client-mediaconvert";
 import AddMovieForm from "./addMovieForm";
 
 const AddVideo1 = () => {
@@ -14,7 +13,6 @@ const AddVideo1 = () => {
 	const [selectedMovie, setSelectedMovie] = useState();
 	const [selectedMovieID, setSelectedMovieID] = useState();
 	const [selectedFileName, setSelectedFileName] = useState("");
-	// const [selectedMovie, setSelectedMovie] = useState();
 
 	const notify = (msg) => {
 		toast(msg);
@@ -331,16 +329,12 @@ const AddVideo1 = () => {
 
 	const run = async () => {
 		try {
-			// const data = await emcClient.send(new ListJobsCommand(params3));
 			const data = await emcClient.send(new CreateJobCommand(newParam));
-			// console.log("Success. Jobs: ", data);
 
 			const res = await axios.post("/movie/setVideoUrl", {
 				movie_id: selectedMovieID,
 				videoUrl: `https://video0test.s3.ap-south-1.amazonaws.com/outputs/${selectedMovieID}/${selectedMovieID}.m3u8`,
 			});
-			// videoUrl: `https://video0test.s3.ap-south-1.amazonaws.com/outputs/49529/49529.m3u8`,
-			// console.log("Success. ", res);
 			notify("Video added successfully");
 		} catch (err) {
 			console.log("Error", err);
@@ -350,16 +344,13 @@ const AddVideo1 = () => {
 		const getMovieList = async () => {
 			const res = await axios.get("/movie/allMovieList");
 			setMovieList(res.data.movies);
-			// console.log(res.data.movies);
 		};
 		getMovieList();
 	}, []);
 
 	const fileInput = useRef();
 
-	// useEffect(() => {
-	// 	setSelectedFileName(fileInput.current.files[0].name);
-	// }, [fileInput]);
+
 	const handleClick = (event) => {
 		event.preventDefault();
 		if (
@@ -368,11 +359,9 @@ const AddVideo1 = () => {
 			selectedMovie.movie_id &&
 			selectedMovie.label
 		) {
-			// electedMovieID (""+ selectedMovie.movie_id);
-			// let file = fileInput.current.files[0];
+
 			let file = selectedFileName;
-			// let newFileName = fileInput.current.files[0].name.replace(/\..+$/, "");
-			// file.name = toString(selectedMovie.movie_id);
+
 			let newFileName = "" + selectedMovie.movie_id;
 			setSelectedMovieID(newFileName);
 
@@ -386,9 +375,7 @@ const AddVideo1 = () => {
 				secretAccessKey: process.env.REACT_APP_aws_secret_access_key,
 			};
 			const ReactS3Client = new S3(config);
-			// console.log("21 " + toString(ReactS3Client[0]) + "x");
 			ReactS3Client.uploadFile(file, newFileName).then((data) => {
-				// console.log("23 " + data);
 				if (data.status === 204) {
 					notify("video uploaded successfully");
 				} else {
@@ -402,8 +389,6 @@ const AddVideo1 = () => {
 
 	const changeFile = (event) => {
 		event.preventDefault();
-		console.log(event.target.files[0]);
-		console.log("Inside changeFile");
 		setSelectedFileName(event.target.files[0]);
 	};
 

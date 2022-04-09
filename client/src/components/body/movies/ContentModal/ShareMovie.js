@@ -23,7 +23,6 @@ const ShareMovie = ({ notify, url }) => {
 	return (
 		<>
 			<div className="share-component">
-				{/* Button trigger modal */}
 				<span
 					className="share-btn"
 					data-bs-toggle="modal"
@@ -32,7 +31,6 @@ const ShareMovie = ({ notify, url }) => {
 					<i className="fa fa-share-alt" /> Share
 				</span>
 
-				{/* Modal */}
 				<div
 					className="modal fade"
 					id="exampleModal"

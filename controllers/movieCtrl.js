@@ -2,8 +2,9 @@ const MoviesDBC = require("../models/movieModel");
 const Users = require("../models/userModel");
 const movieCtrl = {
 	add_movie_details: async (req, res) => {
-		// console.log (req.user);
-		// console.log (req.body);
+
+
+
 		try {
 			const {
 				movie_id,
@@ -47,25 +48,24 @@ const movieCtrl = {
 
 			res.json({ msg: "Details Added Successfully!" });
 		} catch (err) {
+			console.log(err);
 			return res.status(500).json({ msg: err.message });
 		}
 	},
 
 	getTotalMovies: async (req, res) => {
-		// console.log  ("getTotalMovies");
 		try {
 			const totalMovies = await MoviesDBC.countDocuments();
-			// console.log (totalMovies);
 			res.json(totalMovies);
 		} catch (err) {
+			console.log(err);
+
 			return res.status(500).json({ msg: err.message });
 		}
 	},
 
 	get_allmovies: async (req, res) => {
-		// console.log ("inside get_allmovies");
 		const { page } = req.params;
-		// console.log (page);
 		const skip1 = (page - 1) * 21;
 		try {
 
@@ -89,20 +89,18 @@ const movieCtrl = {
 					commentList: 0,
 				}
 			).skip(skip1).limit(21);
-			// console.log ("first"+movies);
 
 			res.json({
 				msg: "movies find successfully",
 				movies: movies,
 			});
 		} catch (err) {
-			// console.log (err);
+			console.log(err);
 			return res.status(500).json({ msg: err.message });
 		}
 	},
 
 	getPopularMovies: async (req, res) => {
-		// console.log ("inside getPopularMovies");
 		try {
 			const movies = await MoviesDBC.find(
 				{},
@@ -122,572 +120,480 @@ const movieCtrl = {
 					commentList: 0,
 				}
 			).sort({ popularity: -1 }).limit(15);
-			 console.log ("second"+movies);
 
 			res.json({
 				msg: "movies find successfully",
 				movies: movies,
 			});
 		} catch (err) {
-			console.log (err);
+			console.log(err);
 			return res.status(500).json({ msg: err.message });
 		}
 	},
 
-		allMovieList: async (req, res) => {
-			// console.log ("inside allMovieList");
-			try {
-				const movies = await MoviesDBC.find(
-					{},
-					{
-						_id: 0,
-						overview: 0,
-						genres: 0,
-						keywords: 0,
-						cast: 0,
-						crew: 0,
-						popularity: 0,
-						production_companies: 0,
-						runtime: 0,
-						tagline: 0,
-						vote_average: 0,
-						vote_count: 0,
-						release_date: 0,
-						original_language: 0,
-						videoUrl: 0,
-						uploadedBy: 0,
-						commentList: 0,
-					}
-				)
-				// console.log ("first"+movies);
-				const allmovies = movies.map((movie) => {
-					const obj = {
-						movie_id: movie.movie_id,
-						label: movie.title,
-					};
-					// console.log (movie.movie_id);
-					return obj;
-				});
-				res.json({
-					msg: "movie find successfully",
-					movies: allmovies,
-				});
-			} catch (err) {
-				// console.log (err);
-				return res.status(500).json({ msg: err.message });
-			}
-		},
-			setVideoUrl: async (req, res) => {
-				// console.log ("inside setVideoUrl");
-				try {
-					const { movie_id, videoUrl } = req.body;
-					const movie = await MoviesDBC.findOneAndUpdate(
-						{ movie_id },
-						{ videoUrl },
-						{ new: true }
-					);
-					res.json({
-						msg: "Url attached to movie successfully",
-						movie,
-					});
-				} catch (err) {
-					// console.log (err);
-					return res.status(500).json({ msg: err.message });
+	allMovieList: async (req, res) => {
+		try {
+			const movies = await MoviesDBC.find(
+				{},
+				{
+					_id: 0,
+					overview: 0,
+					genres: 0,
+					keywords: 0,
+					cast: 0,
+					crew: 0,
+					popularity: 0,
+					production_companies: 0,
+					runtime: 0,
+					tagline: 0,
+					vote_average: 0,
+					vote_count: 0,
+					release_date: 0,
+					original_language: 0,
+					videoUrl: 0,
+					uploadedBy: 0,
+					commentList: 0,
 				}
-			},
-				get_movie: async (req, res) => {
-					// console.log ("inside get_movie using id");
-					// console.log (req.user);
-					// console.log (req.body);
-					try {
-						// console.log (req.params.id);
+			)
+			const allmovies = movies.map((movie) => {
+				const obj = {
+					movie_id: movie.movie_id,
+					label: movie.title,
+				};
+				return obj;
+			});
+			res.json({
+				msg: "movie find successfully",
+				movies: allmovies,
+			});
+		} catch (err) {
+			console.log(err);
+			return res.status(500).json({ msg: err.message });
+		}
+	},
+	setVideoUrl: async (req, res) => {
+		try {
+			const { movie_id, videoUrl } = req.body;
+			const movie = await MoviesDBC.findOneAndUpdate(
+				{ movie_id },
+				{ videoUrl },
+				{ new: true }
+			);
+			res.json({
+				msg: "Url attached to movie successfully",
+				movie,
+			});
+		} catch (err) {
+			console.log(err);
+			return res.status(500).json({ msg: err.message });
+		}
+	},
+	get_movie: async (req, res) => {
 
-						//   MoviesDBC.findOneAndUpdate({movie_id:req.params.id},{$set:{videoUrl:"awhsiudubadu"}},{new:true},(err,movie)=>{
-						// 	if(err)
+		try {
 
-						// 		// console.log (err);
-						// 	else
 
-						// 		// console.log (movie);
-						// });
+			const movie = await MoviesDBC.find({ movie_id: req.params.id });
+			if (movie.length == 0) {
+				return res.status(404).json({ msg: "movie not found" });
+			}
 
-						const movie = await MoviesDBC.find({ movie_id: req.params.id });
-						// console.log ("first"+movies);
-						if (movie.length == 0) {
-							return res.status(404).json({ msg: "movie not found" });
+
+
+			res.json({
+				msg: "movie find successfully",
+				movie: movie,
+			});
+		} catch (err) {
+			console.log(err);
+			return res.status(500).json({ msg: err.message });
+		}
+	},
+	get_search_movie: async (req, res) => {
+
+		try {
+			const name = req.params.name;
+
+
+
+			const movie = await MoviesDBC.find(
+				{ title: { $regex: "^" + name, $options: "i" } },
+				{
+					_id: 0,
+					genres: 0,
+					keywords: 0,
+					cast: 0,
+					crew: 0,
+					popularity: 0,
+					production_companies: 0,
+					tagline: 0,
+					vote_count: 0,
+					original_language: 0,
+					videoUrl: 0,
+					uploadedBy: 0,
+				}
+			);
+
+			if (movie.length == 0) {
+				return res.json({ msg: "movie not found" });
+			}
+
+
+			return res.json({
+				msg: "movie find successfully",
+				movies: movie,
+			});
+		} catch (err) {
+			console.log(err);
+			return res.status(500).json({ msg: err.message });
+		}
+	},
+	get_search_title: async (req, res) => {
+
+		try {
+			const name = req.params.name;
+			const movie = await MoviesDBC.find(
+				{ title: { $regex: "^" + name, $options: "i" } },
+				{
+					_id: 0,
+					overview: 0,
+					genres: 0,
+					keywords: 0,
+					cast: 0,
+					crew: 0,
+					popularity: 0,
+					production_companies: 0,
+					runtime: 0,
+					tagline: 0,
+					vote_average: 0,
+					vote_count: 0,
+					release_date: 0,
+					original_language: 0,
+					videoUrl: 0,
+					uploadedBy: 0,
+				}
+			);
+
+			if (movie.length == 0) {
+				return res.json({ msg: "movie not found" });
+			}
+
+
+			return res.json({
+				msg: "movie find successfully",
+				movies: movie,
+			});
+		} catch (err) {
+			console.log(err);
+			return res.status(500).json({ msg: err.message });
+		}
+	},
+	addToWatchLater: async (req, res) => {
+
+		const { movie_id, email } = req.body;
+
+
+		try {
+			const user1 = await Users.findOne({ email: email });
+
+			if (user1.watchLaterList.includes(movie_id)) {
+				return res.json({ msg: "movie already added to watch later List" });
+			}
+
+			const user = await Users.findOneAndUpdate(
+				{ email: email },
+				{ $push: { watchLaterList: movie_id } },
+				{ new: true }
+			);
+			await user.save();
+			res.json({ msg: "movie added to watch later list" });
+		} catch (err) {
+			console.log(err);
+			return res.status(500).json({ msg: err.message });
+		}
+	},
+
+	checkWatchLater: async (req, res) => {
+
+		const { movie_id, email } = req.body;
+
+
+		try {
+			const user1 = await Users.findOne({ email: email });
+
+			if (user1 && user1.watchLaterList.includes(movie_id)) {
+				return res.json({ msg: true });
+			}
+
+			res.json({ msg: false });
+		} catch (err) {
+			console.log(err);
+			return res.status(500).json({ msg: err.message });
+		}
+	},
+
+	getWatchLaterList: async (req, res) => {
+
+		const { email } = req.body;
+
+		try {
+			const user = await Users.findOne({ email: email });
+			const watchLaterList = user.watchLaterList;
+
+			const movies = await Promise.all(
+				watchLaterList.map(async (movie_id) => {
+					return await MoviesDBC.findOne(
+						{ movie_id },
+						{
+							_id: 0,
+							genres: 0,
+							keywords: 0,
+							cast: 0,
+							crew: 0,
+							popularity: 0,
+							production_companies: 0,
+							vote_count: 0,
+							original_language: 0,
+							videoUrl: 0,
+							uploadedBy: 0,
 						}
+					);
+				})
+			);
+			res.json({ movies });
+		} catch (err) {
+			console.log(err);
+			return res.status(500).json({ msg: err.message });
+		}
+	},
+	removeWatchLater: async (req, res) => {
 
-						movie.forEach((movie) => {
-							// console.log (movie.videoUrl);
-						});
+		const { movie_id, email } = req.body;
 
-						res.json({
-							msg: "movie find successfully",
-							movie: movie,
-						});
-					} catch (err) {
-						// console.log (err);
-						return res.status(500).json({ msg: err.message });
-					}
-				},
-					get_search_movie: async (req, res) => {
-						// console.log ("inside get_search_movie using name");
-						// console.log (req.user);
-						// console.log (req.body);
-						try {
-							// console.log (req.params);
-							const name = req.params.name;
+		const user = await Users.findOne({ email: email });
 
-							//   MoviesDBC.findOneAndUpdate({movie_id:req.params.id},{$set:{videoUrl:"awhsiudubadu"}},{new:true},(err,movie)=>{
-							// 	if(err)
+		try {
+			if (user.watchLaterList.includes(movie_id)) {
+				const user = await Users.findOneAndUpdate(
+					{ email: email },
+					{ $pull: { watchLaterList: movie_id } },
+					{ new: true }
+				);
+				await user.save();
+				res.json({ msg: "movie removed from watch later list" });
+			} else {
+				res.json({ msg: "movie not found in watch later list" });
+			}
+		} catch (err) {
+			console.log(err);
+			return res.status(500).json({ msg: err.message });
+		}
+	},
+	getLikedList: async (req, res) => {
 
-							// 		// console.log (err);
-							// 	else
+		const { email } = req.body;
 
-							// 		// console.log (movie);
-							// });
+		try {
+			const user = await Users.findOne({ email: email });
+			const likedVideoList = user.likedVideoList;
 
-							const movie = await MoviesDBC.find(
-								{ title: { $regex: "^" + name, $options: "i" } },
-								{
-									_id: 0,
-									genres: 0,
-									keywords: 0,
-									cast: 0,
-									crew: 0,
-									popularity: 0,
-									production_companies: 0,
-									tagline: 0,
-									vote_count: 0,
-									original_language: 0,
-									videoUrl: 0,
-									uploadedBy: 0,
-								}
-							);
-							// console.log ("first"+movies);
-							// if (movie.length == 0) {
-							// 	return res.status(404).json({ msg: "movie not found" });
-							// }
-							if (movie.length == 0) {
-								return res.json({ msg: "movie not found" });
-							}
-
-							movie.forEach((movie) => {
-								// console.log (movie.title);
-							});
-
-							return res.json({
-								msg: "movie find successfully",
-								movies: movie,
-							});
-						} catch (err) {
-							// console.log (err);
-							return res.status(500).json({ msg: err.message });
+			const movies = await Promise.all(
+				likedVideoList.map(async (movie_id) => {
+					return await MoviesDBC.findOne(
+						{ movie_id },
+						{
+							_id: 0,
+							genres: 0,
+							keywords: 0,
+							cast: 0,
+							crew: 0,
+							popularity: 0,
+							production_companies: 0,
+							vote_count: 0,
+							original_language: 0,
+							videoUrl: 0,
+							uploadedBy: 0,
 						}
-					},
-						get_search_title: async (req, res) => {
-							// console.log ("inside get_search_title using name");
+					);
+				})
+			);
+			res.json({ movies });
+		} catch (err) {
+			console.log(err);
+			return res.status(500).json({ msg: err.message });
+		}
+	},
+	checkLiked: async (req, res) => {
 
-							try {
-								// console.log (req.params);
-								const name = req.params.name;
-								const movie = await MoviesDBC.find(
-									{ title: { $regex: "^" + name, $options: "i" } },
-									{
-										_id: 0,
-										overview: 0,
-										genres: 0,
-										keywords: 0,
-										cast: 0,
-										crew: 0,
-										popularity: 0,
-										production_companies: 0,
-										runtime: 0,
-										tagline: 0,
-										vote_average: 0,
-										vote_count: 0,
-										release_date: 0,
-										original_language: 0,
-										videoUrl: 0,
-										uploadedBy: 0,
-									}
-								);
+		const { movie_id, email } = req.body;
 
-								if (movie.length == 0) {
-									return res.json({ msg: "movie not found" });
-								}
 
-								movie.forEach((movie) => {
-									// console.log (movie);
-								});
+		try {
+			const user1 = await Users.findOne({ email: email });
 
-								return res.json({
-									msg: "movie find successfully",
-									movies: movie,
-								});
-							} catch (err) {
-								// console.log (err);
-								return res.status(500).json({ msg: err.message });
-							}
-						},
-							addToWatchLater: async (req, res) => {
-								// console.log ("inside addToWatchLater");
-								// console.log (req.user);
-								// console.log (req.body);
-								const { movie_id, email } = req.body;
-								// console.log (movie_id);
-								// console.log (email);
+			if (user1 && user1.likedVideoList.includes(movie_id)) {
+				return res.json({ msg: true });
+			}
 
-								try {
-									const user1 = await Users.findOne({ email: email });
+			res.json({ msg: false });
+		} catch (err) {
+			console.log(err);
+			return res.status(500).json({ msg: err.message });
+		}
+	},
 
-									if (user1.watchLaterList.includes(movie_id)) {
-										return res.json({ msg: "movie already added to watch later List" });
-									}
+	addToLikeList: async (req, res) => {
 
-									const user = await Users.findOneAndUpdate(
-										{ email: email },
-										{ $push: { watchLaterList: movie_id } },
-										{ new: true }
-									);
-									// console.log (user);
-									await user.save();
-									res.json({ msg: "movie added to watch later list" });
-								} catch (err) {
-									// console.log (err);
-									return res.status(500).json({ msg: err.message });
-								}
-							},
+		const { movie_id, email } = req.body;
 
-								checkWatchLater: async (req, res) => {
-									// console.log ("check addToWatchLater");
-									// console.log (req.user);
-									// console.log (req.body);
-									const { movie_id, email } = req.body;
-									// console.log (movie_id);
-									// console.log (email);
 
-									try {
-										const user1 = await Users.findOne({ email: email });
+		try {
+			const user1 = await Users.findOne({ email: email });
 
-										if (user1 && user1.watchLaterList.includes(movie_id)) {
-											return res.json({ msg: true });
-										}
+			if (user1.likedVideoList.includes(movie_id)) {
+				const user = await Users.findOneAndUpdate(
+					{ email: email },
+					{ $pull: { likedVideoList: movie_id } },
+					{ new: true }
+				);
+				await user.save();
+				return res.json({ msg: "movie is disliked" });
+			}
 
-										res.json({ msg: false });
-									} catch (err) {
-										// console.log (err);
-										return res.status(500).json({ msg: err.message });
-									}
-								},
+			const user = await Users.findOneAndUpdate(
+				{ email: email },
+				{ $push: { likedVideoList: movie_id } },
+				{ new: true }
+			);
+			await user.save();
+			res.json({ msg: "movie is liked" });
+		} catch (err) {
+			console.log(err);
+			return res.status(500).json({ msg: err.message });
+		}
+	},
+	getHistoryList: async (req, res) => {
+		const { email } = req.body;
+		try {
+			const user = await Users.findOne({ email: email });
+			const historyList = user.historyList;
+			historyList.reverse();
 
-									getWatchLaterList: async (req, res) => {
-										// console.log ("inside getWatchLaterList");
-										// console.log (req.user);
-										// console.log (req.body);
-										const { email } = req.body;
-										// console.log (movie_id);
-										// console.log (email);
+			const movies = await Promise.all(
+				historyList.map(async (movie_id) => {
+					return await MoviesDBC.findOne(
+						{ movie_id },
+						{
+							_id: 0,
+							genres: 0,
+							keywords: 0,
+							cast: 0,
+							crew: 0,
+							popularity: 0,
+							production_companies: 0,
+							vote_count: 0,
+							original_language: 0,
+							videoUrl: 0,
+							uploadedBy: 0,
+						}
+					);
+				})
+			);
 
-										try {
-											const user = await Users.findOne({ email: email });
-											const watchLaterList = user.watchLaterList;
-											// console.log (watchLaterList);
+			res.json({ movies });
+		} catch (err) {
+			console.log(err);
+			return res.status(500).json({ msg: err.message });
+		}
+	},
+	updateHistoryList: async (req, res) => {
 
-											const movies = await Promise.all(
-												watchLaterList.map(async (movie_id) => {
-													return await MoviesDBC.findOne(
-														{ movie_id },
-														{
-															_id: 0,
-															genres: 0,
-															keywords: 0,
-															cast: 0,
-															crew: 0,
-															popularity: 0,
-															production_companies: 0,
-															vote_count: 0,
-															original_language: 0,
-															videoUrl: 0,
-															uploadedBy: 0,
-														}
-													);
-													// movies.push(movie);
-												})
-											);
-											// console.log (movies.length);
-											res.json({ movies });
-										} catch (err) {
-											// console.log (err);
-											return res.status(500).json({ msg: err.message });
-										}
-									},
-										removeWatchLater: async (req, res) => {
-											// console.log ("inside removeWatchLater");
-											// console.log (req.user);
-											// console.log (req.body);
-											const { movie_id, email } = req.body;
-											// console.log (movie_id);
-											// console.log (email);
-											const user = await Users.findOne({ email: email });
+		const { movie_id, email } = req.body;
 
-											try {
-												if (user.watchLaterList.includes(movie_id)) {
-													const user = await Users.findOneAndUpdate(
-														{ email: email },
-														{ $pull: { watchLaterList: movie_id } },
-														{ new: true }
-													);
-													// console.log (user);
-													await user.save();
-													res.json({ msg: "movie removed from watch later list" });
-												} else {
-													res.json({ msg: "movie not found in watch later list" });
-												}
-											} catch (err) {
-												// console.log (err);
-												return res.status(500).json({ msg: err.message });
-											}
-										},
-											getLikedList: async (req, res) => {
-												// console.log ("inside getLikedList");
-												// console.log (req.user);
-												// console.log (req.body);
-												const { email } = req.body;
-												// console.log (movie_id);
-												// console.log (email);
-												try {
-													const user = await Users.findOne({ email: email });
-													const likedVideoList = user.likedVideoList;
-													// console.log (likedVideoList);
 
-													const movies = await Promise.all(
-														likedVideoList.map(async (movie_id) => {
-															return await MoviesDBC.findOne(
-																{ movie_id },
-																{
-																	_id: 0,
-																	genres: 0,
-																	keywords: 0,
-																	cast: 0,
-																	crew: 0,
-																	popularity: 0,
-																	production_companies: 0,
-																	vote_count: 0,
-																	original_language: 0,
-																	videoUrl: 0,
-																	uploadedBy: 0,
-																}
-															);
-															// movies.push(movie);
-														})
-													);
-													// console.log (movies.length);
-													res.json({ movies });
-												} catch (err) {
-													// console.log (err);
-													return res.status(500).json({ msg: err.message });
-												}
-											},
-												checkLiked: async (req, res) => {
-													// console.log ("check Liked");
-													// console.log (req.user);
-													// console.log (req.body);
-													const { movie_id, email } = req.body;
-													// console.log (movie_id);
-													// console.log (email);
+		try {
+			const user = await Users.findOne({ email: email });
+			const historyList = user.historyList;
 
-													try {
-														const user1 = await Users.findOne({ email: email });
+			if (historyList.includes(movie_id)) {
+				const user = await Users.findOneAndUpdate(
+					{ email: email },
+					{ $pull: { historyList: movie_id } },
+					{ new: true }
+				);
+				await user.save();
+			}
 
-														if (user1 && user1.likedVideoList.includes(movie_id)) {
-															return res.json({ msg: true });
-														}
+			const user1 = await Users.findOneAndUpdate(
+				{ email: email },
+				{ $push: { historyList: movie_id } },
+				{ new: true }
+			);
+			await user1.save();
+			res.json({ msg: "movie is added to history" });
+		} catch (err) {
+			console.log(err);
+			return res.status(500).json({ msg: err.message });
+		}
+	},
+	addComment: async (req, res) => {
 
-														res.json({ msg: false });
-													} catch (err) {
-														// console.log (err);
-														return res.status(500).json({ msg: err.message });
-													}
-												},
+		const { username, email, movie_id, comment, date } = req.body;
+		try {
+			let commentObj = {
+				username: username,
+				email: email,
+				createdAt: date,
+				comment: comment,
+			};
 
-													addToLikeList: async (req, res) => {
-														// console.log ("inside addTolike");
-														// console.log (req.user);
-														// console.log (req.body);
-														const { movie_id, email } = req.body;
-														// console.log (movie_id);
-														// console.log (email);
+			const movie = await MoviesDBC.findOneAndUpdate(
+				{ movie_id: movie_id },
+				{ $push: { commentList: commentObj } },
+				{ new: true }
+			);
+			await movie.save();
+			commentObj = movie.commentList[movie.commentList.length - 1];
 
-														try {
-															const user1 = await Users.findOne({ email: email });
 
-															if (user1.likedVideoList.includes(movie_id)) {
-																const user = await Users.findOneAndUpdate(
-																	{ email: email },
-																	{ $pull: { likedVideoList: movie_id } },
-																	{ new: true }
-																);
-																// console.log (user);
-																await user.save();
-																return res.json({ msg: "movie is disliked" });
-															}
+			res.json({ msg: "Comment is Added", commentObj });
+		} catch (err) {
+			console.log(err);
+			return res.status(500).json({ msg: err.message });
+		}
+	},
 
-															const user = await Users.findOneAndUpdate(
-																{ email: email },
-																{ $push: { likedVideoList: movie_id } },
-																{ new: true }
-															);
-															// console.log (user);
-															await user.save();
-															res.json({ msg: "movie is liked" });
-														} catch (err) {
-															// console.log (err);
-															return res.status(500).json({ msg: err.message });
-														}
-													},
-														getHistoryList: async (req, res) => {
-															// console.log ("inside getHistoryList");
-															const { email } = req.body;
-															// console.log (email);
-															try {
-																const user = await Users.findOne({ email: email });
-																const historyList = user.historyList;
-																historyList.reverse();
-																// console.log (historyList);
+	getComments: async (req, res) => {
+		const { movie_id } = req.body;
+		try {
+			const movie = await MoviesDBC.findOne({ movie_id: movie_id });
+			const commentList = movie.commentList;
+			res.json({ commentList });
+		} catch (err) {
+			console.log(err);
+			return res.status(500).json({ msg: err.message });
+		}
+	},
 
-																const movies = await Promise.all(
-																	historyList.map(async (movie_id) => {
-																		return await MoviesDBC.findOne(
-																			{ movie_id },
-																			{
-																				_id: 0,
-																				genres: 0,
-																				keywords: 0,
-																				cast: 0,
-																				crew: 0,
-																				popularity: 0,
-																				production_companies: 0,
-																				vote_count: 0,
-																				original_language: 0,
-																				videoUrl: 0,
-																				uploadedBy: 0,
-																			}
-																		);
-																		// movies.push(movie);
-																	})
-																);
 
-																// console.log (movies.length);
-																res.json({ movies });
-															} catch (err) {
-																// console.log (err);
-																return res.status(500).json({ msg: err.message });
-															}
-														},
-															updateHistoryList: async (req, res) => {
-																// console.log ("inside updatehistoryList");
-																// console.log (req.user);
-																// console.log (req.body);
-																const { movie_id, email } = req.body;
-																// console.log (movie_id);
-																// console.log (email);
 
-																try {
-																	const user = await Users.findOne({ email: email });
-																	const historyList = user.historyList;
-																	// console.log (historyList);
+	deleteComment: async (req, res) => {
 
-																	if (historyList.includes(movie_id)) {
-																		const user = await Users.findOneAndUpdate(
-																			{ email: email },
-																			{ $pull: { historyList: movie_id } },
-																			{ new: true }
-																		);
-																		// console.log (user);
-																		await user.save();
-																		// return res.json({ msg: "movie is already in history" });
-																	}
-
-																	const user1 = await Users.findOneAndUpdate(
-																		{ email: email },
-																		{ $push: { historyList: movie_id } },
-																		{ new: true }
-																	);
-																	// console.log (user1);
-																	await user1.save();
-																	res.json({ msg: "movie is added to history" });
-																} catch (err) {
-																	// console.log (err);
-																	return res.status(500).json({ msg: err.message });
-																}
-															},
-																addComment: async (req, res) => {
-																	// console.log ("inside addComment");
-																	// console.log (req.user);
-																	// console.log (req.body);
-																	const { username, email, movie_id, comment, date } = req.body;
-																	try {
-																		let commentObj = {
-																			username: username,
-																			email: email,
-																			createdAt: date,
-																			comment: comment,
-																		};
-
-																		const movie = await MoviesDBC.findOneAndUpdate(
-																			{ movie_id: movie_id },
-																			{ $push: { commentList: commentObj } },
-																			{ new: true }
-																		);
-																		// console.log (movie);
-																		await movie.save();
-																		commentObj = movie.commentList[movie.commentList.length - 1];
-																		// const movie1 = await MoviesDBC.findOne({ movie_id: movie_id });
-																		// const commentList = movie1.commentList;
-																		//	// console.log (commentObj);
-
-																		res.json({ msg: "Comment is Added", commentObj });
-																	} catch (err) {
-																		// console.log (err);
-																		return res.status(500).json({ msg: err.message });
-																	}
-																},
-
-																	getComments: async (req, res) => {
-																		// console.log ("inside getComments");
-																		const { movie_id } = req.body;
-																		// console.log (movie_id);
-																		try {
-																			const movie = await MoviesDBC.findOne({ movie_id: movie_id });
-																			const commentList = movie.commentList;
-																			// console.log (commentList);
-																			res.json({ commentList });
-																		} catch (err) {
-																			// console.log (err);
-																			return res.status(500).json({ msg: err.message });
-																		}
-																	},
-
-																		deleteComment: async (req, res) => {
-																			// console.log ("inside deleteComment");
-																			// console.log (req.user);
-																			// console.log (req.body);
-																			const { movie_id, comment_id } = req.body;
-																			try {
-																				const movie = await MoviesDBC.findOneAndUpdate(
-																					{ movie_id: movie_id },
-																					{ $pull: { commentList: { _id: comment_id } } },
-																					{ new: true }
-																				);
-																				// console.log (movie);
-																				await movie.save();
-																				res.json({ msg: "Comment is Deleted" });
-																			} catch (err) {
-																				// console.log (err);
-																				return res.status(500).json({ msg: err.message });
-																			}
-																		},
+		const { movie_id, comment_id } = req.body;
+		try {
+			const movie = await MoviesDBC.findOneAndUpdate(
+				{ movie_id: movie_id },
+				{ $pull: { commentList: { _id: comment_id } } },
+				{ new: true }
+			);
+			await movie.save();
+			res.json({ msg: "Comment is Deleted" });
+		} catch (err) {
+			console.log(err);
+			return res.status(500).json({ msg: err.message });
+		}
+	},
 };
 
-	module.exports = movieCtrl;
+
+module.exports = movieCtrl;

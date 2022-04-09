@@ -42,7 +42,3 @@ const emcClient = new MediaConvertClient({
 	},
 });
 export { emcClient };
-
-// snippet-end:[emc.JavaScript.createclientv3]
-// REACT_APP_aws_access_key_id = AKIAURP45J5MTTDLQT5Z
-// REACT_APP_aws_secret_access_key = wSSvfaDtU8Oj3EI1lHs6gRxRN51lSdI3AHpu5iIlS

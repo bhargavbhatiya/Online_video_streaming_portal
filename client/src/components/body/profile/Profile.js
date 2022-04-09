@@ -107,6 +107,7 @@ function Profile() {
 
 			setData({ ...data, err: "", success: "Updated Success!" });
 		} catch (err) {
+			console.log("Error", err);
 			setData({ ...data, err: err.response.data.msg, success: "" });
 		}
 	};
@@ -133,6 +134,8 @@ function Profile() {
 
 			setData({ ...data, err: "", success: "Updated Success!" });
 		} catch (err) {
+			console.log("Error", err);
+
 			setData({ ...data, err: err.response.data.msg, success: "" });
 		}
 	};
@@ -155,6 +158,8 @@ function Profile() {
 				}
 			}
 		} catch (err) {
+			console.log("Error", err);
+
 			setData({ ...data, err: err.response.data.msg, success: "" });
 		}
 	};

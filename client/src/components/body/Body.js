@@ -19,7 +19,6 @@ import Home from "../body/home/Home";
 import { useSelector } from "react-redux";
 import NewContentModal from "./movies/ContentModal/NewContentModal";
 import Search from "./Pages/Search/search";
-import Temp from "./movies/addMovieForm/temp";
 import "./body.css";
 
 function Body() {
@@ -33,7 +32,6 @@ function Body() {
 			<div id="stars3"></div>
 			<Routes>
 				<Route path="/" element={isLogged ? <Home /> : <Login />} exact />
-				{/* <Route path="/" element={isLogged ? <Home /> : <Login />} exact /> */}
 
 				<Route
 					path="/login"

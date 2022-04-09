@@ -8,7 +8,7 @@ import {
 import { dispatchLogin } from "../../../redux/actions/authAction";
 import { useDispatch } from "react-redux";
 import { GoogleLogin } from "react-google-login";
-import FacebookLogin from "react-facebook-login";
+
 
 const initialState = {
 	email: "",
@@ -61,24 +61,6 @@ function Login() {
 		}
 	};
 
-	const responseFacebook = async (response) => {
-		try {
-			const { accessToken, userID } = response;
-			const res = await axios.post("/user/facebook_login", {
-				accessToken,
-				userID,
-			});
-
-			setUser({ ...user, error: "", success: res.data.msg });
-			localStorage.setItem("firstLogin", true);
-
-			navigate("/");
-			dispatch(dispatchLogin());
-		} catch (err) {
-			err.response.data.msg &&
-				setUser({ ...user, err: err.response.data.msg, success: "" });
-		}
-	};
 
 	return (
 		<div className="login_page text-white">
@@ -111,15 +93,14 @@ function Login() {
 					/>
 				</div>
 
-				{/* <div className="row"> */}
-				{/* <button type="submit">Login</button>	 */}
+				
 				<Link className="text-white" to="/forgot_password">
 					Forgot your password?
 				</Link>
 				<button className="button-64" type="submit">
 					<span className="text">Login</span>
 				</button>
-				{/* </div> */}
+			
 			</form>
 
 			<div className="hr">Or Login With</div>

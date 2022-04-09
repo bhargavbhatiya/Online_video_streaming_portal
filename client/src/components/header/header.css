@@ -25,7 +25,6 @@ header {
 }
 .addMovie h5,
 .search1 h5 {
-	/* text-color: #c1cfebe1; */
 	padding: 0px;
 	margin: 0px;
 	align-items: center;
@@ -35,19 +34,9 @@ header {
 #dropdownMenuButton1 {
 	margin: 0px;
 }
-/* header:after {
-	margin-bottom: 100px;
-	content: "a";
-	position: absolute;
-	width: 100%;
-	bottom: 1px;
-	z-index: 100;
-	transform: scale(1);
-	box-shadow: -25px 0px 20px 1px gray;
-} */
+
 header a {
 	color: rgba(255, 255, 255, 0.952);
-	/* color: white; */
 }
 header a:hover {
 	color: #c1cfeb;
@@ -68,9 +57,7 @@ header ul {
 
 header ul li {
 	display: inline-block;
-	/* padding: 10px 20px; */
-	/* opacity: 0.7; */
-	/* width: 100px; */
+
 }
 .profile-btn {
 	height: 35px;
@@ -85,37 +72,5 @@ header ul li:hover {
 header img {
 	width: 30px;
 	height: 30px;
-	/* transform: translateY(10px); */
 	border-radius: 50%;
 }
-
-/* .right-header-btns {
-	display: flex;
-	align-items: center;
-	
-} */
-/* --------- Dropdown ---------- */
-/* .drop-nav {
-	position: relative;
-	padding: 10px 0;
-}
-.drop-nav a {
-	text-transform: capitalize;
-	overflow: hidden;
-}
-.drop-nav .dropdown {
-	position: absolute;
-	background: #282c34;
-	width: 100%;
-
-	width: calc(100% + 30px);
-	top: 50px;
-	display: none;
-}
-.drop-nav .dropdown li {
-	display: block;
-}
-.drop-nav:hover .dropdown {
-	display: block;
-	align-items: flex-start;
-} */

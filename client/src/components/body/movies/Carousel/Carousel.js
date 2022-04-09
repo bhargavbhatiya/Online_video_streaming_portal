@@ -58,11 +58,9 @@ const Gallery = ({ id, recommendList, notify, flag }) => {
 
 	useEffect(() => {
 		fetchCredits();
-		// eslint-disable-next-line
 	}, []);
 
 	return (
-		// console.log("Inside Carousel"),
 		<div className="carousel">
 			<AliceCarousel
 				autoPlayInterval={1200}
