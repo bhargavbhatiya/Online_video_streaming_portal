@@ -229,7 +229,7 @@ const NewContentModal = () => {
 			console.log(res.data);
 			setRecommendIDs(res.data);
 			console.log(recommendIDs);
-
+			// abc
 			// recommendIDs.map(async (movie) => {
 			// 	const res1 = await axios.get(`/movie/get_movie/${movie.id}`);
 			// 	console.log(res1.data.movie);
