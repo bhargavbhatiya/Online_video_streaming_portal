@@ -1,16 +1,16 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy Node.js app to Azure Web App - mern-4
+name: Build and deploy Node.js app to Azure Web App - v-streams
 
 on:
   push:
     branches:
-      - test-deployment
+      - production
   workflow_dispatch:
 
 jobs:
-  build-deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -24,18 +24,14 @@ jobs:
       - name: npm install, build, and test
         run: |
           npm install
-          # cd client
-          # npm install
-          # npm run build
-          # cd ..
           npm run build --if-present
-          # npm run test --if-present
+          npm run test --if-present
 
       - name: "Deploy to Azure Web App"
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: "mern-4"
+          app-name: "v-streams"
           slot-name: "Production"
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_0A8FC555262348F9B23821B5F97B412A }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_E26FEE6D2B54401D8B561FF0B3B437A6 }}
           package: .
