@@ -153,7 +153,7 @@ There we go! Our Streaming app is running.
 <!-- Some Glimps of Our Site -->
 ### Some Glimps of Our Site
 
-####Normal User
+#### Normal User
 Register & Login (Including verify email & forget password):
 <p align="center">
   <img alt="Light" src="https://res.cloudinary.com/bhatiya-bhargav/image/upload/v1651484635/Github%20Readme/Register_bfnwef.png" width="49%">
@@ -187,7 +187,7 @@ Manage Profile & All Lists:
 Search Movie:
 <img src = "https://res.cloudinary.com/bhatiya-bhargav/image/upload/v1651486963/Github%20Readme/Search_vkr2gy.png" width="100%">
 
-####Admin User
+#### Admin User
 
 Add Movie Video:
 <img src="https://res.cloudinary.com/bhatiya-bhargav/image/upload/v1651486960/Github%20Readme/Add_video_wkxqtb.png" width="100%">
